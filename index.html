@@ -998,7 +998,7 @@
         formData.append('address', document.getElementById('address').value.trim());
         formData.append('appointment', document.getElementById('appointment').value.trim());
         formData.append('connecting_location', document.getElementById('connecting_location').value.trim());
-        formData.append('consent', '✔️');
+        formData.append('consent', '✅');
 
         fetch(GOOGLE_SHEETS_SCRIPT_URL, {
           method: 'POST',
