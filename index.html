@@ -1169,8 +1169,8 @@
       submitBtn.style.background = 'linear-gradient(135deg, #059669 0%, #10b981 100%)';
       submitBtn.style.boxShadow  = '0 4px 14px rgba(16, 185, 129, 0.3)';
 
-      // 3. Simultaneously redirect to WhatsApp with Auto-Reply Greetings
-      const autoReplyMsg = `Hello! Greetings🙏from\nBima Dekho Insurance\n👉Get the right insurance without the stress. From new plans to policy reviews, we make the process effortless.\n\nOur Specialized Solutions:\n✅ Health Insurance (Infinite Coverage)\n✅ Term Life (Securing Family)\n✅ Child Education & Marriage Funds\n✅ Happy Retirement Planning (Regular Income)\n✅ ULIPs & SIIP (Wealth Creation)\n✅ Motor Insurance (Car & Bike)\n✅ Travel Insurance\n\nPlease Explore Bima Dekho:👇 \nhttps://bimadekhoinsurance.com`;
+      // 3. Simultaneously redirect to WhatsApp with Personalized Auto-Reply Greetings
+      const autoReplyMsg = `Thank you *${name}* for giving us a moment of your time!\n\nWe are truly grateful for the opportunity to assist you in securing a safe and confident future for you and your loved ones.\n\nGreetings🙏from\nBima Dekho Insurance\n👉Get the right insurance without the stress. From new plans to policy reviews, we make the process effortless.\n\nOur Specialized Solutions:\n✅ Health Insurance (Infinite Coverage)\n✅ Term Life (Securing Family)\n✅ Child Education & Marriage Funds\n✅ Happy Retirement Planning (Regular Income)\n✅ ULIPs & SIIP (Wealth Creation)\n✅ Motor Insurance (Car & Bike)\n✅ Travel Insurance\n\nPlease Explore Bima Dekho:👇\nhttps://bimadekhoinsurance.com`;
 
       const waUrl = `https://wa.me/${cleanPhone}?text=${encodeURIComponent(autoReplyMsg)}`;
       window.open(waUrl, '_blank');
