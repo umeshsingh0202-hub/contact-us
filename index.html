@@ -1,0 +1,1011 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contact Us – Umesh Singh Consultancy</title>
+  <meta name="description"
+    content="Contact Umesh Singh Consultancy for health, life, travel, and motor insurance inquiries. Fill out our form to get personalized assistance." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet" />
+
+  <style>
+    /* ===== CSS RESET & BASE ===== */
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --primary: #2563eb;
+      --primary-hover: #1d4ed8;
+      --primary-light: #eff6ff;
+      --primary-border: #bfdbfe;
+      --primary-glow: rgba(37, 99, 235, 0.14);
+      --accent: #0284c7;
+      --success: #10b981;
+
+      --bg-page: #f8fafc;
+      --bg-card: #ffffff;
+      --bg-field: #ffffff;
+      --bg-field-alt: #f8fafc;
+
+      --border: #e2e8f0;
+      --border-input: #cbd5e1;
+      --border-focus: #2563eb;
+
+      --text-heading: #0f172a;
+      --text-body: #334155;
+      --text-muted: #64748b;
+      --text-placeholder: #94a3b8;
+
+      --radius-sm: 8px;
+      --radius-md: 12px;
+      --radius-lg: 20px;
+
+      --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+      --shadow-card: 0 20px 35px -10px rgba(15, 23, 42, 0.07), 0 10px 15px -5px rgba(15, 23, 42, 0.04), 0 0 0 1px rgba(226, 232, 240, 0.8);
+      --shadow-focus: 0 0 0 4px var(--primary-glow);
+
+      --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background-color: var(--bg-page);
+      background-image:
+        radial-gradient(at 0% 0%, rgba(37, 99, 235, 0.05) 0px, transparent 50%),
+        radial-gradient(at 100% 100%, rgba(2, 132, 199, 0.05) 0px, transparent 50%);
+      background-attachment: fixed;
+      min-height: 100vh;
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      padding: 48px 16px;
+      color: var(--text-body);
+      position: relative;
+    }
+
+    /* ===== CARD WRAPPER ===== */
+    .form-wrapper {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      max-width: 700px;
+    }
+
+    /* ===== BRAND HEADER BADGE ===== */
+    .brand-badge {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+
+    .brand-badge .logo-icon {
+      width: 48px;
+      height: 48px;
+      background: linear-gradient(135deg, #1d4ed8 0%, #2563eb 100%);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      box-shadow: 0 4px 14px rgba(37, 99, 235, 0.25);
+      flex-shrink: 0;
+    }
+
+    .brand-badge .brand-info {
+      display: flex;
+      flex-direction: column;
+      text-align: center;
+      align-items: center;
+    }
+
+    .brand-badge .brand-name {
+      font-size: 18.5px;
+      font-weight: 800;
+      color: #0f172a;
+      letter-spacing: -0.3px;
+      line-height: 1.2;
+      text-align: center;
+    }
+
+    .brand-badge .brand-tag {
+      font-size: 13.5px;
+      font-weight: 600;
+      color: #3b82f6;
+      letter-spacing: 0.1px;
+      line-height: 1.3;
+      text-align: center;
+    }
+
+    /* ===== FORM CARD ===== */
+    .form-card {
+      background: var(--bg-card);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-card);
+      overflow: hidden;
+      border: 1px solid var(--border);
+    }
+
+    /* ===== CARD HEADER ===== */
+    .card-header {
+      background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+      padding: 36px 40px 28px;
+      position: relative;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .card-header::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 5px;
+      background: linear-gradient(90deg, #1e3a8a, #2563eb 50%, #0284c7);
+    }
+
+    .card-header h1 {
+      font-size: 28px;
+      font-weight: 800;
+      color: var(--text-heading);
+      letter-spacing: -0.6px;
+      line-height: 1.2;
+    }
+
+    .card-header h1 span {
+      color: var(--primary);
+    }
+
+    .card-header p {
+      margin-top: 8px;
+      font-size: 14px;
+      color: var(--text-muted);
+      font-weight: 500;
+      line-height: 1.5;
+    }
+
+    /* ===== FORM BODY ===== */
+    .form-body {
+      padding: 36px 40px 40px;
+    }
+
+    /* ===== SECTION DIVIDER ===== */
+    .section-label {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin: 32px 0 20px;
+    }
+
+    .section-label:first-child {
+      margin-top: 0;
+    }
+
+    .section-label .s-icon {
+      font-size: 15px;
+    }
+
+    .section-label .s-text {
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      color: var(--text-heading);
+    }
+
+    .section-label .s-line {
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    /* ===== FIELD GROUP & ROWS ===== */
+    .field-group {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .field-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+    }
+
+    /* ===== FORM FIELD ===== */
+    .form-field {
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+    }
+
+    .form-field label {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-body);
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .form-field label .required-dot {
+      color: #ef4444;
+      font-size: 14px;
+      font-weight: 700;
+      line-height: 1;
+    }
+
+    /* ===== INPUT CONTROLS ===== */
+    .form-field input[type="text"],
+    .form-field input[type="tel"],
+    .form-field input[type="number"],
+    .form-field input[type="date"],
+    .form-field input[type="datetime-local"],
+    .form-field textarea,
+    .form-field select,
+    .dob-age-input {
+      width: 100%;
+      height: 46px;
+      background-color: var(--bg-field);
+      border: 1.5px solid var(--border-input);
+      border-radius: var(--radius-sm);
+      color: var(--text-heading);
+      font-family: inherit;
+      font-size: 14px;
+      font-weight: 500;
+      padding: 0 14px;
+      outline: none;
+      transition: var(--transition);
+      box-shadow: var(--shadow-sm);
+      appearance: none;
+      -webkit-appearance: none;
+      box-sizing: border-box;
+    }
+
+    .form-field textarea {
+      height: auto;
+      padding: 11px 14px;
+    }
+
+    .form-field input[type="text"]::placeholder,
+    .form-field input[type="tel"]::placeholder,
+    .form-field input[type="number"]::placeholder,
+    .form-field textarea::placeholder,
+    .dob-age-input::placeholder {
+      color: var(--text-placeholder);
+      font-weight: 400;
+      font-style: italic;
+    }
+
+    .form-field input[type="text"]:hover,
+    .form-field input[type="tel"]:hover,
+    .form-field input[type="number"]:hover,
+    .form-field input[type="date"]:hover,
+    .form-field input[type="datetime-local"]:hover,
+    .form-field textarea:hover,
+    .form-field select:hover,
+    .dob-age-input:hover {
+      border-color: #94a3b8;
+    }
+
+    .form-field input[type="text"]:focus,
+    .form-field input[type="tel"]:focus,
+    .form-field input[type="number"]:focus,
+    .form-field input[type="date"]:focus,
+    .form-field input[type="datetime-local"]:focus,
+    .form-field textarea:focus,
+    .form-field select:focus,
+    .dob-age-input:focus {
+      border-color: var(--border-focus);
+      box-shadow: var(--shadow-focus);
+      background-color: #ffffff;
+    }
+
+    .form-field textarea {
+      resize: vertical;
+      min-height: 90px;
+      line-height: 1.6;
+    }
+
+    /* ===== SELECT CUSTOM CHEVRON ===== */
+    .select-wrap {
+      position: relative;
+    }
+
+    .select-wrap::after {
+      content: '';
+      position: absolute;
+      right: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 10px;
+      height: 6px;
+      background-color: var(--text-muted);
+      clip-path: polygon(0 0, 100% 0, 50% 100%);
+      pointer-events: none;
+    }
+
+    .form-field select {
+      cursor: pointer;
+      padding-right: 36px;
+      background-color: #ffffff;
+    }
+
+    .form-field select option {
+      background-color: #ffffff;
+      color: var(--text-heading);
+      padding: 8px;
+    }
+
+    /* ===== CALENDAR ICON CUSTOMIZATION ===== */
+    .form-field input[type="date"]::-webkit-calendar-picker-indicator,
+    .form-field input[type="datetime-local"]::-webkit-calendar-picker-indicator {
+      cursor: pointer;
+      opacity: 0.6;
+      transition: var(--transition);
+    }
+
+    .form-field input[type="date"]::-webkit-calendar-picker-indicator:hover,
+    .form-field input[type="datetime-local"]::-webkit-calendar-picker-indicator:hover {
+      opacity: 1;
+    }
+
+    /* ===== AGE / DOB MODE SWITCHER (INSIDE INPUT BOX) ===== */
+    .input-box-wrapper {
+      position: relative;
+      display: flex;
+      align-items: center;
+      width: 100%;
+    }
+
+    .input-box-wrapper input.dob-age-input {
+      padding-right: 115px !important;
+    }
+
+    .inner-toggle-pill {
+      position: absolute;
+      right: 6px;
+      top: 50%;
+      transform: translateY(-50%);
+      display: flex;
+      background: #f1f5f9;
+      border: 1px solid var(--border-input);
+      border-radius: 6px;
+      padding: 2px;
+      gap: 2px;
+      z-index: 2;
+    }
+
+    .mode-btn {
+      border: none;
+      background: transparent;
+      font-family: inherit;
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--text-muted);
+      padding: 3px 9px;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .mode-btn:hover {
+      color: var(--text-heading);
+    }
+
+    .mode-btn.active {
+      background: var(--primary);
+      color: #ffffff;
+      box-shadow: 0 1px 3px rgba(37, 99, 235, 0.3);
+    }
+
+    /* ===== CONSENT CHECKBOX ===== */
+    .consent-wrapper {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      background: var(--primary-light);
+      border: 1.5px solid var(--primary-border);
+      border-radius: var(--radius-md);
+      padding: 16px 18px;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .consent-wrapper:hover {
+      background: #e0f2fe;
+      border-color: #93c5fd;
+    }
+
+    .consent-checkbox-input {
+      display: none;
+    }
+
+    .custom-checkbox {
+      flex-shrink: 0;
+      width: 22px;
+      height: 22px;
+      border-radius: 6px;
+      border: 2px solid var(--primary);
+      background: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: var(--transition);
+      margin-top: 1px;
+    }
+
+    .consent-checkbox-input:checked+.custom-checkbox {
+      background: var(--primary);
+      border-color: var(--primary);
+      box-shadow: 0 2px 4px rgba(37, 99, 235, 0.3);
+    }
+
+    .custom-checkbox .check-mark {
+      opacity: 0;
+      transform: scale(0.5);
+      transition: var(--transition);
+      font-size: 13px;
+      color: #ffffff;
+      font-weight: 800;
+      line-height: 1;
+    }
+
+    .consent-checkbox-input:checked+.custom-checkbox .check-mark {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    .consent-text {
+      font-size: 13px;
+      color: var(--text-body);
+      line-height: 1.6;
+    }
+
+    .consent-text strong {
+      color: #1e3a8a;
+      font-weight: 700;
+    }
+
+    /* ===== SUBMIT BUTTON ===== */
+    .submit-area {
+      margin-top: 30px;
+    }
+
+    .btn-submit {
+      width: 100%;
+      padding: 15px 24px;
+      background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 100%);
+      color: #ffffff;
+      font-family: inherit;
+      font-size: 15px;
+      font-weight: 700;
+      letter-spacing: 0.2px;
+      border: none;
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      transition: var(--transition);
+      box-shadow: 0 4px 14px rgba(37, 99, 235, 0.3);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn-submit:hover {
+      background: linear-gradient(135deg, #1d4ed8 0%, #1e40af 100%);
+      transform: translateY(-1px);
+      box-shadow: 0 8px 20px rgba(37, 99, 235, 0.4);
+    }
+
+    .btn-submit:active {
+      transform: translateY(0);
+      box-shadow: 0 2px 8px rgba(37, 99, 235, 0.3);
+    }
+
+    .btn-submit:disabled {
+      opacity: 0.45 !important;
+      cursor: not-allowed !important;
+      box-shadow: none !important;
+      transform: none !important;
+      filter: grayscale(0.2) !important;
+      pointer-events: none !important;
+    }
+
+    .btn-submit .btn-inner {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .btn-submit .btn-icon {
+      font-size: 17px;
+    }
+
+    /* ===== SUCCESS MESSAGE ===== */
+    .success-msg {
+      display: none;
+      text-align: center;
+      padding: 16px 20px;
+      background: #ecfdf5;
+      border: 1.5px solid #a7f3d0;
+      border-radius: var(--radius-md);
+      color: #065f46;
+      font-size: 14px;
+      font-weight: 600;
+      margin-top: 20px;
+      animation: fadeIn 0.3s ease;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(6px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* ===== FOOTER NOTE ===== */
+    .form-footer {
+      text-align: center;
+      margin-top: 24px;
+      font-size: 13px;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 580px) {
+      body {
+        padding: 20px 12px;
+      }
+
+      .card-header {
+        padding: 28px 24px 22px;
+      }
+
+      .card-header h1 {
+        font-size: 24px;
+      }
+
+      .form-body {
+        padding: 24px 20px 28px;
+      }
+
+      .field-row {
+        grid-template-columns: 1fr;
+        gap: 20px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="form-wrapper">
+
+    <!-- Brand Header -->
+    <div class="brand-badge">
+      <div class="logo-icon">🛡️</div>
+      <div class="brand-info">
+        <span class="brand-name">Bima Dekho Insurance</span>
+        <span class="brand-tag">Umesh Singh Consultancy</span>
+      </div>
+    </div>
+
+    <!-- Form Card -->
+    <div class="form-card">
+
+      <!-- Form Body -->
+      <div class="form-body">
+        <form id="contactForm" novalidate autocomplete="off">
+
+          <!-- SECTION: Personal Info -->
+          <div class="section-label">
+            <span class="s-icon">👤</span>
+            <span class="s-text">Personal Details</span>
+            <span class="s-line"></span>
+          </div>
+
+          <div class="field-group">
+            <div class="field-row">
+              <div class="form-field">
+                <label for="name">
+                  NAME <span class="required-dot" aria-hidden="true">*</span>
+                </label>
+                <input type="text" id="name" name="name" placeholder="e.g. Rahul Sharma" required />
+              </div>
+
+              <div class="form-field">
+                <label for="ageInput">AGE / DOB</label>
+
+                <div class="input-box-wrapper">
+                  <!-- Age Input (Default Active) -->
+                  <input
+                    type="number"
+                    id="ageInput"
+                    class="dob-age-input"
+                    min="1"
+                    max="120"
+                    placeholder="e.g. 28 Yrs"
+                  />
+
+                  <!-- DOB Input -->
+                  <input
+                    type="text"
+                    id="dobInput"
+                    class="dob-age-input"
+                    placeholder="e.g. 15-08-1995"
+                    onfocus="(this.type='date')"
+                    onblur="if(!this.value)this.type='text'"
+                    style="display: none;"
+                  />
+
+                  <!-- Toggle Pill Buttons Inside Input Box (Right Side) -->
+                  <div class="inner-toggle-pill">
+                    <button type="button" class="mode-btn active" data-mode="age">Age</button>
+                    <button type="button" class="mode-btn" data-mode="dob">DOB</button>
+                  </div>
+                </div>
+
+                <!-- Unified Single Column Field for Google Sheets -->
+                <input type="hidden" id="dob_or_age" name="dob_or_age" />
+              </div>
+            </div>
+
+            <div class="field-row">
+              <div class="form-field">
+                <label for="mobile">
+                  Mobile Number <span class="required-dot" aria-hidden="true">*</span>
+                </label>
+                <input
+                  type="tel"
+                  id="mobile"
+                  name="mobile"
+                  placeholder="+91 8527261213"
+                  maxlength="14"
+                  required
+                />
+              </div>
+
+              <div class="form-field">
+                <label for="whatsapp">Whatsapp Number</label>
+                <input
+                  type="tel"
+                  id="whatsapp"
+                  name="whatsapp"
+                  placeholder="+91 8527261213"
+                  maxlength="14"
+                />
+              </div>
+            </div>
+
+            <div class="form-field">
+              <label for="address">Address</label>
+              <textarea id="address" name="address"
+                placeholder="e.g. Flat No. 302, Sector 15, MG Road, New Delhi - 110001" rows="3"></textarea>
+            </div>
+          </div>
+
+          <!-- SECTION: Insurance Requirement -->
+          <div class="section-label">
+            <span class="s-icon">💼</span>
+            <span class="s-text">Insurance Requirement</span>
+            <span class="s-line"></span>
+          </div>
+
+          <div class="field-group">
+            <div class="form-field">
+              <label for="looking_for">
+                What Are You Looking For? <span class="required-dot" aria-hidden="true">*</span>
+              </label>
+              <div class="select-wrap">
+                <select id="looking_for" name="looking_for" required>
+                  <option value="" disabled selected>— e.g. Select Health Insurance —</option>
+                  <option value="Port - Health Insurance (Individual / Family)">Port - Health Insurance (Individual / Family)</option>
+                  <option value="Fresh - Health Insurance (Individual / Family)">Fresh - Health Insurance (Individual / Family)</option>
+                  <option value="Health Insurance with Worldwide Cover">Health Insurance with Worldwide Cover</option>
+                  <option value="Life Insurance &amp; Term Insurance">Life Insurance &amp; Term Insurance</option>
+                  <option value="Life Insurance with Family Protection">Life Insurance with Family Protection</option>
+                  <option value="Life Insurance with Whole Life Option">Life Insurance with Whole Life Option</option>
+                  <option value="Life Insurance with Daughter Education Plan">Life Insurance with Daughter Education Plan</option>
+                  <option value="Retirement Planning with LIC">Retirement Planning with LIC</option>
+                  <option value="Travel Insurance (Student Travel)">Travel Insurance (Student Travel)</option>
+                  <option value="Travel Insurance (Individual / Family)">Travel Insurance (Individual / Family)</option>
+                  <option value="Motor Insurance (Car / Bike / Commercial Vehicle)">Motor Insurance (Car / Bike / Commercial Vehicle)</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-field">
+              <label for="requirement_msg">Requirement Message</label>
+              <textarea id="requirement_msg" name="requirement_msg"
+                placeholder="e.g. Need ₹10 Lakh family health cover with cashless hospitalization..."
+                rows="4"></textarea>
+            </div>
+          </div>
+
+          <!-- SECTION: Appointment -->
+          <div class="section-label">
+            <span class="s-icon">📅</span>
+            <span class="s-text">Appointment Details</span>
+            <span class="s-line"></span>
+          </div>
+
+          <div class="field-group">
+            <div class="field-row">
+              <div class="form-field">
+                <label for="appointment">Appointment Date &amp; Time</label>
+                <input type="text" id="appointment" name="appointment" placeholder="e.g. 15-08-2026, 10:30 AM"
+                  onfocus="(this.type='datetime-local')" onblur="if(!this.value)this.type='text'" />
+              </div>
+
+              <div class="form-field">
+                <label for="connecting_location">Connecting Location</label>
+                <input type="text" id="connecting_location" name="connecting_location"
+                  placeholder="e.g. Connaught Place, New Delhi" />
+              </div>
+            </div>
+          </div>
+
+          <!-- SECTION: Consent -->
+          <div class="section-label">
+            <span class="s-icon">✅</span>
+            <span class="s-text">Consent &amp; Authorization</span>
+            <span class="s-line"></span>
+          </div>
+
+          <label class="consent-wrapper" for="consent" id="consentLabel">
+            <input type="checkbox" id="consent" name="consent" class="consent-checkbox-input" required />
+            <span class="custom-checkbox" aria-hidden="true">
+              <span class="check-mark">✓</span>
+            </span>
+            <span class="consent-text">
+              By providing my details, I consent to receive assistance from
+              <strong>Bima Dekho Insurance &amp; Umesh Singh</strong>
+              regarding my purchases and services through any valid communication channel.
+            </span>
+          </label>
+
+          <!-- Submit Button -->
+          <div class="submit-area">
+            <button type="submit" id="submitBtn" class="btn-submit" disabled>
+              <span class="btn-inner">
+                <span class="btn-icon">📩</span>
+                <span>Submit Form</span>
+              </span>
+            </button>
+          </div>
+
+          <!-- Success Message -->
+          <div class="success-msg" id="successMsg" role="alert" aria-live="polite">
+            ✅ &nbsp;Thank you! Your details have been submitted successfully. We will contact you soon.
+          </div>
+
+        </form>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <p class="form-footer">
+      🔒 &nbsp;Your privacy is guaranteed. Information is strictly used for insurance consulting.<br />
+      &copy; 2026 Bima Dekho Insurance &amp; Umesh Singh Consultancy. All rights reserved.
+    </p>
+
+  </div>
+
+  <script>
+    // ── AGE / DOB Toggle & Value Sync ──
+    let activeDobAgeMode = 'age';
+    const modeBtns     = document.querySelectorAll('.mode-btn');
+    const dobInput     = document.getElementById('dobInput');
+    const ageInput     = document.getElementById('ageInput');
+    const hiddenDobAge = document.getElementById('dob_or_age');
+
+    function updateHiddenDobAge() {
+      if (activeDobAgeMode === 'age') {
+        hiddenDobAge.value = ageInput.value ? ageInput.value + ' Yrs' : '';
+      } else {
+        hiddenDobAge.value = dobInput.value ? dobInput.value : '';
+      }
+    }
+
+    modeBtns.forEach(btn => {
+      btn.addEventListener('click', function () {
+        modeBtns.forEach(b => b.classList.remove('active'));
+        this.classList.add('active');
+        activeDobAgeMode = this.dataset.mode;
+
+        if (activeDobAgeMode === 'age') {
+          ageInput.style.display = 'block';
+          dobInput.style.display = 'none';
+        } else {
+          ageInput.style.display = 'none';
+          dobInput.style.display = 'block';
+        }
+        updateHiddenDobAge();
+      });
+    });
+
+    dobInput.addEventListener('input', updateHiddenDobAge);
+    ageInput.addEventListener('input', updateHiddenDobAge);
+
+    // ── Indian Mobile (+91 10-Digit) Auto-Formatter & Validation ──
+    const mobileInput   = document.getElementById('mobile');
+    const whatsappInput = document.getElementById('whatsapp');
+
+    function formatIndianPhone(input) {
+      let raw = input.value;
+      let digits = raw.replace(/\D/g, '');
+
+      // Remove leading 91 if typed before 10 digits
+      if (digits.startsWith('91') && digits.length > 10) {
+        digits = digits.substring(2);
+      }
+
+      // Keep max 10 digits
+      digits = digits.substring(0, 10);
+
+      if (digits.length > 0) {
+        input.value = '+91 ' + digits;
+      } else {
+        input.value = '';
+      }
+    }
+
+    function isValidIndianMobile(phoneStr) {
+      if (!phoneStr) return false;
+      const digits = phoneStr.replace(/\D/g, '');
+      return (digits.length === 12 && digits.startsWith('91') && /^[6-9]/.test(digits.substring(2)));
+    }
+
+    mobileInput.addEventListener('input', () => formatIndianPhone(mobileInput));
+    whatsappInput.addEventListener('input', () => formatIndianPhone(whatsappInput));
+
+    // ── Consent Checkbox & Submit Button Toggle ──
+    const consentInput = document.getElementById('consent');
+    const consentLabel = document.getElementById('consentLabel');
+    const checkMark = document.querySelector('.check-mark');
+    const submitBtn = document.getElementById('submitBtn');
+
+    function syncConsentState() {
+      if (consentInput.checked) {
+        checkMark.style.opacity = '1';
+        checkMark.style.transform = 'scale(1)';
+        consentLabel.style.borderColor = '';
+        consentLabel.style.boxShadow = '';
+        submitBtn.disabled = false;
+      } else {
+        checkMark.style.opacity = '0';
+        checkMark.style.transform = 'scale(0.5)';
+        submitBtn.disabled = true;
+      }
+    }
+
+    // Initialize initial state & attach listener
+    syncConsentState();
+    consentInput.addEventListener('change', syncConsentState);
+
+    // ── Form Submission ──
+    const form = document.getElementById('contactForm');
+    const successMsg = document.getElementById('successMsg');
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      updateHiddenDobAge();
+
+      // Form validation & 10-Digit Indian Mobile check (+91)
+      const name            = document.getElementById('name').value.trim();
+      const mobile          = mobileInput.value.trim();
+      const whatsappVal     = whatsappInput.value.trim();
+      const lookingFor      = document.getElementById('looking_for').value;
+      const isConsent       = consentInput.checked;
+
+      const isMobileValid   = isValidIndianMobile(mobile);
+      const isWhatsappValid = !whatsappVal || isValidIndianMobile(whatsappVal);
+
+      if (!name || !isMobileValid || !lookingFor || !isConsent || !isWhatsappValid) {
+        [
+          { id: 'name',        val: name },
+          { id: 'mobile',      val: isMobileValid },
+          { id: 'whatsapp',    val: isWhatsappValid },
+          { id: 'looking_for', val: lookingFor }
+        ].forEach(({ id, val }) => {
+          const el = document.getElementById(id);
+          if (!val) {
+            el.style.borderColor = '#ef4444';
+            el.style.boxShadow = '0 0 0 3px rgba(239, 68, 68, 0.15)';
+            const clearError = () => {
+              el.style.borderColor = '';
+              el.style.boxShadow = '';
+            };
+            el.addEventListener('input', clearError, { once: true });
+            el.addEventListener('change', clearError, { once: true });
+          }
+        });
+
+        if (!isConsent) {
+          consentLabel.style.borderColor = '#ef4444';
+          consentLabel.style.boxShadow = '0 0 0 3px rgba(239, 68, 68, 0.2)';
+          consentLabel.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+
+        return;
+      }
+
+      // Show submitting & WhatsApp redirect state
+      submitBtn.disabled = true;
+      submitBtn.querySelector('.btn-inner').innerHTML =
+        '<span class="btn-icon">💬</span><span>Redirecting to WhatsApp…</span>';
+
+      // Target phone for WhatsApp redirect: Whatsapp Number if filled, otherwise Mobile Number
+      const targetPhone = whatsappVal || mobile;
+
+      // Clean & format phone number for wa.me/
+      let cleanPhone = targetPhone.replace(/\D/g, '');
+      if (cleanPhone.length === 10) {
+        cleanPhone = '91' + cleanPhone;
+      }
+
+      // Google Sheets Endpoint (Obfuscated / Hidden)
+      const _0x7b = 'aHR0cHM6Ly9zY3JpcHQuZ29vZ2xlLmNvbS9tYWNyb3Mvcy9BS2Z5Y2J3eVpmOUUxcXVCOFVPamplNEhPanJlWXVYcTRlTjgxdVIyeDhYaGNzbzlNWGEtVXJsemd6dHhJN25PWWE3cTExM1VVQS9leGVj';
+      const GOOGLE_SHEETS_SCRIPT_URL = atob(_0x7b);
+
+      // 1. Submit first to Google Sheets API using FormData (100% reliable cross-origin)
+      if (GOOGLE_SHEETS_SCRIPT_URL) {
+        const formData = new FormData();
+        formData.append('name', name);
+        formData.append('mobile', mobile);
+        formData.append('whatsapp', whatsappVal);
+        formData.append('dob_or_age', hiddenDobAge.value || '');
+        formData.append('looking_for', lookingFor);
+        formData.append('requirement_msg', document.getElementById('requirement_msg').value.trim());
+        formData.append('address', document.getElementById('address').value.trim());
+        formData.append('appointment', document.getElementById('appointment').value.trim());
+        formData.append('connecting_location', document.getElementById('connecting_location').value.trim());
+        formData.append('consent', '✔️');
+
+        fetch(GOOGLE_SHEETS_SCRIPT_URL, {
+          method: 'POST',
+          mode: 'no-cors',
+          body: formData
+        }).catch(err => console.log('Sheets fetch error:', err));
+      }
+
+      // 2. Show Success Message & Button State Immediately
+      successMsg.style.display = 'block';
+      successMsg.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+
+      submitBtn.querySelector('.btn-inner').innerHTML =
+        '<span class="btn-icon">✅</span><span>Submitted to WhatsApp & Sheets!</span>';
+      submitBtn.style.background = 'linear-gradient(135deg, #059669 0%, #10b981 100%)';
+      submitBtn.style.boxShadow  = '0 4px 14px rgba(16, 185, 129, 0.3)';
+
+      // 3. Simultaneously redirect to WhatsApp with Auto-Reply Greetings
+      const autoReplyMsg = `Hello! Greetings🙏from\nBima Dekho Insurance\n👉Get the right insurance without the stress. From new plans to policy reviews, we make the process effortless.\n\nOur Specialized Solutions:\n✅ Health Insurance (Infinite Coverage)\n✅ Term Life (Securing Family)\n✅ Child Education & Marriage Funds\n✅ Happy Retirement Planning (Regular Income)\n✅ ULIPs & SIIP (Wealth Creation)\n✅ Motor Insurance (Car & Bike)\n✅ Travel Insurance\n\nPlease Explore Bima Dekho:👇 \nhttps://bimadekhoinsurance.com`;
+
+      const waUrl = `https://wa.me/${cleanPhone}?text=${encodeURIComponent(autoReplyMsg)}`;
+      window.open(waUrl, '_blank');
+    });
+  </script>
+
+</body>
+
+</html>
