@@ -456,15 +456,16 @@
       box-shadow: 0 1px 3px rgba(37, 99, 235, 0.3);
     }
 
-    /* ===== CONSENT CHECKBOX (COMPACT & SMALL FONT) ===== */
+    /* ===== CONSENT CHECKBOX (COMPACT & SMALL 10.5px FONT) ===== */
     .consent-wrapper {
       display: flex;
       align-items: flex-start;
-      gap: 10px;
+      gap: 8px;
       background: var(--primary-light);
       border: 1.5px solid var(--primary-border);
       border-radius: var(--radius-sm);
-      padding: 10px 14px;
+      padding: 8px 12px;
+      margin-top: 20px;
       cursor: pointer;
       transition: var(--transition);
     }
@@ -480,8 +481,8 @@
 
     .custom-checkbox {
       flex-shrink: 0;
-      width: 17px;
-      height: 17px;
+      width: 16px;
+      height: 16px;
       border-radius: 4px;
       border: 1.5px solid var(--primary);
       background: #ffffff;
@@ -502,7 +503,7 @@
       opacity: 0;
       transform: scale(0.5);
       transition: var(--transition);
-      font-size: 11px;
+      font-size: 10px;
       color: #ffffff;
       font-weight: 800;
       line-height: 1;
@@ -514,9 +515,9 @@
     }
 
     .consent-text {
-      font-size: 11.5px;
-      color: #475569;
-      line-height: 1.45;
+      font-size: 10.5px;
+      color: #64748b;
+      line-height: 1.35;
     }
 
     .consent-text strong {
@@ -708,25 +709,12 @@
 
                 <div class="input-box-wrapper">
                   <!-- Age Input (Default Active) -->
-                  <input
-                    type="number"
-                    id="ageInput"
-                    class="dob-age-input"
-                    min="1"
-                    max="120"
-                    placeholder="e.g. 28 Yrs"
-                  />
+                  <input type="number" id="ageInput" class="dob-age-input" min="1" max="120"
+                    placeholder="e.g. 28 Yrs" />
 
                   <!-- DOB Input -->
-                  <input
-                    type="text"
-                    id="dobInput"
-                    class="dob-age-input"
-                    placeholder="e.g. 15-08-1995"
-                    onfocus="(this.type='date')"
-                    onblur="if(!this.value)this.type='text'"
-                    style="display: none;"
-                  />
+                  <input type="text" id="dobInput" class="dob-age-input" placeholder="e.g. 15-08-1995"
+                    onfocus="(this.type='date')" onblur="if(!this.value)this.type='text'" style="display: none;" />
 
                   <!-- Toggle Pill Buttons Inside Input Box (Right Side) -->
                   <div class="inner-toggle-pill">
@@ -745,25 +733,12 @@
                 <label for="mobile">
                   Mobile Number <span class="required-dot" aria-hidden="true">*</span>
                 </label>
-                <input
-                  type="tel"
-                  id="mobile"
-                  name="mobile"
-                  placeholder="e.g. 8527261213"
-                  maxlength="10"
-                  required
-                />
+                <input type="tel" id="mobile" name="mobile" placeholder="e.g. 8527261213" maxlength="10" required />
               </div>
 
               <div class="form-field">
                 <label for="whatsapp">Whatsapp Number</label>
-                <input
-                  type="tel"
-                  id="whatsapp"
-                  name="whatsapp"
-                  placeholder="e.g. 8527261213"
-                  maxlength="10"
-                />
+                <input type="tel" id="whatsapp" name="whatsapp" placeholder="e.g. 8527261213" maxlength="10" />
               </div>
             </div>
 
@@ -789,17 +764,21 @@
               <div class="select-wrap">
                 <select id="looking_for" name="looking_for" required>
                   <option value="" disabled selected>— e.g. Select Health Insurance —</option>
-                  <option value="Port - Health Insurance (Individual / Family)">Port - Health Insurance (Individual / Family)</option>
-                  <option value="Fresh - Health Insurance (Individual / Family)">Fresh - Health Insurance (Individual / Family)</option>
+                  <option value="Port - Health Insurance (Individual / Family)">Port - Health Insurance (Individual /
+                    Family)</option>
+                  <option value="Fresh - Health Insurance (Individual / Family)">Fresh - Health Insurance (Individual /
+                    Family)</option>
                   <option value="Health Insurance with Worldwide Cover">Health Insurance with Worldwide Cover</option>
                   <option value="Life Insurance &amp; Term Insurance">Life Insurance &amp; Term Insurance</option>
                   <option value="Life Insurance with Family Protection">Life Insurance with Family Protection</option>
                   <option value="Life Insurance with Whole Life Option">Life Insurance with Whole Life Option</option>
-                  <option value="Life Insurance with Daughter Education Plan">Life Insurance with Daughter Education Plan</option>
+                  <option value="Life Insurance with Daughter Education Plan">Life Insurance with Daughter Education
+                    Plan</option>
                   <option value="Retirement Planning with LIC">Retirement Planning with LIC</option>
                   <option value="Travel Insurance (Student Travel)">Travel Insurance (Student Travel)</option>
                   <option value="Travel Insurance (Individual / Family)">Travel Insurance (Individual / Family)</option>
-                  <option value="Motor Insurance (Car / Bike / Commercial Vehicle)">Motor Insurance (Car / Bike / Commercial Vehicle)</option>
+                  <option value="Motor Insurance (Car / Bike / Commercial Vehicle)">Motor Insurance (Car / Bike /
+                    Commercial Vehicle)</option>
                 </select>
               </div>
             </div>
@@ -824,14 +803,8 @@
               <div class="form-field">
                 <label for="appointment">Appointment Date &amp; Time</label>
                 <div class="input-with-icon">
-                  <input
-                    type="text"
-                    id="appointment"
-                    name="appointment"
-                    inputmode="numeric"
-                    placeholder="DD-MM-YYYY, HH:MM AM"
-                    maxlength="22"
-                  />
+                  <input type="text" id="appointment" name="appointment" inputmode="numeric"
+                    placeholder="DD-MM-YYYY, HH:MM AM" maxlength="22" />
                   <!-- Hidden Date Picker -->
                   <input type="date" id="hiddenDatePicker" tabindex="-1" aria-hidden="true"
                     style="position:absolute;opacity:0;pointer-events:none;width:0;height:0;" />
@@ -853,15 +826,8 @@
             </div>
           </div>
 
-          <!-- SECTION: Consent -->
-          <div class="section-label">
-            <span class="s-icon">✅</span>
-            <span class="s-text">Consent &amp; Authorization</span>
-            <span class="s-line"></span>
-          </div>
-
           <label class="consent-wrapper" for="consent" id="consentLabel">
-            <input type="checkbox" id="consent" name="consent" class="consent-checkbox-input" required />
+            <input type="checkbox" id="consent" name="consent" class="consent-checkbox-input" checked required />
             <span class="custom-checkbox" aria-hidden="true">
               <span class="check-mark">✓</span>
             </span>
@@ -902,9 +868,9 @@
   <script>
     // ── AGE / DOB Toggle & Value Sync ──
     let activeDobAgeMode = 'age';
-    const modeBtns     = document.querySelectorAll('.mode-btn');
-    const dobInput     = document.getElementById('dobInput');
-    const ageInput     = document.getElementById('ageInput');
+    const modeBtns = document.querySelectorAll('.mode-btn');
+    const dobInput = document.getElementById('dobInput');
+    const ageInput = document.getElementById('ageInput');
     const hiddenDobAge = document.getElementById('dob_or_age');
 
     function updateHiddenDobAge() {
@@ -937,11 +903,11 @@
 
     // ── Appointment Auto-Mask: DD-MM-YYYY, HH:MM AM ──
     // User types ONLY digits; dashes, comma, colon, space, AM/PM are auto-inserted.
-    const appointmentInput  = document.getElementById('appointment');
-    const datePickerBtn     = document.getElementById('datePickerBtn');
-    const timePickerBtn     = document.getElementById('timePickerBtn');
-    const hiddenDatePicker  = document.getElementById('hiddenDatePicker');
-    const hiddenTimePicker  = document.getElementById('hiddenTimePicker');
+    const appointmentInput = document.getElementById('appointment');
+    const datePickerBtn = document.getElementById('datePickerBtn');
+    const timePickerBtn = document.getElementById('timePickerBtn');
+    const hiddenDatePicker = document.getElementById('hiddenDatePicker');
+    const hiddenTimePicker = document.getElementById('hiddenTimePicker');
 
     function formatAppointmentMask(raw) {
       const d = raw.replace(/\D/g, '');
@@ -972,7 +938,7 @@
 
     appointmentInput.addEventListener('input', () => {
       const cursorPos = appointmentInput.selectionStart;
-      const prevLen   = appointmentInput.value.length;
+      const prevLen = appointmentInput.value.length;
       const formatted = formatAppointmentMask(appointmentInput.value);
       appointmentInput.value = formatted;
       const diff = formatted.length - prevLen;
@@ -1031,7 +997,7 @@
     }
 
     // ── 10-Digit Mobile Auto-Formatter & Validation (No +91 Prefix) ──
-    const mobileInput   = document.getElementById('mobile');
+    const mobileInput = document.getElementById('mobile');
     const whatsappInput = document.getElementById('whatsapp');
 
     function format10DigitPhone(input) {
@@ -1085,20 +1051,20 @@
       updateHiddenDobAge();
 
       // Form validation & 10-Digit Mobile check
-      const name            = document.getElementById('name').value.trim();
-      const mobile          = mobileInput.value.trim();
-      const whatsappVal     = whatsappInput.value.trim();
-      const lookingFor      = document.getElementById('looking_for').value;
-      const isConsent       = consentInput.checked;
+      const name = document.getElementById('name').value.trim();
+      const mobile = mobileInput.value.trim();
+      const whatsappVal = whatsappInput.value.trim();
+      const lookingFor = document.getElementById('looking_for').value;
+      const isConsent = consentInput.checked;
 
-      const isMobileValid   = isValid10DigitMobile(mobile);
+      const isMobileValid = isValid10DigitMobile(mobile);
       const isWhatsappValid = !whatsappVal || isValid10DigitMobile(whatsappVal);
 
       if (!name || !isMobileValid || !lookingFor || !isConsent || !isWhatsappValid) {
         [
-          { id: 'name',        val: name },
-          { id: 'mobile',      val: isMobileValid },
-          { id: 'whatsapp',    val: isWhatsappValid },
+          { id: 'name', val: name },
+          { id: 'mobile', val: isMobileValid },
+          { id: 'whatsapp', val: isWhatsappValid },
           { id: 'looking_for', val: lookingFor }
         ].forEach(({ id, val }) => {
           const el = document.getElementById(id);
@@ -1169,7 +1135,7 @@
       submitBtn.querySelector('.btn-inner').innerHTML =
         '<span class="btn-icon">✅</span><span>Submitted to WhatsApp & Sheets!</span>';
       submitBtn.style.background = 'linear-gradient(135deg, #059669 0%, #10b981 100%)';
-      submitBtn.style.boxShadow  = '0 4px 14px rgba(16, 185, 129, 0.3)';
+      submitBtn.style.boxShadow = '0 4px 14px rgba(16, 185, 129, 0.3)';
 
       // 3. Simultaneously redirect to WhatsApp with Personalized Auto-Reply Greetings
       const autoReplyMsg = `Thank you *${name}* for giving us a moment of your time!\n\nWe are truly grateful for the opportunity to assist you in securing a safe and confident future for you and your loved ones.\n\nGreetings🙏from\nBima Dekho Insurance\n👉Get the right insurance without the stress. From new plans to policy reviews, we make the process effortless.\n\nOur Specialized Solutions:\n✅ Health Insurance (Infinite Coverage)\n✅ Term Life (Securing Family)\n✅ Child Education & Marriage Funds\n✅ Happy Retirement Planning (Regular Income)\n✅ ULIPs & SIIP (Wealth Creation)\n✅ Motor Insurance (Car & Bike)\n✅ Travel Insurance\n\nPlease Explore Bima Dekho:👇\nhttps://bimadekhoinsurance.com`;
@@ -1200,7 +1166,7 @@
       };
       try {
         localStorage.setItem(DRAFT_KEY, JSON.stringify(draft));
-      } catch (e) {}
+      } catch (e) { }
     }
 
     function loadDraft() {
@@ -1234,15 +1200,15 @@
           syncConsentState();
         }
         updateHiddenDobAge();
-      } catch (e) {}
+      } catch (e) { }
     }
 
     function clearFormAndDraft() {
       form.reset();
       try {
         localStorage.removeItem(DRAFT_KEY);
-      } catch (e) {}
-      consentInput.checked = false;
+      } catch (e) { }
+      consentInput.checked = true;
       syncConsentState();
       updateHiddenDobAge();
       successMsg.style.display = 'none';
