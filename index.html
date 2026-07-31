@@ -1157,7 +1157,7 @@
       // 1. Submit first to Google Sheets API using FormData (100% reliable cross-origin)
       if (GOOGLE_SHEETS_SCRIPT_URL) {
         const formData = new FormData();
-        formData.append('name', fullName);
+        formData.append('name', name);
         formData.append('mobile', mobile);
         formData.append('whatsapp', whatsappVal);
         formData.append('dob_or_age', hiddenDobAge.value || '');
