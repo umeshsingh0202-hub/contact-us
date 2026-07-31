@@ -295,14 +295,17 @@
       min-width: 62px;
     }
 
-    .name-input-wrapper input#name {
+    .name-input-wrapper input#name,
+    .form-field .name-input-wrapper input[type="text"] {
       flex: 1;
-      height: 100%;
+      min-width: 0;
+      width: auto !important;
+      height: 100% !important;
       border: none !important;
       background: transparent !important;
       box-shadow: none !important;
-      outline: none;
-      padding: 0 14px;
+      outline: none !important;
+      padding: 0 14px !important;
       font-family: inherit;
       font-size: 14px;
       font-weight: 500;
