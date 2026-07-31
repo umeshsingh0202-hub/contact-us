@@ -821,7 +821,9 @@
                     type="text"
                     id="appointment"
                     name="appointment"
-                    placeholder="e.g. 15-08-2026, 10:30 AM"
+                    inputmode="numeric"
+                    placeholder="DD-MM-YYYY, HH:MM AM"
+                    maxlength="22"
                   />
                   <input
                     type="datetime-local"
@@ -926,11 +928,56 @@
     dobInput.addEventListener('input', updateHiddenDobAge);
     ageInput.addEventListener('input', updateHiddenDobAge);
 
-    // ── Appointment Calendar Icon & Manual Keyboard Typing Sync ──
+    // ── Appointment Auto-Mask: DD-MM-YYYY, HH:MM AM ──
+    // User types ONLY digits; dashes, comma, colon, space, AM/PM are auto-inserted.
     const appointmentInput = document.getElementById('appointment');
     const pickerIconBtn    = document.getElementById('pickerIconBtn');
     const hiddenPicker     = document.getElementById('hiddenPicker');
 
+    function formatAppointmentMask(raw) {
+      // Strip everything except digits
+      const d = raw.replace(/\D/g, '');
+      let out = '';
+
+      // DD
+      for (let i = 0; i < d.length && i < 12; i++) {
+        // Position separators
+        if (i === 2 || i === 4) out += '-';   // DD- and MM-
+        if (i === 8) out += ', ';              // YYYY,_
+        if (i === 10) out += ':';              // HH:
+        out += d[i];
+      }
+
+      // Auto-append AM/PM after 12 digits (HH:MM complete)
+      if (d.length >= 12) {
+        const hh = parseInt(d.substring(8, 10), 10);
+        out += ' ' + (hh >= 12 ? 'PM' : 'AM');
+      }
+
+      return out;
+    }
+
+    appointmentInput.addEventListener('input', (e) => {
+      const cursorPos = appointmentInput.selectionStart;
+      const prevLen   = appointmentInput.value.length;
+      const formatted = formatAppointmentMask(appointmentInput.value);
+      appointmentInput.value = formatted;
+      // Adjust cursor position after formatting
+      const diff = formatted.length - prevLen;
+      const newPos = Math.max(0, cursorPos + diff);
+      appointmentInput.setSelectionRange(newPos, newPos);
+    });
+
+    // Prevent non-digit keys (except Backspace, Delete, Arrow keys, Tab)
+    appointmentInput.addEventListener('keydown', (e) => {
+      const allowed = ['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight', 'Tab', 'Home', 'End'];
+      if (allowed.includes(e.key)) return;
+      if (!/^\d$/.test(e.key)) {
+        e.preventDefault();
+      }
+    });
+
+    // Calendar icon opens native picker
     if (pickerIconBtn && hiddenPicker) {
       pickerIconBtn.addEventListener('click', (e) => {
         e.preventDefault();
@@ -942,21 +989,20 @@
         }
       });
 
+      // Sync picked date/time into the masked text field
       hiddenPicker.addEventListener('change', () => {
         if (hiddenPicker.value) {
-          const d = new Date(hiddenPicker.value);
-          if (!isNaN(d.getTime())) {
-            const day   = String(d.getDate()).padStart(2, '0');
-            const month = String(d.getMonth() + 1).padStart(2, '0');
-            const year  = d.getFullYear();
-            let hours   = d.getHours();
-            const mins  = String(d.getMinutes()).padStart(2, '0');
+          const dt = new Date(hiddenPicker.value);
+          if (!isNaN(dt.getTime())) {
+            const day   = String(dt.getDate()).padStart(2, '0');
+            const month = String(dt.getMonth() + 1).padStart(2, '0');
+            const year  = dt.getFullYear();
+            let hours   = dt.getHours();
+            const mins  = String(dt.getMinutes()).padStart(2, '0');
             const ampm  = hours >= 12 ? 'PM' : 'AM';
             hours       = hours % 12 || 12;
             const hrs   = String(hours).padStart(2, '0');
             appointmentInput.value = `${day}-${month}-${year}, ${hrs}:${mins} ${ampm}`;
-          } else {
-            appointmentInput.value = hiddenPicker.value;
           }
           appointmentInput.dispatchEvent(new Event('input', { bubbles: true }));
         }
