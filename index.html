@@ -362,17 +362,42 @@
       padding: 8px;
     }
 
-    /* ===== CALENDAR ICON CUSTOMIZATION ===== */
-    .form-field input[type="date"]::-webkit-calendar-picker-indicator,
-    .form-field input[type="datetime-local"]::-webkit-calendar-picker-indicator {
-      cursor: pointer;
-      opacity: 0.6;
-      transition: var(--transition);
+    /* ===== APPOINTMENT FIELD WITH CALENDAR ICON ===== */
+    .input-with-icon {
+      position: relative;
+      display: flex;
+      align-items: center;
+      width: 100%;
     }
 
-    .form-field input[type="date"]::-webkit-calendar-picker-indicator:hover,
-    .form-field input[type="datetime-local"]::-webkit-calendar-picker-indicator:hover {
-      opacity: 1;
+    .input-with-icon input#appointment {
+      padding-right: 44px !important;
+    }
+
+    .input-icon-btn {
+      position: absolute;
+      right: 6px;
+      top: 50%;
+      transform: translateY(-50%);
+      border: none;
+      background: #f1f5f9;
+      border: 1px solid var(--border-input);
+      border-radius: 6px;
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 15px;
+      cursor: pointer;
+      transition: var(--transition);
+      z-index: 2;
+    }
+
+    .input-icon-btn:hover {
+      background: var(--primary);
+      color: #ffffff;
+      border-color: var(--primary);
     }
 
     /* ===== AGE / DOB MODE SWITCHER (INSIDE INPUT BOX) ===== */
@@ -791,8 +816,24 @@
             <div class="field-row">
               <div class="form-field">
                 <label for="appointment">Appointment Date &amp; Time</label>
-                <input type="text" id="appointment" name="appointment" placeholder="e.g. 15-08-2026, 10:30 AM"
-                  onfocus="(this.type='datetime-local')" onblur="if(!this.value)this.type='text'" />
+                <div class="input-with-icon">
+                  <input
+                    type="text"
+                    id="appointment"
+                    name="appointment"
+                    placeholder="e.g. 15-08-2026, 10:30 AM"
+                  />
+                  <input
+                    type="datetime-local"
+                    id="hiddenPicker"
+                    tabindex="-1"
+                    aria-hidden="true"
+                    style="position: absolute; opacity: 0; pointer-events: none; width: 0; height: 0;"
+                  />
+                  <button type="button" id="pickerIconBtn" class="input-icon-btn" title="Open Calendar">
+                    📅
+                  </button>
+                </div>
               </div>
 
               <div class="form-field">
@@ -884,6 +925,43 @@
 
     dobInput.addEventListener('input', updateHiddenDobAge);
     ageInput.addEventListener('input', updateHiddenDobAge);
+
+    // ── Appointment Calendar Icon & Manual Keyboard Typing Sync ──
+    const appointmentInput = document.getElementById('appointment');
+    const pickerIconBtn    = document.getElementById('pickerIconBtn');
+    const hiddenPicker     = document.getElementById('hiddenPicker');
+
+    if (pickerIconBtn && hiddenPicker) {
+      pickerIconBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        if (typeof hiddenPicker.showPicker === 'function') {
+          hiddenPicker.showPicker();
+        } else {
+          hiddenPicker.focus();
+          hiddenPicker.click();
+        }
+      });
+
+      hiddenPicker.addEventListener('change', () => {
+        if (hiddenPicker.value) {
+          const d = new Date(hiddenPicker.value);
+          if (!isNaN(d.getTime())) {
+            const day   = String(d.getDate()).padStart(2, '0');
+            const month = String(d.getMonth() + 1).padStart(2, '0');
+            const year  = d.getFullYear();
+            let hours   = d.getHours();
+            const mins  = String(d.getMinutes()).padStart(2, '0');
+            const ampm  = hours >= 12 ? 'PM' : 'AM';
+            hours       = hours % 12 || 12;
+            const hrs   = String(hours).padStart(2, '0');
+            appointmentInput.value = `${day}-${month}-${year}, ${hrs}:${mins} ${ampm}`;
+          } else {
+            appointmentInput.value = hiddenPicker.value;
+          }
+          appointmentInput.dispatchEvent(new Event('input', { bubbles: true }));
+        }
+      });
+    }
 
     // ── 10-Digit Mobile Auto-Formatter & Validation (No +91 Prefix) ──
     const mobileInput   = document.getElementById('mobile');
