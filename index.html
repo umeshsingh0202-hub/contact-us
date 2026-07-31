@@ -260,61 +260,7 @@
       line-height: 1;
     }
 
-    /* ===== NAME PREFIX DROPDOWN + INPUT ===== */
-    .name-input-wrapper {
-      display: flex;
-      align-items: center;
-      width: 100%;
-      height: 46px;
-      background-color: var(--bg-field);
-      border: 1.5px solid var(--border-input);
-      border-radius: var(--radius-sm);
-      overflow: hidden;
-      transition: var(--transition);
-    }
 
-    .name-input-wrapper:focus-within {
-      border-color: var(--primary);
-      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.08);
-    }
-
-    .name-prefix-select {
-      height: 100%;
-      border: none;
-      border-right: 1.5px solid var(--border-input);
-      background: #f1f5f9;
-      color: var(--text-heading);
-      font-family: inherit;
-      font-size: 14px;
-      font-weight: 600;
-      padding: 0 10px;
-      cursor: pointer;
-      outline: none;
-      appearance: auto;
-      -webkit-appearance: auto;
-      min-width: 62px;
-    }
-
-    .name-input-wrapper input#name,
-    .form-field .name-input-wrapper input[type="text"] {
-      flex: 1;
-      min-width: 0;
-      width: auto !important;
-      height: 100% !important;
-      border: none !important;
-      background: transparent !important;
-      box-shadow: none !important;
-      outline: none !important;
-      padding: 0 14px !important;
-      font-family: inherit;
-      font-size: 14px;
-      font-weight: 500;
-      color: var(--text-heading);
-    }
-
-    .name-input-wrapper input#name::placeholder {
-      color: var(--text-placeholder);
-    }
 
     /* ===== INPUT CONTROLS ===== */
     .form-field input[type="text"],
@@ -754,14 +700,7 @@
                 <label for="name">
                   NAME <span class="required-dot" aria-hidden="true">*</span>
                 </label>
-                <div class="name-input-wrapper">
-                  <select id="namePrefix" class="name-prefix-select" aria-label="Name Prefix">
-                    <option value="Mr.">Mr.</option>
-                    <option value="Mrs.">Mrs.</option>
-                    <option value="Ms.">Ms.</option>
-                  </select>
-                  <input type="text" id="name" name="name" placeholder="e.g. Rahul Sharma" required />
-                </div>
+                <input type="text" id="name" name="name" placeholder="e.g. Rahul Sharma" required />
               </div>
 
               <div class="form-field">
@@ -1146,10 +1085,7 @@
       updateHiddenDobAge();
 
       // Form validation & 10-Digit Mobile check
-      const namePrefix      = document.getElementById('namePrefix').value;
-      const nameRaw         = document.getElementById('name').value.trim();
-      const name            = nameRaw;
-      const fullName        = namePrefix + ' ' + nameRaw;
+      const name            = document.getElementById('name').value.trim();
       const mobile          = mobileInput.value.trim();
       const whatsappVal     = whatsappInput.value.trim();
       const lookingFor      = document.getElementById('looking_for').value;
@@ -1208,7 +1144,7 @@
       // 1. Submit first to Google Sheets API using FormData (100% reliable cross-origin)
       if (GOOGLE_SHEETS_SCRIPT_URL) {
         const formData = new FormData();
-        formData.append('name', fullName);
+        formData.append('name', name);
         formData.append('mobile', mobile);
         formData.append('whatsapp', whatsappVal);
         formData.append('dob_or_age', hiddenDobAge.value || '');
@@ -1236,7 +1172,7 @@
       submitBtn.style.boxShadow  = '0 4px 14px rgba(16, 185, 129, 0.3)';
 
       // 3. Simultaneously redirect to WhatsApp with Personalized Auto-Reply Greetings
-      const autoReplyMsg = `Thank you *${fullName}* for giving us a moment of your time!\n\nWe are truly grateful for the opportunity to assist you in securing a safe and confident future for you and your loved ones.\n\nGreetings🙏from\nBima Dekho Insurance\n👉Get the right insurance without the stress. From new plans to policy reviews, we make the process effortless.\n\nOur Specialized Solutions:\n✅ Health Insurance (Infinite Coverage)\n✅ Term Life (Securing Family)\n✅ Child Education & Marriage Funds\n✅ Happy Retirement Planning (Regular Income)\n✅ ULIPs & SIIP (Wealth Creation)\n✅ Motor Insurance (Car & Bike)\n✅ Travel Insurance\n\nPlease Explore Bima Dekho:👇\nhttps://bimadekhoinsurance.com`;
+      const autoReplyMsg = `Thank you *${name}* for giving us a moment of your time!\n\nWe are truly grateful for the opportunity to assist you in securing a safe and confident future for you and your loved ones.\n\nGreetings🙏from\nBima Dekho Insurance\n👉Get the right insurance without the stress. From new plans to policy reviews, we make the process effortless.\n\nOur Specialized Solutions:\n✅ Health Insurance (Infinite Coverage)\n✅ Term Life (Securing Family)\n✅ Child Education & Marriage Funds\n✅ Happy Retirement Planning (Regular Income)\n✅ ULIPs & SIIP (Wealth Creation)\n✅ Motor Insurance (Car & Bike)\n✅ Travel Insurance\n\nPlease Explore Bima Dekho:👇\nhttps://bimadekhoinsurance.com`;
 
       const waUrl = `https://wa.me/${cleanPhone}?text=${encodeURIComponent(autoReplyMsg)}`;
       window.open(waUrl, '_blank');
@@ -1249,7 +1185,6 @@
     function saveDraft() {
       const draft = {
         timestamp: Date.now(),
-        namePrefix: document.getElementById('namePrefix').value,
         name: document.getElementById('name').value,
         age: ageInput.value,
         dob: dobInput.value,
@@ -1278,7 +1213,6 @@
           localStorage.removeItem(DRAFT_KEY);
           return;
         }
-        if (draft.namePrefix) document.getElementById('namePrefix').value = draft.namePrefix;
         if (draft.name) document.getElementById('name').value = draft.name;
         if (draft.age) ageInput.value = draft.age;
         if (draft.dob) dobInput.value = draft.dob;
