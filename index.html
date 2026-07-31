@@ -535,6 +535,31 @@
       font-size: 17px;
     }
 
+    .btn-reset {
+      width: 100%;
+      height: 44px;
+      background: #f1f5f9;
+      color: #64748b;
+      border: 1.5px solid var(--border-input);
+      border-radius: var(--radius-sm);
+      font-family: inherit;
+      font-size: 13.5px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      margin-top: 10px;
+    }
+
+    .btn-reset:hover {
+      background: #e2e8f0;
+      color: var(--text-heading);
+      border-color: #94a3b8;
+    }
+
     /* ===== SUCCESS MESSAGE ===== */
     .success-msg {
       display: none;
@@ -679,8 +704,8 @@
                   type="tel"
                   id="mobile"
                   name="mobile"
-                  placeholder="+91 8527261213"
-                  maxlength="14"
+                  placeholder="e.g. 8527261213"
+                  maxlength="10"
                   required
                 />
               </div>
@@ -691,8 +716,8 @@
                   type="tel"
                   id="whatsapp"
                   name="whatsapp"
-                  placeholder="+91 8527261213"
-                  maxlength="14"
+                  placeholder="e.g. 8527261213"
+                  maxlength="10"
                 />
               </div>
             </div>
@@ -784,13 +809,16 @@
             </span>
           </label>
 
-          <!-- Submit Button -->
+          <!-- Submit & Reset Buttons -->
           <div class="submit-area">
             <button type="submit" id="submitBtn" class="btn-submit" disabled>
               <span class="btn-inner">
                 <span class="btn-icon">📩</span>
                 <span>Submit Form</span>
               </span>
+            </button>
+            <button type="button" id="resetBtn" class="btn-reset">
+              🔄 Clear Form &amp; Reset
             </button>
           </div>
 
@@ -847,37 +875,27 @@
     dobInput.addEventListener('input', updateHiddenDobAge);
     ageInput.addEventListener('input', updateHiddenDobAge);
 
-    // ── Indian Mobile (+91 10-Digit) Auto-Formatter & Validation ──
+    // ── 10-Digit Mobile Auto-Formatter & Validation (No +91 Prefix) ──
     const mobileInput   = document.getElementById('mobile');
     const whatsappInput = document.getElementById('whatsapp');
 
-    function formatIndianPhone(input) {
+    function format10DigitPhone(input) {
       let raw = input.value;
       let digits = raw.replace(/\D/g, '');
-
-      // Remove leading 91 if typed before 10 digits
-      if (digits.startsWith('91') && digits.length > 10) {
-        digits = digits.substring(2);
+      if (digits.length > 10) {
+        digits = digits.substring(0, 10);
       }
-
-      // Keep max 10 digits
-      digits = digits.substring(0, 10);
-
-      if (digits.length > 0) {
-        input.value = '+91 ' + digits;
-      } else {
-        input.value = '';
-      }
+      input.value = digits;
     }
 
-    function isValidIndianMobile(phoneStr) {
+    function isValid10DigitMobile(phoneStr) {
       if (!phoneStr) return false;
       const digits = phoneStr.replace(/\D/g, '');
-      return (digits.length === 12 && digits.startsWith('91') && /^[6-9]/.test(digits.substring(2)));
+      return (digits.length === 10 && /^[6-9]/.test(digits));
     }
 
-    mobileInput.addEventListener('input', () => formatIndianPhone(mobileInput));
-    whatsappInput.addEventListener('input', () => formatIndianPhone(whatsappInput));
+    mobileInput.addEventListener('input', () => format10DigitPhone(mobileInput));
+    whatsappInput.addEventListener('input', () => format10DigitPhone(whatsappInput));
 
     // ── Consent Checkbox & Submit Button Toggle ──
     const consentInput = document.getElementById('consent');
@@ -911,15 +929,15 @@
       e.preventDefault();
       updateHiddenDobAge();
 
-      // Form validation & 10-Digit Indian Mobile check (+91)
+      // Form validation & 10-Digit Mobile check
       const name            = document.getElementById('name').value.trim();
       const mobile          = mobileInput.value.trim();
       const whatsappVal     = whatsappInput.value.trim();
       const lookingFor      = document.getElementById('looking_for').value;
       const isConsent       = consentInput.checked;
 
-      const isMobileValid   = isValidIndianMobile(mobile);
-      const isWhatsappValid = !whatsappVal || isValidIndianMobile(whatsappVal);
+      const isMobileValid   = isValid10DigitMobile(mobile);
+      const isWhatsappValid = !whatsappVal || isValid10DigitMobile(whatsappVal);
 
       if (!name || !isMobileValid || !lookingFor || !isConsent || !isWhatsappValid) {
         [
@@ -1004,6 +1022,92 @@
       const waUrl = `https://wa.me/${cleanPhone}?text=${encodeURIComponent(autoReplyMsg)}`;
       window.open(waUrl, '_blank');
     });
+
+    // ── 5-Minute Auto Draft Storage & Clear / Reset Handler ──
+    const DRAFT_KEY = 'bima_form_draft_data';
+    const DRAFT_EXPIRY_MS = 5 * 60 * 1000; // 5 Minutes
+
+    function saveDraft() {
+      const draft = {
+        timestamp: Date.now(),
+        name: document.getElementById('name').value,
+        age: ageInput.value,
+        dob: dobInput.value,
+        mode: activeDobAgeMode,
+        mobile: mobileInput.value,
+        whatsapp: whatsappInput.value,
+        address: document.getElementById('address').value,
+        looking_for: document.getElementById('looking_for').value,
+        requirement_msg: document.getElementById('requirement_msg').value,
+        appointment: document.getElementById('appointment').value,
+        connecting_location: document.getElementById('connecting_location').value,
+        consent: consentInput.checked
+      };
+      try {
+        localStorage.setItem(DRAFT_KEY, JSON.stringify(draft));
+      } catch (e) {}
+    }
+
+    function loadDraft() {
+      const saved = localStorage.getItem(DRAFT_KEY);
+      if (!saved) return;
+      try {
+        const draft = JSON.parse(saved);
+        // Expiry check (5 Minutes)
+        if (Date.now() - draft.timestamp > DRAFT_EXPIRY_MS) {
+          localStorage.removeItem(DRAFT_KEY);
+          return;
+        }
+        if (draft.name) document.getElementById('name').value = draft.name;
+        if (draft.age) ageInput.value = draft.age;
+        if (draft.dob) dobInput.value = draft.dob;
+        if (draft.mobile) mobileInput.value = draft.mobile;
+        if (draft.whatsapp) whatsappInput.value = draft.whatsapp;
+        if (draft.address) document.getElementById('address').value = draft.address;
+        if (draft.looking_for) document.getElementById('looking_for').value = draft.looking_for;
+        if (draft.requirement_msg) document.getElementById('requirement_msg').value = draft.requirement_msg;
+        if (draft.appointment) document.getElementById('appointment').value = draft.appointment;
+        if (draft.connecting_location) document.getElementById('connecting_location').value = draft.connecting_location;
+
+        if (draft.mode && draft.mode !== activeDobAgeMode) {
+          const targetBtn = document.querySelector(`.mode-btn[data-mode="${draft.mode}"]`);
+          if (targetBtn) targetBtn.click();
+        }
+
+        if (draft.consent) {
+          consentInput.checked = true;
+          syncConsentState();
+        }
+        updateHiddenDobAge();
+      } catch (e) {}
+    }
+
+    function clearFormAndDraft() {
+      form.reset();
+      try {
+        localStorage.removeItem(DRAFT_KEY);
+      } catch (e) {}
+      consentInput.checked = false;
+      syncConsentState();
+      updateHiddenDobAge();
+      successMsg.style.display = 'none';
+      submitBtn.disabled = true;
+      submitBtn.querySelector('.btn-inner').innerHTML =
+        '<span class="btn-icon">📩</span><span>Submit Form</span>';
+      submitBtn.style.background = '';
+      submitBtn.style.boxShadow = '';
+    }
+
+    document.getElementById('resetBtn').addEventListener('click', clearFormAndDraft);
+
+    // Save draft as user types or selects
+    form.querySelectorAll('input, textarea, select').forEach(el => {
+      el.addEventListener('input', saveDraft);
+      el.addEventListener('change', saveDraft);
+    });
+
+    // Restore draft on page load
+    loadDraft();
   </script>
 
 </body>
