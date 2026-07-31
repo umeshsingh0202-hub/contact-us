@@ -260,62 +260,54 @@
       line-height: 1;
     }
 
-    /* ===== NAME PREFIX GROUP & INPUT ===== */
-    .name-input-group {
+    /* ===== NAME HEADER ROW & PREFIX PILLS ABOVE INPUT ===== */
+    .name-header-row {
       display: flex;
       align-items: center;
-      width: 100%;
-      height: 46px;
-      background-color: var(--bg-field);
+      justify-content: space-between;
+      margin-bottom: 8px;
+    }
+
+    .name-header-row label {
+      margin-bottom: 0 !important;
+    }
+
+    .prefix-pills {
+      display: flex;
+      gap: 4px;
+    }
+
+    .prefix-pill {
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .prefix-pill input {
+      display: none;
+    }
+
+    .prefix-pill span {
+      display: inline-block;
+      padding: 3px 10px;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--text-muted);
+      background: #f1f5f9;
       border: 1.5px solid var(--border-input);
-      border-radius: var(--radius-sm);
-      overflow: hidden;
+      border-radius: 12px;
       transition: var(--transition);
     }
 
-    .name-input-group:focus-within {
+    .prefix-pill:hover span {
+      color: var(--text-heading);
+      background: #e2e8f0;
+    }
+
+    .prefix-pill input:checked + span {
+      background: var(--primary);
+      color: #ffffff;
       border-color: var(--primary);
-      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
-    }
-
-    .prefix-select {
-      height: 100%;
-      width: 72px;
-      min-width: 72px;
-      flex-shrink: 0;
-      border: none;
-      border-right: 1.5px solid var(--border-input);
-      background: #f1f5f9;
-      color: var(--text-heading);
-      font-family: inherit;
-      font-size: 13.5px;
-      font-weight: 600;
-      padding: 0 4px 0 10px;
-      cursor: pointer;
-      outline: none;
-      appearance: auto;
-      -webkit-appearance: auto;
-    }
-
-    .name-input-group input#name {
-      flex: 1 !important;
-      width: 100% !important;
-      min-width: 0 !important;
-      height: 100% !important;
-      border: none !important;
-      border-radius: 0 !important;
-      background: transparent !important;
-      box-shadow: none !important;
-      outline: none !important;
-      padding: 0 14px !important;
-      font-family: inherit;
-      font-size: 14px;
-      font-weight: 500;
-      color: var(--text-heading);
-    }
-
-    .name-input-group input#name::placeholder {
-      color: var(--text-placeholder);
+      box-shadow: 0 1px 3px rgba(37, 99, 235, 0.3);
     }
     .form-field input[type="text"],
     .form-field input[type="tel"],
@@ -752,17 +744,26 @@
           <div class="field-group">
             <div class="field-row">
               <div class="form-field">
-                <label for="name">
-                  NAME <span class="required-dot" aria-hidden="true">*</span>
-                </label>
-                <div class="name-input-group">
-                  <select id="namePrefix" class="prefix-select" aria-label="Prefix">
-                    <option value="Mr.">Mr.</option>
-                    <option value="Mrs.">Mrs.</option>
-                    <option value="Ms.">Ms.</option>
-                  </select>
-                  <input type="text" id="name" name="name" placeholder="e.g. Rahul Sharma" required />
+                <div class="name-header-row">
+                  <label for="name">
+                    NAME <span class="required-dot" aria-hidden="true">*</span>
+                  </label>
+                  <div class="prefix-pills" role="radiogroup" aria-label="Name Prefix">
+                    <label class="prefix-pill">
+                      <input type="radio" name="prefixOption" value="Mr." checked />
+                      <span>Mr.</span>
+                    </label>
+                    <label class="prefix-pill">
+                      <input type="radio" name="prefixOption" value="Mrs." />
+                      <span>Mrs.</span>
+                    </label>
+                    <label class="prefix-pill">
+                      <input type="radio" name="prefixOption" value="Ms." />
+                      <span>Ms.</span>
+                    </label>
+                  </div>
                 </div>
+                <input type="text" id="name" name="name" placeholder="e.g. Rahul Sharma" required />
               </div>
 
               <div class="form-field">
@@ -1112,8 +1113,8 @@
       updateHiddenDobAge();
 
       // Form validation & 10-Digit Mobile check
-      const prefixEl        = document.getElementById('namePrefix');
-      const prefix          = prefixEl ? prefixEl.value : 'Mr.';
+      const prefixRadio     = document.querySelector('input[name="prefixOption"]:checked');
+      const prefix          = prefixRadio ? prefixRadio.value : 'Mr.';
       const nameRaw         = document.getElementById('name').value.trim();
       const name            = nameRaw;
       const fullName        = prefix + ' ' + nameRaw;
@@ -1214,9 +1215,10 @@
     const DRAFT_EXPIRY_MS = 5 * 60 * 1000; // 5 Minutes
 
     function saveDraft() {
+      const selectedRadio = document.querySelector('input[name="prefixOption"]:checked');
       const draft = {
         timestamp: Date.now(),
-        namePrefix: document.getElementById('namePrefix') ? document.getElementById('namePrefix').value : 'Mr.',
+        namePrefix: selectedRadio ? selectedRadio.value : 'Mr.',
         name: document.getElementById('name').value,
         age: ageInput.value,
         dob: dobInput.value,
@@ -1245,7 +1247,10 @@
           localStorage.removeItem(DRAFT_KEY);
           return;
         }
-        if (draft.namePrefix && document.getElementById('namePrefix')) document.getElementById('namePrefix').value = draft.namePrefix;
+        if (draft.namePrefix) {
+          const radio = document.querySelector(`input[name="prefixOption"][value="${draft.namePrefix}"]`);
+          if (radio) radio.checked = true;
+        }
         if (draft.name) document.getElementById('name').value = draft.name;
         if (draft.age) ageInput.value = draft.age;
         if (draft.dob) dobInput.value = draft.dob;
