@@ -82,54 +82,77 @@
       z-index: 1;
       width: 100%;
       max-width: 700px;
+    }    /* ===== BRAND HEADER & TOP BAR ===== */
+    .brand-header-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 24px;
+      gap: 12px;
+      flex-wrap: wrap;
     }
 
-    /* ===== BRAND HEADER BADGE ===== */
     .brand-badge {
       display: flex;
       align-items: center;
-      justify-content: center;
       gap: 12px;
-      margin-bottom: 24px;
     }
 
-    .brand-badge .logo-icon {
+    .brand-logo-img {
       width: 48px;
       height: 48px;
-      background: linear-gradient(135deg, #1d4ed8 0%, #2563eb 100%);
-      border-radius: 12px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 22px;
-      box-shadow: 0 4px 14px rgba(37, 99, 235, 0.25);
+      object-fit: cover;
+      border-radius: 10px;
+      border: 1.5px solid #cbd5e1;
+      box-shadow: 0 4px 12px rgba(37, 99, 235, 0.15);
       flex-shrink: 0;
     }
 
     .brand-badge .brand-info {
       display: flex;
       flex-direction: column;
-      text-align: center;
-      align-items: center;
+      text-align: left;
+      align-items: flex-start;
     }
 
     .brand-badge .brand-name {
-      font-size: 18.5px;
+      font-size: 18px;
       font-weight: 800;
       color: #0f172a;
       letter-spacing: -0.3px;
       line-height: 1.2;
-      text-align: center;
     }
 
     .brand-badge .brand-tag {
-      font-size: 13.5px;
+      font-size: 13px;
       font-weight: 600;
       color: #3b82f6;
       letter-spacing: 0.1px;
       line-height: 1.3;
-      text-align: center;
     }
+
+    .btn-top-reset {
+      background: #ffffff;
+      color: #64748b;
+      border: 1.5px solid var(--border-input);
+      border-radius: 20px;
+      font-family: inherit;
+      font-size: 12.5px;
+      font-weight: 600;
+      padding: 7px 15px;
+      cursor: pointer;
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .btn-top-reset:hover {
+      background: #f8fafc;
+      color: #0f172a;
+      border-color: #94a3b8;
+    } }
 
     /* ===== FORM CARD ===== */
     .form-card {
@@ -413,15 +436,15 @@
       box-shadow: 0 1px 3px rgba(37, 99, 235, 0.3);
     }
 
-    /* ===== CONSENT CHECKBOX ===== */
+    /* ===== CONSENT CHECKBOX (COMPACT & SMALL FONT) ===== */
     .consent-wrapper {
       display: flex;
       align-items: flex-start;
-      gap: 12px;
+      gap: 10px;
       background: var(--primary-light);
       border: 1.5px solid var(--primary-border);
-      border-radius: var(--radius-md);
-      padding: 16px 18px;
+      border-radius: var(--radius-sm);
+      padding: 10px 14px;
       cursor: pointer;
       transition: var(--transition);
     }
@@ -437,10 +460,10 @@
 
     .custom-checkbox {
       flex-shrink: 0;
-      width: 22px;
-      height: 22px;
-      border-radius: 6px;
-      border: 2px solid var(--primary);
+      width: 17px;
+      height: 17px;
+      border-radius: 4px;
+      border: 1.5px solid var(--primary);
       background: #ffffff;
       display: flex;
       align-items: center;
@@ -452,14 +475,14 @@
     .consent-checkbox-input:checked+.custom-checkbox {
       background: var(--primary);
       border-color: var(--primary);
-      box-shadow: 0 2px 4px rgba(37, 99, 235, 0.3);
+      box-shadow: 0 1px 3px rgba(37, 99, 235, 0.3);
     }
 
     .custom-checkbox .check-mark {
       opacity: 0;
       transform: scale(0.5);
       transition: var(--transition);
-      font-size: 13px;
+      font-size: 11px;
       color: #ffffff;
       font-weight: 800;
       line-height: 1;
@@ -471,9 +494,9 @@
     }
 
     .consent-text {
-      font-size: 13px;
-      color: var(--text-body);
-      line-height: 1.6;
+      font-size: 11.5px;
+      color: #475569;
+      line-height: 1.45;
     }
 
     .consent-text strong {
@@ -626,13 +649,18 @@
 
   <div class="form-wrapper">
 
-    <!-- Brand Header -->
-    <div class="brand-badge">
-      <div class="logo-icon">🛡️</div>
-      <div class="brand-info">
-        <span class="brand-name">Bima Dekho Insurance</span>
-        <span class="brand-tag">Umesh Singh Consultancy</span>
+    <!-- Brand Header & Top Bar -->
+    <div class="brand-header-bar">
+      <div class="brand-badge">
+        <img src="Bima-Dekho-Logo.jpg" alt="Bima Dekho Logo" class="brand-logo-img" />
+        <div class="brand-info">
+          <span class="brand-name">Bima Dekho Insurance</span>
+          <span class="brand-tag">Umesh Singh Consultancy</span>
+        </div>
       </div>
+      <button type="button" id="resetBtnTop" class="btn-top-reset" title="Clear / Reset Form">
+        🔄 Clear Form
+      </button>
     </div>
 
     <!-- Form Card -->
@@ -1099,6 +1127,8 @@
     }
 
     document.getElementById('resetBtn').addEventListener('click', clearFormAndDraft);
+    const resetBtnTop = document.getElementById('resetBtnTop');
+    if (resetBtnTop) resetBtnTop.addEventListener('click', clearFormAndDraft);
 
     // Save draft as user types or selects
     form.querySelectorAll('input, textarea, select').forEach(el => {
