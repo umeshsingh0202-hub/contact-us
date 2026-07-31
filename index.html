@@ -362,7 +362,7 @@
       padding: 8px;
     }
 
-    /* ===== APPOINTMENT FIELD WITH CALENDAR ICON ===== */
+    /* ===== APPOINTMENT FIELD WITH CALENDAR + CLOCK ICONS ===== */
     .input-with-icon {
       position: relative;
       display: flex;
@@ -371,27 +371,32 @@
     }
 
     .input-with-icon input#appointment {
-      padding-right: 44px !important;
+      padding-right: 76px !important;
+    }
+
+    .icon-group {
+      position: absolute;
+      right: 5px;
+      top: 50%;
+      transform: translateY(-50%);
+      display: flex;
+      gap: 4px;
+      z-index: 2;
     }
 
     .input-icon-btn {
-      position: absolute;
-      right: 6px;
-      top: 50%;
-      transform: translateY(-50%);
       border: none;
       background: #f1f5f9;
       border: 1px solid var(--border-input);
       border-radius: 6px;
-      width: 32px;
-      height: 32px;
+      width: 30px;
+      height: 30px;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 15px;
+      font-size: 14px;
       cursor: pointer;
       transition: var(--transition);
-      z-index: 2;
     }
 
     .input-icon-btn:hover {
@@ -825,16 +830,16 @@
                     placeholder="DD-MM-YYYY, HH:MM AM"
                     maxlength="22"
                   />
-                  <input
-                    type="datetime-local"
-                    id="hiddenPicker"
-                    tabindex="-1"
-                    aria-hidden="true"
-                    style="position: absolute; opacity: 0; pointer-events: none; width: 0; height: 0;"
-                  />
-                  <button type="button" id="pickerIconBtn" class="input-icon-btn" title="Open Calendar">
-                    📅
-                  </button>
+                  <!-- Hidden Date Picker -->
+                  <input type="date" id="hiddenDatePicker" tabindex="-1" aria-hidden="true"
+                    style="position:absolute;opacity:0;pointer-events:none;width:0;height:0;" />
+                  <!-- Hidden Time Picker -->
+                  <input type="time" id="hiddenTimePicker" tabindex="-1" aria-hidden="true"
+                    style="position:absolute;opacity:0;pointer-events:none;width:0;height:0;" />
+                  <div class="icon-group">
+                    <button type="button" id="datePickerBtn" class="input-icon-btn" title="Pick Date">📅</button>
+                    <button type="button" id="timePickerBtn" class="input-icon-btn" title="Pick Time">🕐</button>
+                  </div>
                 </div>
               </div>
 
@@ -930,82 +935,96 @@
 
     // ── Appointment Auto-Mask: DD-MM-YYYY, HH:MM AM ──
     // User types ONLY digits; dashes, comma, colon, space, AM/PM are auto-inserted.
-    const appointmentInput = document.getElementById('appointment');
-    const pickerIconBtn    = document.getElementById('pickerIconBtn');
-    const hiddenPicker     = document.getElementById('hiddenPicker');
+    const appointmentInput  = document.getElementById('appointment');
+    const datePickerBtn     = document.getElementById('datePickerBtn');
+    const timePickerBtn     = document.getElementById('timePickerBtn');
+    const hiddenDatePicker  = document.getElementById('hiddenDatePicker');
+    const hiddenTimePicker  = document.getElementById('hiddenTimePicker');
 
     function formatAppointmentMask(raw) {
-      // Strip everything except digits
       const d = raw.replace(/\D/g, '');
       let out = '';
-
-      // DD
       for (let i = 0; i < d.length && i < 12; i++) {
-        // Position separators
-        if (i === 2 || i === 4) out += '-';   // DD- and MM-
-        if (i === 8) out += ', ';              // YYYY,_
-        if (i === 10) out += ':';              // HH:
+        if (i === 2 || i === 4) out += '-';
+        if (i === 8) out += ', ';
+        if (i === 10) out += ':';
         out += d[i];
       }
-
-      // Auto-append AM/PM after 12 digits (HH:MM complete)
       if (d.length >= 12) {
         const hh = parseInt(d.substring(8, 10), 10);
         out += ' ' + (hh >= 12 ? 'PM' : 'AM');
       }
-
       return out;
     }
 
-    appointmentInput.addEventListener('input', (e) => {
+    // Helper: extract date part (DD-MM-YYYY) from current value
+    function getDatePart() {
+      const digits = appointmentInput.value.replace(/\D/g, '');
+      return digits.substring(0, 8); // DDMMYYYY
+    }
+    // Helper: extract time part (HHMM) from current value
+    function getTimePart() {
+      const digits = appointmentInput.value.replace(/\D/g, '');
+      return digits.substring(8, 12); // HHMM
+    }
+
+    appointmentInput.addEventListener('input', () => {
       const cursorPos = appointmentInput.selectionStart;
       const prevLen   = appointmentInput.value.length;
       const formatted = formatAppointmentMask(appointmentInput.value);
       appointmentInput.value = formatted;
-      // Adjust cursor position after formatting
       const diff = formatted.length - prevLen;
       const newPos = Math.max(0, cursorPos + diff);
       appointmentInput.setSelectionRange(newPos, newPos);
     });
 
-    // Prevent non-digit keys (except Backspace, Delete, Arrow keys, Tab)
     appointmentInput.addEventListener('keydown', (e) => {
       const allowed = ['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight', 'Tab', 'Home', 'End'];
       if (allowed.includes(e.key)) return;
-      if (!/^\d$/.test(e.key)) {
-        e.preventDefault();
-      }
+      if (!/^\d$/.test(e.key)) e.preventDefault();
     });
 
-    // Calendar icon opens native picker
-    if (pickerIconBtn && hiddenPicker) {
-      pickerIconBtn.addEventListener('click', (e) => {
+    // 📅 Date Picker Button
+    if (datePickerBtn && hiddenDatePicker) {
+      datePickerBtn.addEventListener('click', (e) => {
         e.preventDefault();
-        if (typeof hiddenPicker.showPicker === 'function') {
-          hiddenPicker.showPicker();
+        if (typeof hiddenDatePicker.showPicker === 'function') {
+          hiddenDatePicker.showPicker();
         } else {
-          hiddenPicker.focus();
-          hiddenPicker.click();
+          hiddenDatePicker.focus();
+          hiddenDatePicker.click();
         }
       });
 
-      // Sync picked date/time into the masked text field
-      hiddenPicker.addEventListener('change', () => {
-        if (hiddenPicker.value) {
-          const dt = new Date(hiddenPicker.value);
-          if (!isNaN(dt.getTime())) {
-            const day   = String(dt.getDate()).padStart(2, '0');
-            const month = String(dt.getMonth() + 1).padStart(2, '0');
-            const year  = dt.getFullYear();
-            let hours   = dt.getHours();
-            const mins  = String(dt.getMinutes()).padStart(2, '0');
-            const ampm  = hours >= 12 ? 'PM' : 'AM';
-            hours       = hours % 12 || 12;
-            const hrs   = String(hours).padStart(2, '0');
-            appointmentInput.value = `${day}-${month}-${year}, ${hrs}:${mins} ${ampm}`;
-          }
-          appointmentInput.dispatchEvent(new Event('input', { bubbles: true }));
+      hiddenDatePicker.addEventListener('change', () => {
+        if (!hiddenDatePicker.value) return;
+        const [y, m, d] = hiddenDatePicker.value.split('-');
+        const dateDigits = d + m + y; // DDMMYYYY
+        const timeDigits = getTimePart(); // preserve existing time
+        appointmentInput.value = formatAppointmentMask(dateDigits + timeDigits);
+        appointmentInput.dispatchEvent(new Event('input', { bubbles: true }));
+      });
+    }
+
+    // 🕐 Time Picker Button
+    if (timePickerBtn && hiddenTimePicker) {
+      timePickerBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        if (typeof hiddenTimePicker.showPicker === 'function') {
+          hiddenTimePicker.showPicker();
+        } else {
+          hiddenTimePicker.focus();
+          hiddenTimePicker.click();
         }
+      });
+
+      hiddenTimePicker.addEventListener('change', () => {
+        if (!hiddenTimePicker.value) return;
+        const [hh, mm] = hiddenTimePicker.value.split(':');
+        const dateDigits = getDatePart(); // preserve existing date
+        const timeDigits = hh + mm; // HHMM
+        appointmentInput.value = formatAppointmentMask(dateDigits + timeDigits);
+        appointmentInput.dispatchEvent(new Event('input', { bubbles: true }));
       });
     }
 
