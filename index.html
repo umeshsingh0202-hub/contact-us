@@ -368,6 +368,48 @@
       background-color: #ffffff;
     }
 
+    /* ===== 10-DIGIT PHONE INPUT DYNAMIC COLOR STYLES ===== */
+    .form-field input[type="tel"].phone-incomplete {
+      background-color: #fef2f2 !important;
+      border-color: #f87171 !important;
+      color: #991b1b !important;
+    }
+
+    .form-field input[type="tel"].phone-incomplete:focus {
+      border-color: #ef4444 !important;
+      box-shadow: 0 0 0 4px rgba(239, 68, 68, 0.18) !important;
+    }
+
+    .form-field input[type="tel"].phone-complete {
+      background-color: #f0fdf4 !important;
+      border-color: #22c55e !important;
+      color: #166534 !important;
+    }
+
+    .form-field input[type="tel"].phone-complete:focus {
+      border-color: #16a34a !important;
+      box-shadow: 0 0 0 4px rgba(34, 197, 94, 0.18) !important;
+    }
+
+    /* Digit count message under phone input */
+    .phone-count-msg {
+      font-size: 11.5px;
+      font-weight: 600;
+      margin-top: 4px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      transition: all 0.2s ease;
+    }
+
+    .phone-count-msg.msg-incomplete {
+      color: #dc2626;
+    }
+
+    .phone-count-msg.msg-complete {
+      color: #16a34a;
+    }
+
     .form-field textarea {
       resize: vertical;
       min-height: 90px;
@@ -804,11 +846,13 @@
                   Mobile Number <span class="required-dot" aria-hidden="true">*</span>
                 </label>
                 <input type="tel" id="mobile" name="mobile" placeholder="e.g. 8527261213" maxlength="10" required />
+                <div id="mobileCountMsg" class="phone-count-msg" style="display: none;"></div>
               </div>
 
               <div class="form-field">
                 <label for="whatsapp">Whatsapp Number</label>
                 <input type="tel" id="whatsapp" name="whatsapp" placeholder="e.g. 8527261213" maxlength="10" />
+                <div id="whatsappCountMsg" class="phone-count-msg" style="display: none;"></div>
               </div>
             </div>
 
@@ -1067,6 +1111,40 @@
     const mobileInput = document.getElementById('mobile');
     const whatsappInput = document.getElementById('whatsapp');
 
+    function updatePhoneColor(input) {
+      if (!input) return;
+      const digits = input.value.replace(/\D/g, '');
+      const countMsgEl = document.getElementById(input.id + 'CountMsg');
+      const fieldLabel = input.id === 'whatsapp' ? 'Whatsapp' : 'Mobile';
+
+      if (digits.length === 0) {
+        // 0 digits: No colour (default input box state)
+        input.classList.remove('phone-incomplete', 'phone-complete');
+        if (countMsgEl) {
+          countMsgEl.style.display = 'none';
+          countMsgEl.innerHTML = '';
+        }
+      } else if (digits.length >= 1 && digits.length <= 9) {
+        // 1 to 9 digits: Light red colour + live digit count indicator
+        input.classList.remove('phone-complete');
+        input.classList.add('phone-incomplete');
+        if (countMsgEl) {
+          countMsgEl.style.display = 'flex';
+          countMsgEl.className = 'phone-count-msg msg-incomplete';
+          countMsgEl.innerHTML = `⚠️ ${fieldLabel} number must be 10 digits (${digits.length}/10)`;
+        }
+      } else if (digits.length === 10) {
+        // 10 digits: Green colour + complete digit count indicator
+        input.classList.remove('phone-incomplete');
+        input.classList.add('phone-complete');
+        if (countMsgEl) {
+          countMsgEl.style.display = 'flex';
+          countMsgEl.className = 'phone-count-msg msg-complete';
+          countMsgEl.innerHTML = `✓ 10-digit ${fieldLabel.toLowerCase()} number complete (10/10)`;
+        }
+      }
+    }
+
     function format10DigitPhone(input) {
       let raw = input.value;
       let digits = raw.replace(/\D/g, '');
@@ -1074,6 +1152,7 @@
         digits = digits.substring(0, 10);
       }
       input.value = digits;
+      updatePhoneColor(input);
     }
 
     function isValid10DigitMobile(phoneStr) {
@@ -1084,6 +1163,10 @@
 
     mobileInput.addEventListener('input', () => format10DigitPhone(mobileInput));
     whatsappInput.addEventListener('input', () => format10DigitPhone(whatsappInput));
+
+    // Initialize phone input colors
+    updatePhoneColor(mobileInput);
+    updatePhoneColor(whatsappInput);
 
     // ── Consent Checkbox & Submit Button Toggle ──
     const consentInput = document.getElementById('consent');
@@ -1350,6 +1433,8 @@
           syncConsentState();
         }
         updateHiddenDobAge();
+        updatePhoneColor(mobileInput);
+        updatePhoneColor(whatsappInput);
       } catch (e) { }
     }
 
@@ -1361,6 +1446,8 @@
       consentInput.checked = true;
       syncConsentState();
       updateHiddenDobAge();
+      updatePhoneColor(mobileInput);
+      updatePhoneColor(whatsappInput);
       successMsg.style.display = 'none';
       submitBtn.disabled = false;
       submitBtn.querySelector('.btn-inner').innerHTML =
