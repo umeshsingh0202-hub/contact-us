@@ -498,7 +498,7 @@
     }
 
     .input-box-wrapper input.dob-age-input {
-      padding-right: 115px !important;
+      padding-right: 140px !important;
     }
 
     .inner-toggle-pill {
@@ -507,6 +507,7 @@
       top: 50%;
       transform: translateY(-50%);
       display: flex;
+      align-items: center;
       background: #f1f5f9;
       border: 1px solid var(--border-input);
       border-radius: 6px;
@@ -536,6 +537,26 @@
       background: var(--primary);
       color: #ffffff;
       box-shadow: 0 1px 3px rgba(37, 99, 235, 0.3);
+    }
+
+    .dob-cal-btn {
+      border: 1px solid var(--border-input);
+      background: #ffffff;
+      font-family: inherit;
+      font-size: 12px;
+      padding: 2px 6px;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: var(--transition);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      line-height: 1;
+    }
+
+    .dob-cal-btn:hover {
+      background: var(--primary-light);
+      border-color: var(--primary);
     }
 
     /* ===== CONSENT CHECKBOX (COMPACT & SMALL 10.5px FONT) ===== */
@@ -824,14 +845,19 @@
                   <input type="number" id="ageInput" class="dob-age-input" min="1" max="120"
                     placeholder="e.g. 28 Yrs" />
 
-                  <!-- DOB Input -->
-                  <input type="text" id="dobInput" class="dob-age-input" placeholder="e.g. 15-08-1995"
-                    onfocus="(this.type='date')" onblur="if(!this.value)this.type='text'" style="display: none;" />
+                  <!-- DOB Input (Manual keyboard typing enabled with numeric keyboard) -->
+                  <input type="text" id="dobInput" class="dob-age-input" placeholder="DD-MM-YYYY (e.g. 15-08-1995)"
+                    inputmode="numeric" maxlength="10" style="display: none;" />
+
+                  <!-- Hidden Native Date Picker for Calendar Button -->
+                  <input type="date" id="hiddenDobPicker" tabindex="-1" aria-hidden="true"
+                    style="position:absolute;opacity:0;pointer-events:none;width:0;height:0;" />
 
                   <!-- Toggle Pill Buttons Inside Input Box (Right Side) -->
                   <div class="inner-toggle-pill">
                     <button type="button" class="mode-btn active" data-mode="age">Age</button>
                     <button type="button" class="mode-btn" data-mode="dob">DOB</button>
+                    <button type="button" id="dobCalendarBtn" class="dob-cal-btn" title="Pick Date from Calendar" style="display: none;">📅</button>
                   </div>
                 </div>
 
@@ -989,6 +1015,8 @@
     const dobInput = document.getElementById('dobInput');
     const ageInput = document.getElementById('ageInput');
     const hiddenDobAge = document.getElementById('dob_or_age');
+    const dobCalendarBtn = document.getElementById('dobCalendarBtn');
+    const hiddenDobPicker = document.getElementById('hiddenDobPicker');
 
     function updateHiddenDobAge() {
       if (activeDobAgeMode === 'age') {
@@ -998,8 +1026,30 @@
       }
     }
 
+    function formatDobDigits(raw) {
+      if (!raw) return '';
+      const digits = raw.replace(/\D/g, '').slice(0, 8);
+      if (digits.length === 0) return '';
+      if (digits.length <= 2) {
+        return digits;
+      } else if (digits.length <= 4) {
+        return `${digits.slice(0, 2)}-${digits.slice(2)}`;
+      } else {
+        return `${digits.slice(0, 2)}-${digits.slice(2, 4)}-${digits.slice(4)}`;
+      }
+    }
+
+    if (dobInput) {
+      dobInput.addEventListener('input', () => {
+        const val = dobInput.value;
+        dobInput.value = formatDobDigits(val);
+        updateHiddenDobAge();
+      });
+    }
+
     modeBtns.forEach(btn => {
       btn.addEventListener('click', function () {
+        if (this.id === 'dobCalendarBtn') return;
         modeBtns.forEach(b => b.classList.remove('active'));
         this.classList.add('active');
         activeDobAgeMode = this.dataset.mode;
@@ -1007,13 +1057,47 @@
         if (activeDobAgeMode === 'age') {
           ageInput.style.display = 'block';
           dobInput.style.display = 'none';
+          if (dobCalendarBtn) dobCalendarBtn.style.display = 'none';
+          ageInput.focus();
         } else {
           ageInput.style.display = 'none';
           dobInput.style.display = 'block';
+          if (dobCalendarBtn) dobCalendarBtn.style.display = 'inline-flex';
+          dobInput.focus();
         }
         updateHiddenDobAge();
       });
     });
+
+    // 📅 DOB Calendar Picker Handler
+    if (dobCalendarBtn && hiddenDobPicker) {
+      dobCalendarBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+
+        if (activeDobAgeMode !== 'dob') {
+          const dobModeBtn = document.querySelector('.mode-btn[data-mode="dob"]');
+          if (dobModeBtn) dobModeBtn.click();
+        }
+
+        if (typeof hiddenDobPicker.showPicker === 'function') {
+          hiddenDobPicker.showPicker();
+        } else {
+          hiddenDobPicker.focus();
+          hiddenDobPicker.click();
+        }
+      });
+
+      hiddenDobPicker.addEventListener('change', () => {
+        if (!hiddenDobPicker.value) return;
+        const parts = hiddenDobPicker.value.split('-');
+        if (parts.length === 3) {
+          const [y, m, d] = parts;
+          dobInput.value = `${d}-${m}-${y}`;
+          updateHiddenDobAge();
+        }
+      });
+    }
 
     dobInput.addEventListener('input', updateHiddenDobAge);
     ageInput.addEventListener('input', updateHiddenDobAge);
