@@ -498,7 +498,7 @@
     }
 
     .input-box-wrapper input.dob-age-input {
-      padding-right: 140px !important;
+      padding-right: 100px !important;
     }
 
     .inner-toggle-pill {
@@ -537,26 +537,6 @@
       background: var(--primary);
       color: #ffffff;
       box-shadow: 0 1px 3px rgba(37, 99, 235, 0.3);
-    }
-
-    .dob-cal-btn {
-      border: 1px solid var(--border-input);
-      background: #ffffff;
-      font-family: inherit;
-      font-size: 12px;
-      padding: 2px 6px;
-      border-radius: 4px;
-      cursor: pointer;
-      transition: var(--transition);
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      line-height: 1;
-    }
-
-    .dob-cal-btn:hover {
-      background: var(--primary-light);
-      border-color: var(--primary);
     }
 
     /* ===== CONSENT CHECKBOX (COMPACT & SMALL 10.5px FONT) ===== */
@@ -849,15 +829,10 @@
                   <input type="text" id="dobInput" class="dob-age-input" placeholder="DD-MM-YYYY (e.g. 15-08-1995)"
                     inputmode="numeric" maxlength="10" style="display: none;" />
 
-                  <!-- Hidden Native Date Picker for Calendar Button -->
-                  <input type="date" id="hiddenDobPicker" tabindex="-1" aria-hidden="true"
-                    style="position:absolute;opacity:0;pointer-events:none;width:0;height:0;" />
-
                   <!-- Toggle Pill Buttons Inside Input Box (Right Side) -->
                   <div class="inner-toggle-pill">
                     <button type="button" class="mode-btn active" data-mode="age">Age</button>
                     <button type="button" class="mode-btn" data-mode="dob">DOB</button>
-                    <button type="button" id="dobCalendarBtn" class="dob-cal-btn" title="Pick Date from Calendar" style="display: none;">📅</button>
                   </div>
                 </div>
 
@@ -943,8 +918,7 @@
               <div class="form-field">
                 <label for="appointment">Appointment Date &amp; Time</label>
                 <div class="input-with-icon">
-                  <input type="text" id="appointment" name="appointment"
-                    placeholder="DD-MM-YYYY, HH:MM (24-Hour)" />
+                  <input type="text" id="appointment" name="appointment" placeholder="DD-MM-YYYY, HH:MM (24-Hour)" />
                   <!-- Hidden Date Picker -->
                   <input type="date" id="hiddenDatePicker" tabindex="-1" aria-hidden="true"
                     style="position:absolute;opacity:0;pointer-events:none;width:0;height:0;" />
@@ -1015,8 +989,6 @@
     const dobInput = document.getElementById('dobInput');
     const ageInput = document.getElementById('ageInput');
     const hiddenDobAge = document.getElementById('dob_or_age');
-    const dobCalendarBtn = document.getElementById('dobCalendarBtn');
-    const hiddenDobPicker = document.getElementById('hiddenDobPicker');
 
     function updateHiddenDobAge() {
       if (activeDobAgeMode === 'age') {
@@ -1049,7 +1021,6 @@
 
     modeBtns.forEach(btn => {
       btn.addEventListener('click', function () {
-        if (this.id === 'dobCalendarBtn') return;
         modeBtns.forEach(b => b.classList.remove('active'));
         this.classList.add('active');
         activeDobAgeMode = this.dataset.mode;
@@ -1057,47 +1028,15 @@
         if (activeDobAgeMode === 'age') {
           ageInput.style.display = 'block';
           dobInput.style.display = 'none';
-          if (dobCalendarBtn) dobCalendarBtn.style.display = 'none';
           ageInput.focus();
         } else {
           ageInput.style.display = 'none';
           dobInput.style.display = 'block';
-          if (dobCalendarBtn) dobCalendarBtn.style.display = 'inline-flex';
           dobInput.focus();
         }
         updateHiddenDobAge();
       });
     });
-
-    // 📅 DOB Calendar Picker Handler
-    if (dobCalendarBtn && hiddenDobPicker) {
-      dobCalendarBtn.addEventListener('click', (e) => {
-        e.preventDefault();
-        e.stopPropagation();
-
-        if (activeDobAgeMode !== 'dob') {
-          const dobModeBtn = document.querySelector('.mode-btn[data-mode="dob"]');
-          if (dobModeBtn) dobModeBtn.click();
-        }
-
-        if (typeof hiddenDobPicker.showPicker === 'function') {
-          hiddenDobPicker.showPicker();
-        } else {
-          hiddenDobPicker.focus();
-          hiddenDobPicker.click();
-        }
-      });
-
-      hiddenDobPicker.addEventListener('change', () => {
-        if (!hiddenDobPicker.value) return;
-        const parts = hiddenDobPicker.value.split('-');
-        if (parts.length === 3) {
-          const [y, m, d] = parts;
-          dobInput.value = `${d}-${m}-${y}`;
-          updateHiddenDobAge();
-        }
-      });
-    }
 
     dobInput.addEventListener('input', updateHiddenDobAge);
     ageInput.addEventListener('input', updateHiddenDobAge);
@@ -1429,7 +1368,7 @@
       } catch (e) { }
 
       // 3. Simultaneously redirect to WhatsApp Business with Personalized Auto-Reply Greetings
-      const autoReplyMsg = `Thank you *${fullName}* for giving us a moment of your time!\n\nWe are truly grateful for the opportunity to assist you in securing a safe and confident future for you and your loved ones.\n\nGreetings🙏from\n*Bima Dekho Insurance*\n👉Get the right insurance without the stress. From new plans to policy reviews, we make the process effortless.\n\n*Our Specialized Solutions:*\n✅ Health Insurance (Infinite Coverage)\n✅ Term Life (Securing Family)\n✅ Child Education & Marriage Funds\n✅ Happy Retirement Planning (Regular Income)\n✅ ULIPs & SIIP (Wealth Creation)\n✅ Motor Insurance (Car & Bike)\n✅ Travel Insurance\n\n*Please Explore Bima Dekho:👇*\nhttps://bimadekhoinsurance.com`;
+      const autoReplyMsg = `Thank you *${fullName}* for giving us a moment of your time!\n\nWe are truly grateful for the opportunity to assist you in securing a safe and confident future for you and your loved ones.\n\nGreetings 🙏 from\n*Bima Dekho Insurance*\n\n👉 Get the right insurance without the stress. From new plans to policy reviews, we make the process effortless.\n\nOur Specialized Solutions:\n✅ Health Insurance (Infinite Coverage)\n✅ Term Life (Securing Family)\n✅ Child Education & Marriage Funds\n✅ Happy Retirement Planning (Regular Income)\n✅ ULIPs & SIIP (Wealth Creation)\n✅ Motor Insurance (Car & Bike)\n✅ Travel Insurance\n\n*Your Insurance Advisor*\n👤  Umesh Singh *(Since 2009)*\n📞 +91 8527261213\n🌐 Visit Us👇: \nhttps://bimadekhoinsurance.com`;
 
       const encodedMsg = encodeURIComponent(autoReplyMsg);
       const isAndroid = /Android/i.test(navigator.userAgent);
