@@ -270,8 +270,8 @@
     }
 
     .prefix-box {
-      width: 46px !important;
-      min-width: 46px !important;
+      width: 70px !important;
+      min-width: 70px !important;
       height: 46px !important;
       flex-shrink: 0 !important;
       background-color: var(--bg-field) !important;
@@ -281,7 +281,7 @@
       font-family: inherit;
       font-size: 13px;
       font-weight: 600;
-      padding: 0 2px !important;
+      padding: 0 6px !important;
       text-align: center !important;
       text-align-last: center !important;
       cursor: pointer;
@@ -812,6 +812,8 @@
                   <select id="namePrefix" class="prefix-box" aria-label="Name Prefix">
                     <option value="Mr.">Mr.</option>
                     <option value="Ms.">Ms.</option>
+                    <option value="Mrs.">Mrs.</option>
+                    <option value="Dr.">Dr.</option>
                   </select>
                   <input type="text" id="name" name="name" placeholder="e.g. Rahul Sharma" required />
                 </div>
@@ -1224,11 +1226,11 @@
       updateHiddenDobAge();
 
       // Form validation & 10-Digit Mobile check
-      const prefixRadio = document.querySelector('input[name="prefixOption"]:checked');
-      const prefix = prefixRadio ? prefixRadio.value : 'Mr.';
+      const prefixSelect = document.getElementById('namePrefix');
+      const prefix = prefixSelect ? prefixSelect.value : 'Mr.';
       const nameRaw = document.getElementById('name').value.trim();
-      const name = nameRaw;
-      const fullName = prefix + ' ' + nameRaw;
+      const fullName = prefix ? (prefix + ' ' + nameRaw) : nameRaw;
+      const name = fullName;
       const mobile = mobileInput.value.trim();
       const whatsappVal = whatsappInput.value.trim();
       const lookingFor = document.getElementById('looking_for').value;
@@ -1288,7 +1290,7 @@
         try {
           const payload = new URLSearchParams();
           payload.append('status', 'New Lead');
-          payload.append('name', name);
+          payload.append('name', nameRaw);
           payload.append('mobile', mobile);
           payload.append('whatsapp', whatsappVal);
           payload.append('dob_or_age', hiddenDobAge.value || '');
@@ -1323,7 +1325,7 @@
 
           const fields = {
             status: 'New Lead',
-            name: name,
+            name: nameRaw,
             mobile: mobile,
             whatsapp: whatsappVal,
             dob_or_age: hiddenDobAge.value || '',
@@ -1368,7 +1370,7 @@
       } catch (e) { }
 
       // 3. Simultaneously redirect to WhatsApp Business with Personalized Auto-Reply Greetings
-      const autoReplyMsg = `Thank you *${fullName}* for giving us a moment of your time!\n\nWe are truly grateful for the opportunity to assist you in securing a safe and confident future for you and your loved ones.\n\nGreetings 🙏 from\n*Bima Dekho Insurance*\n\n👉 Get the right insurance without the stress. From new plans to policy reviews, we make the process effortless.\n\nOur Specialized Solutions:\n✅ Health Insurance (Infinite Coverage)\n✅ Term Life (Securing Family)\n✅ Child Education & Marriage Funds\n✅ Happy Retirement Planning (Regular Income)\n✅ ULIPs & SIIP (Wealth Creation)\n✅ Motor Insurance (Car & Bike)\n✅ Travel Insurance\n\n*Your Insurance Advisor*\n👤  Umesh Singh *(Since 2009)*\n📞 +91 8527261213\n🌐 Visit Us👇: \nhttps://bimadekhoinsurance.com`;
+      const autoReplyMsg = `Greetings 🙏 from \n*Bima Dekho Insurance*!\n\nThank you *${fullName} Ji* for giving us a moment of your time!  We are truly grateful for the opportunity to assist you in securing a safe and confident future for you and your loved ones.\n\n👉 Get the right insurance, stress-free. From new plans to policy reviews, we make the process effortless.\n\n*Our Specialized Solutions:*\n✅ Health Insurance (Comprehensive Coverage)\n✅ Term Life (Family Protection)\n✅ Child Education & Marriage Funds\n✅ Happy Retirement Planning (Guaranteed Regular Income)\n✅ ULIPs & Wealth Creation\n✅ Motor Insurance (Car & Bike)\n✅ Travel Insurance\n\n*Your Trusted Insurance Advisor*\n\n👤 *Umesh Singh* (Since 2009)\n📞 *+91 8527261213*\n🌐 *Visit Us:* \nhttps://bimadekhoinsurance.com`;
 
       const encodedMsg = encodeURIComponent(autoReplyMsg);
       const isAndroid = /Android/i.test(navigator.userAgent);
@@ -1399,10 +1401,10 @@
     const DRAFT_EXPIRY_MS = 5 * 60 * 1000; // 5 Minutes
 
     function saveDraft() {
-      const selectedRadio = document.querySelector('input[name="prefixOption"]:checked');
+      const prefixSelect = document.getElementById('namePrefix');
       const draft = {
         timestamp: Date.now(),
-        namePrefix: selectedRadio ? selectedRadio.value : 'Mr.',
+        namePrefix: prefixSelect ? prefixSelect.value : 'Mr.',
         name: document.getElementById('name').value,
         age: ageInput.value,
         dob: dobInput.value,
@@ -1432,8 +1434,8 @@
           return;
         }
         if (draft.namePrefix) {
-          const radio = document.querySelector(`input[name="prefixOption"][value="${draft.namePrefix}"]`);
-          if (radio) radio.checked = true;
+          const prefixSelect = document.getElementById('namePrefix');
+          if (prefixSelect) prefixSelect.value = draft.namePrefix;
         }
         if (draft.name) document.getElementById('name').value = draft.name;
         if (draft.age) ageInput.value = draft.age;
