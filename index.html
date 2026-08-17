@@ -1692,7 +1692,7 @@
       // Google Sheets Endpoint (Loaded from config.js)
       const targetScriptUrl = (typeof GOOGLE_SHEETS_SCRIPT_URL !== 'undefined') ? GOOGLE_SHEETS_SCRIPT_URL : '';
 
-      // 1. Submit to Google Sheets API using 100% reliable Dual Submission (Fetch + Hidden IFrame)
+      // 1. Submit to Google Sheets API (Single Submission)
       if (targetScriptUrl) {
         try {
           const payload = new URLSearchParams();
@@ -1708,55 +1708,12 @@
           payload.append('connecting_location', document.getElementById('connecting_location').value.trim());
           payload.append('consent', '✅');
 
-          // Method 1: Fetch with URLSearchParams (CORS-safelisted body)
+          // Submit single POST request via fetch with URLSearchParams
           fetch(targetScriptUrl, {
             method: 'POST',
             mode: 'no-cors',
             body: payload
           }).catch(err => console.log('Fetch error:', err));
-
-          // Method 2: Hidden iframe Form POST (Guaranteed delivery across all browsers)
-          let iframe = document.getElementById('hidden_sheet_iframe');
-          if (!iframe) {
-            iframe = document.createElement('iframe');
-            iframe.name = 'hidden_sheet_iframe';
-            iframe.id = 'hidden_sheet_iframe';
-            iframe.style.display = 'none';
-            document.body.appendChild(iframe);
-          }
-
-          const tempForm = document.createElement('form');
-          tempForm.method = 'POST';
-          tempForm.action = targetScriptUrl;
-          tempForm.target = 'hidden_sheet_iframe';
-
-          const fields = {
-            status: 'New Lead',
-            name: nameRaw,
-            mobile: mobile,
-            whatsapp: whatsappVal,
-            dob_or_age: finalDobOrAge,
-            looking_for: lookingFor,
-            requirement_msg: document.getElementById('requirement_msg').value.trim(),
-            address: document.getElementById('address').value.trim(),
-            appointment: document.getElementById('appointment').value.trim(),
-            connecting_location: document.getElementById('connecting_location').value.trim(),
-            consent: '✅'
-          };
-
-          for (const k in fields) {
-            const hiddenField = document.createElement('input');
-            hiddenField.type = 'hidden';
-            hiddenField.name = k;
-            hiddenField.value = fields[k];
-            tempForm.appendChild(hiddenField);
-          }
-
-          document.body.appendChild(tempForm);
-          tempForm.submit();
-          setTimeout(() => {
-            if (tempForm.parentNode) tempForm.parentNode.removeChild(tempForm);
-          }, 1000);
         } catch (e) {
           console.log('Submission exception:', e);
         }
