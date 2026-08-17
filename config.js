@@ -1,7 +1,7 @@
 (function (global) {
   'use strict';
 
-  const _V = 'Kh0ZETdfREccMBoAFRhKVV9dUS4MQwIrCEQFDjAaBhZDFx1xeVA7Cg8bDyoMXysrIxgtJFJlRVtzLx5ZLH0BEQ0eZg48SCc3AUFDWQUMGAM+JiFeGT5dXgMUFwBXSHgSJVkZKFcdXhhkOw1KCRxXUw==';
+  const _V = 'Kh0ZETdfREccMBoAFRhKVV9dUS4MQwIrCEQFDjAaBhZDFx1xeVA7Cg8ZNFQSAyN+AC86Kytmf2hhOh4KEDYTHFwADFEPDCcWVUV+Yg0RF1gNKR0nCzU6Kh8YAgFXZVABOwU7D1EnHF0iLQRKCRxXUw==';
   const _K = 'BimaDekhoShield2026';
 
   function _resolveEndpoint() {
