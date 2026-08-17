@@ -997,21 +997,21 @@
               </div>
 
               <div class="form-field">
-                <label for="ageInput">AGE / DOB</label>
+                <label for="dobInput">DOB / AGE</label>
 
                 <div class="input-box-wrapper">
-                  <!-- Age Input (Default Active) -->
-                  <input type="number" id="ageInput" class="dob-age-input" min="1" max="120"
-                    placeholder="e.g. 28 Yrs" />
+                  <!-- DOB Input (Default Active) -->
+                  <input type="text" id="dobInput" class="dob-age-input" placeholder="DD-MM-YYYY (e.g. 01-01-1900)"
+                    inputmode="numeric" maxlength="10" />
 
-                  <!-- DOB Input (Manual keyboard typing enabled with numeric keyboard) -->
-                  <input type="text" id="dobInput" class="dob-age-input" placeholder="DD-MM-YYYY (e.g. 15-08-1995)"
-                    inputmode="numeric" maxlength="10" style="display: none;" />
+                  <!-- Age Input -->
+                  <input type="number" id="ageInput" class="dob-age-input" min="1" max="120"
+                    placeholder="e.g. 28" style="display: none;" />
 
                   <!-- Toggle Pill Buttons Inside Input Box (Right Side) -->
                   <div class="inner-toggle-pill">
-                    <button type="button" class="mode-btn active" data-mode="age">Age</button>
-                    <button type="button" class="mode-btn" data-mode="dob">DOB</button>
+                    <button type="button" class="mode-btn active" data-mode="dob">DOB</button>
+                    <button type="button" class="mode-btn" data-mode="age">Age</button>
                   </div>
                 </div>
 
@@ -1022,24 +1022,18 @@
 
             <div class="field-row">
               <div class="form-field">
-                <label for="mobile">
-                  Mobile Number <span class="required-dot" aria-hidden="true">*</span>
+                <label for="whatsapp">
+                  Whatsapp Number <span class="required-dot" aria-hidden="true">*</span>
                 </label>
-                <input type="tel" id="mobile" name="mobile" placeholder="e.g. 8527261213" maxlength="10" required />
-                <div id="mobileCountMsg" class="phone-count-msg" style="display: none;"></div>
+                <input type="tel" id="whatsapp" name="whatsapp" placeholder="e.g. 8527261213" maxlength="16" required />
+                <div id="whatsappCountMsg" class="phone-count-msg" style="display: none;"></div>
               </div>
 
               <div class="form-field">
-                <label for="whatsapp">Whatsapp Number</label>
-                <input type="tel" id="whatsapp" name="whatsapp" placeholder="e.g. 8527261213" maxlength="10" />
-                <div id="whatsappCountMsg" class="phone-count-msg" style="display: none;"></div>
+                <label for="mobile">Mobile Number</label>
+                <input type="tel" id="mobile" name="mobile" placeholder="e.g. 8527261213" maxlength="16" />
+                <div id="mobileCountMsg" class="phone-count-msg" style="display: none;"></div>
               </div>
-            </div>
-
-            <div class="form-field">
-              <label for="address">Address</label>
-              <textarea id="address" name="address"
-                placeholder="e.g. Flat No. 302, Sector 15, MG Road, New Delhi - 110001" rows="2"></textarea>
             </div>
           </div>
 
@@ -1117,6 +1111,12 @@
                   placeholder="e.g. Connaught Place, New Delhi" />
               </div>
             </div>
+
+            <div class="form-field">
+              <label for="address">Address</label>
+              <textarea id="address" name="address"
+                placeholder="e.g. Flat No. 302, Sector 15, MG Road, New Delhi - 110001" rows="2"></textarea>
+            </div>
           </div>
 
           <label class="consent-wrapper" for="consent" id="consentLabel">
@@ -1162,23 +1162,177 @@
   </div>
 
   <script>
-    // ── AGE / DOB Toggle & Value Sync ──
-    let activeDobAgeMode = 'age';
+    // ── AGE / DOB Toggle, Flexible Parser, Age Calculator & Live Formatter ──
+    let activeDobAgeMode = 'dob';
     const modeBtns = document.querySelectorAll('.mode-btn');
     const dobInput = document.getElementById('dobInput');
     const ageInput = document.getElementById('ageInput');
     const hiddenDobAge = document.getElementById('dob_or_age');
 
-    function updateHiddenDobAge() {
+    const MONTH_NAMES_MAP = {
+      jan: '01', january: '01',
+      feb: '02', february: '02',
+      mar: '03', march: '03',
+      apr: '04', april: '04',
+      may: '05',
+      jun: '06', june: '06',
+      jul: '07', july: '07',
+      aug: '08', august: '08',
+      sep: '09', sept: '09', september: '09',
+      oct: '10', october: '10',
+      nov: '11', november: '11',
+      dec: '12', december: '12'
+    };
+
+    function parseAnyDateToDDMMYYYY(raw) {
+      if (!raw) return '';
+      let str = raw.toString().trim();
+      if (!str) return '';
+
+      // Check text month names (e.g. 15 Aug 1995 or August 15, 1995)
+      for (const [mName, mNum] of Object.entries(MONTH_NAMES_MAP)) {
+        const reg = new RegExp(`\\b${mName}\\b`, 'i');
+        if (reg.test(str)) {
+          str = str.replace(reg, mNum);
+          break;
+        }
+      }
+
+      // Convert delimiters to hyphens
+      let clean = str.replace(/[\/\.,\s]+/g, '-').replace(/^-+|-+$/g, '');
+
+      // 1. YYYY-MM-DD or YYYY-M-D
+      const ymd = clean.match(/^(\d{4})-(\d{1,2})-(\d{1,2})$/);
+      if (ymd) {
+        const y = ymd[1];
+        const m = ymd[2].padStart(2, '0');
+        const d = ymd[3].padStart(2, '0');
+        return `${d}-${m}-${y}`;
+      }
+
+      // 2. DD-MM-YYYY or D-M-YYYY
+      const dmy = clean.match(/^(\d{1,2})-(\d{1,2})-(\d{4})$/);
+      if (dmy) {
+        const d = dmy[1].padStart(2, '0');
+        const m = dmy[2].padStart(2, '0');
+        const y = dmy[3];
+        return `${d}-${m}-${y}`;
+      }
+
+      // 3. DD-MM-YY or D-M-YY (2-digit year like 12-02-28)
+      const dmy2 = clean.match(/^(\d{1,2})-(\d{1,2})-(\d{2})$/);
+      if (dmy2) {
+        const d = dmy2[1].padStart(2, '0');
+        const m = dmy2[2].padStart(2, '0');
+        const yy = parseInt(dmy2[3], 10);
+        const currY2 = new Date().getFullYear() % 100;
+        const y = (yy <= currY2 ? 2000 + yy : 1900 + yy).toString();
+        return `${d}-${m}-${y}`;
+      }
+
+      // 4. Pure digits
+      const digits = clean.replace(/\D/g, '');
+      if (digits.length === 8) {
+        const start4 = parseInt(digits.slice(0, 4), 10);
+        if (start4 >= 1900 && start4 <= 2099) {
+          // YYYYMMDD
+          const y = digits.slice(0, 4);
+          const m = digits.slice(4, 6);
+          const d = digits.slice(6, 8);
+          return `${d}-${m}-${y}`;
+        } else {
+          // DDMMYYYY
+          const d = digits.slice(0, 2);
+          const m = digits.slice(2, 4);
+          const y = digits.slice(4, 8);
+          return `${d}-${m}-${y}`;
+        }
+      }
+
+      if (digits.length === 6) {
+        // DDMMYY
+        const d = digits.slice(0, 2);
+        const m = digits.slice(2, 4);
+        const yy = parseInt(digits.slice(4, 6), 10);
+        const currY2 = new Date().getFullYear() % 100;
+        const y = (yy <= currY2 ? 2000 + yy : 1900 + yy).toString();
+        return `${d}-${m}-${y}`;
+      }
+
+      return '';
+    }
+
+    function calculateAgeFromAnyDOB(rawDob) {
+      if (!rawDob) return null;
+      let str = rawDob.toString().trim();
+      if (!str) return null;
+
+      let normalized = parseAnyDateToDDMMYYYY(str);
+      if (!normalized) {
+        const clean = str.replace(/[\/\.,\s]+/g, '-');
+        const m = clean.match(/^(\d{1,2})-(\d{1,2})-(\d{4})$/);
+        if (m) {
+          normalized = `${m[1].padStart(2, '0')}-${m[2].padStart(2, '0')}-${m[3]}`;
+        }
+      }
+
+      if (!normalized) return null;
+
+      const match = normalized.match(/^(\d{2})-(\d{2})-(\d{4})$/);
+      if (!match) return null;
+
+      const day = parseInt(match[1], 10);
+      const month = parseInt(match[2], 10) - 1;
+      const year = parseInt(match[3], 10);
+
+      const birthDate = new Date(year, month, day);
+      if (isNaN(birthDate.getTime())) return null;
+
+      const today = new Date();
+      let age = today.getFullYear() - birthDate.getFullYear();
+      const m = today.getMonth() - birthDate.getMonth();
+
+      if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+        age--;
+      }
+
+      if (age >= 0 && age <= 130) {
+        return { age: age, formattedDob: normalized };
+      }
+      return null;
+    }
+
+    function getFormattedDobOrAge() {
       if (activeDobAgeMode === 'age') {
-        hiddenDobAge.value = ageInput.value ? ageInput.value + ' Yrs' : '';
+        const ageVal = (ageInput ? ageInput.value : '').trim();
+        if (!ageVal) return '';
+        const cleanAge = ageVal.replace(/\D/g, '');
+        return cleanAge ? `${cleanAge}yr` : '';
       } else {
-        hiddenDobAge.value = dobInput.value ? dobInput.value : '';
+        const rawDob = (dobInput ? dobInput.value : '').trim();
+        if (!rawDob) return '';
+        const res = calculateAgeFromAnyDOB(rawDob);
+        if (res) {
+          return `${res.formattedDob} (${res.age}yr)`;
+        } else {
+          const parsed = parseAnyDateToDDMMYYYY(rawDob);
+          return parsed ? parsed : rawDob;
+        }
       }
     }
 
-    function formatDobDigits(raw) {
+    function updateHiddenDobAge() {
+      hiddenDobAge.value = getFormattedDobOrAge();
+    }
+
+    function formatDobDigitsLive(raw) {
       if (!raw) return '';
+      // If user typed/pasted with delimiters or month text, attempt parsing
+      if (/[\/\.,\s]/.test(raw) || /[a-zA-Z]/.test(raw)) {
+        const parsed = parseAnyDateToDDMMYYYY(raw);
+        if (parsed) return parsed;
+      }
+
       const digits = raw.replace(/\D/g, '').slice(0, 8);
       if (digits.length === 0) return '';
       if (digits.length <= 2) {
@@ -1191,10 +1345,31 @@
     }
 
     if (dobInput) {
+      dobInput.addEventListener('paste', (e) => {
+        e.preventDefault();
+        const pasted = (e.clipboardData || window.clipboardData).getData('text');
+        const parsed = parseAnyDateToDDMMYYYY(pasted);
+        if (parsed) {
+          dobInput.value = parsed;
+        } else {
+          dobInput.value = formatDobDigitsLive(pasted);
+        }
+        updateHiddenDobAge();
+        saveDraft();
+      });
+
       dobInput.addEventListener('input', () => {
         const val = dobInput.value;
-        dobInput.value = formatDobDigits(val);
+        dobInput.value = formatDobDigitsLive(val);
         updateHiddenDobAge();
+      });
+
+      dobInput.addEventListener('blur', () => {
+        const parsed = parseAnyDateToDDMMYYYY(dobInput.value);
+        if (parsed) {
+          dobInput.value = parsed;
+          updateHiddenDobAge();
+        }
       });
     }
 
@@ -1204,20 +1379,19 @@
         this.classList.add('active');
         activeDobAgeMode = this.dataset.mode;
 
-        if (activeDobAgeMode === 'age') {
-          ageInput.style.display = 'block';
-          dobInput.style.display = 'none';
-          ageInput.focus();
-        } else {
-          ageInput.style.display = 'none';
+        if (activeDobAgeMode === 'dob') {
           dobInput.style.display = 'block';
+          ageInput.style.display = 'none';
           dobInput.focus();
+        } else {
+          dobInput.style.display = 'none';
+          ageInput.style.display = 'block';
+          ageInput.focus();
         }
         updateHiddenDobAge();
       });
     });
 
-    dobInput.addEventListener('input', updateHiddenDobAge);
     ageInput.addEventListener('input', updateHiddenDobAge);
 
     // ── Appointment Date & Time Auto-Format & Pickers ──
@@ -1309,9 +1483,54 @@
       });
     }
 
-    // ── 10-Digit Mobile Auto-Formatter & Validation (No +91 Prefix) ──
+    // ── 10-Digit Mobile & WhatsApp Robust Parser & Formatter ──
     const mobileInput = document.getElementById('mobile');
     const whatsappInput = document.getElementById('whatsapp');
+
+    function extract10DigitPhone(raw) {
+      if (!raw) return '';
+      let str = raw.toString().trim();
+
+      // Clean leading +91, + 91, or +
+      str = str.replace(/^\s*\+\s*91[\s\-]*/, '');
+      str = str.replace(/^\s*\+[\s\-]*/, '');
+
+      let digits = str.replace(/\D/g, '');
+      if (!digits) return '';
+
+      // 1. Remove 0091 prefix (12+ digits)
+      if (digits.startsWith('0091') && digits.length >= 12) {
+        digits = digits.slice(4);
+      }
+      // 2. Remove 091 prefix (12+ digits)
+      else if (digits.startsWith('091') && digits.length >= 12) {
+        digits = digits.slice(3);
+      }
+      // 3. Remove 91 prefix if total length >= 11 (e.g. 919810820208 -> 9810820208, 918527261213 -> 8527261213)
+      else if (digits.startsWith('91') && digits.length >= 11) {
+        digits = digits.slice(2);
+      }
+      // 4. Remove leading 0 if total length >= 11 (e.g. 09810820208 -> 9810820208, 08527261213 -> 8527261213)
+      else if (digits.startsWith('0') && digits.length >= 11) {
+        digits = digits.slice(1);
+      }
+      // 5. If user started typing with leading 0 (e.g. 085...)
+      else if (digits.startsWith('0') && digits.length > 1) {
+        digits = digits.slice(1);
+      }
+
+      // 6. If still longer than 10 digits, pick last 10 digits if they start with 6,7,8,9
+      if (digits.length > 10) {
+        const last10 = digits.slice(-10);
+        if (/^[6-9]/.test(last10)) {
+          digits = last10;
+        } else {
+          digits = digits.slice(0, 10);
+        }
+      }
+
+      return digits.slice(0, 10);
+    }
 
     function updatePhoneColor(input) {
       if (!input) return;
@@ -1348,12 +1567,8 @@
     }
 
     function format10DigitPhone(input) {
-      let raw = input.value;
-      let digits = raw.replace(/\D/g, '');
-      if (digits.length > 10) {
-        digits = digits.substring(0, 10);
-      }
-      input.value = digits;
+      if (!input) return;
+      input.value = extract10DigitPhone(input.value);
       updatePhoneColor(input);
     }
 
@@ -1363,12 +1578,23 @@
       return digits.length === 10;
     }
 
-    mobileInput.addEventListener('input', () => format10DigitPhone(mobileInput));
-    whatsappInput.addEventListener('input', () => format10DigitPhone(whatsappInput));
+    [whatsappInput, mobileInput].forEach(input => {
+      if (!input) return;
+      input.addEventListener('input', () => format10DigitPhone(input));
+      input.addEventListener('blur', () => format10DigitPhone(input));
+      input.addEventListener('change', () => format10DigitPhone(input));
+      input.addEventListener('paste', (e) => {
+        e.preventDefault();
+        const pasted = (e.clipboardData || window.clipboardData).getData('text');
+        input.value = extract10DigitPhone(pasted);
+        updatePhoneColor(input);
+        saveDraft();
+      });
+    });
 
     // Initialize phone input colors
-    updatePhoneColor(mobileInput);
     updatePhoneColor(whatsappInput);
+    updatePhoneColor(mobileInput);
 
     // ── Consent Checkbox & Submit Button Toggle ──
     const consentInput = document.getElementById('consent');
@@ -1402,6 +1628,10 @@
       e.preventDefault();
       updateHiddenDobAge();
 
+      // Compute formatted DOB / Age
+      const finalDobOrAge = getFormattedDobOrAge();
+      hiddenDobAge.value = finalDobOrAge;
+
       // Form validation & 10-Digit Mobile check
       const prefixSelect = document.getElementById('namePrefix');
       const prefix = prefixSelect ? prefixSelect.value : 'Mr.';
@@ -1413,14 +1643,14 @@
       const lookingFor = document.getElementById('looking_for').value;
       const isConsent = consentInput.checked;
 
-      const isMobileValid = isValid10DigitMobile(mobile);
-      const isWhatsappValid = !whatsappVal || isValid10DigitMobile(whatsappVal);
+      const isWhatsappValid = isValid10DigitMobile(whatsappVal);
+      const isMobileValid = !mobile || isValid10DigitMobile(mobile);
 
-      if (!name || !isMobileValid || !lookingFor || !isConsent || !isWhatsappValid) {
+      if (!name || !isWhatsappValid || !lookingFor || !isConsent || !isMobileValid) {
         [
           { id: 'name', val: name },
-          { id: 'mobile', val: isMobileValid },
           { id: 'whatsapp', val: isWhatsappValid },
+          { id: 'mobile', val: isMobileValid },
           { id: 'looking_for', val: lookingFor }
         ].forEach(({ id, val }) => {
           const el = document.getElementById(id);
@@ -1470,7 +1700,7 @@
           payload.append('name', nameRaw);
           payload.append('mobile', mobile);
           payload.append('whatsapp', whatsappVal);
-          payload.append('dob_or_age', hiddenDobAge.value || '');
+          payload.append('dob_or_age', finalDobOrAge);
           payload.append('looking_for', lookingFor);
           payload.append('requirement_msg', document.getElementById('requirement_msg').value.trim());
           payload.append('address', document.getElementById('address').value.trim());
@@ -1505,7 +1735,7 @@
             name: nameRaw,
             mobile: mobile,
             whatsapp: whatsappVal,
-            dob_or_age: hiddenDobAge.value || '',
+            dob_or_age: finalDobOrAge,
             looking_for: lookingFor,
             requirement_msg: document.getElementById('requirement_msg').value.trim(),
             address: document.getElementById('address').value.trim(),
@@ -1576,6 +1806,30 @@
     // ── 5-Minute Auto Draft Storage & Clear / Reset Handler ──
     const DRAFT_KEY = 'bima_form_draft_data';
     const DRAFT_EXPIRY_MS = 5 * 60 * 1000; // 5 Minutes
+    const PERSISTENT_LOC_KEY = 'bima_persistent_connecting_location';
+    const connectingLocInput = document.getElementById('connecting_location');
+
+    function savePersistentLocation() {
+      if (!connectingLocInput) return;
+      try {
+        localStorage.setItem(PERSISTENT_LOC_KEY, connectingLocInput.value);
+      } catch (e) { }
+    }
+
+    function loadPersistentLocation() {
+      if (!connectingLocInput) return;
+      try {
+        const saved = localStorage.getItem(PERSISTENT_LOC_KEY);
+        if (saved !== null && saved !== undefined && saved !== '') {
+          connectingLocInput.value = saved;
+        }
+      } catch (e) { }
+    }
+
+    if (connectingLocInput) {
+      connectingLocInput.addEventListener('input', savePersistentLocation);
+      connectingLocInput.addEventListener('change', savePersistentLocation);
+    }
 
     function saveDraft() {
       const prefixSelect = document.getElementById('namePrefix');
@@ -1635,21 +1889,41 @@
           syncConsentState();
         }
         updateHiddenDobAge();
-        updatePhoneColor(mobileInput);
         updatePhoneColor(whatsappInput);
+        updatePhoneColor(mobileInput);
       } catch (e) { }
     }
 
     function clearFormAndDraft() {
+      let savedLoc = '';
+      try {
+        savedLoc = localStorage.getItem(PERSISTENT_LOC_KEY) || '';
+      } catch (e) { }
+
       form.reset();
+
+      // Reset mode to default DOB
+      activeDobAgeMode = 'dob';
+      modeBtns.forEach(b => {
+        if (b.dataset.mode === 'dob') b.classList.add('active');
+        else b.classList.remove('active');
+      });
+      if (dobInput) dobInput.style.display = 'block';
+      if (ageInput) ageInput.style.display = 'none';
+
+      // Preserve persistent Connecting Location value
+      if (connectingLocInput && savedLoc) {
+        connectingLocInput.value = savedLoc;
+      }
+
       try {
         localStorage.removeItem(DRAFT_KEY);
       } catch (e) { }
       consentInput.checked = true;
       syncConsentState();
       updateHiddenDobAge();
-      updatePhoneColor(mobileInput);
       updatePhoneColor(whatsappInput);
+      updatePhoneColor(mobileInput);
       successMsg.style.display = 'none';
       submitBtn.disabled = false;
       submitBtn.querySelector('.btn-inner').innerHTML =
@@ -1671,8 +1945,9 @@
       el.addEventListener('change', saveDraft);
     });
 
-    // Restore draft on page load
+    // Restore draft & persistent connecting location on page load
     loadDraft();
+    loadPersistentLocation();
   </script>
 
 </body>
