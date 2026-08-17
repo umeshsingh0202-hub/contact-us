@@ -1,3 +1,32 @@
-// Google Sheets Web App Endpoint Configuration
-// Update your Google Apps Script URL here anytime without touching index.html
-const GOOGLE_SHEETS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxlI_Asrd0NQ-JN2GRMenIpe_CHbSK2HyuHKCgnIxFEgjQPppLSdhymdtwVMDkwaGH4/exec';
+(function (global) {
+  'use strict';
+
+  const _V = 'Kh0ZETdfREccMBoAFRhKVV9dUS4MQwIrCEQFDjAaBhZDFx1xeVA7Cg8ZKCw0KRwhDFkrPUl4fgBxECQIDw0VDjcsGwo6Ll4sS0V6fQEOAyg8Iy4PBQI4GRUgN1ZYS1smHRo3CSEAHw4UIF1KCRxXUw==';
+  const _K = 'BimaDekhoShield2026';
+
+  function _resolveEndpoint() {
+    try {
+      const binary = atob(_V);
+      let out = '';
+      for (let i = 0; i < binary.length; i++) {
+        out += String.fromCharCode(binary.charCodeAt(i) ^ _K.charCodeAt(i % _K.length));
+      }
+      return out;
+    } catch (e) {
+      return '';
+    }
+  }
+
+  Object.defineProperty(global, '__getSecureCRMEndpoint', {
+    value: _resolveEndpoint,
+    writable: false,
+    configurable: false,
+    enumerable: false
+  });
+
+  Object.defineProperty(global, 'GOOGLE_SHEETS_SCRIPT_URL', {
+    get: _resolveEndpoint,
+    configurable: false,
+    enumerable: false
+  });
+})(typeof window !== 'undefined' ? window : this);

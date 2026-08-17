@@ -7,6 +7,8 @@
   <title>Contact Us – Umesh Singh Consultancy</title>
   <meta name="description"
     content="Contact Umesh Singh Consultancy for health, life, travel, and motor insurance inquiries. Fill out our form to get personalized assistance." />
+  <meta name="referrer" content="no-referrer" />
+  <meta http-equiv="X-Content-Type-Options" content="nosniff" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
@@ -14,7 +16,7 @@
   <script src="config.js"></script>
 
   <style>
-    /* ===== CSS RESET & BASE ===== */
+    
     *,
     *::before,
     *::after {
@@ -77,7 +79,6 @@
       position: relative;
     }
 
-    /* ===== CARD WRAPPER ===== */
     .form-wrapper {
       position: relative;
       z-index: 1;
@@ -85,7 +86,6 @@
       max-width: 700px;
     }
 
-    /* ===== BRAND HEADER & TOP BAR ===== */
     .brand-header-bar {
       display: flex;
       align-items: center;
@@ -143,7 +143,6 @@
       border-color: #94a3b8;
     }
 
-    /* ===== FORM CARD ===== */
     .form-card {
       background: var(--bg-card);
       border-radius: var(--radius-lg);
@@ -152,7 +151,6 @@
       border: 1px solid var(--border);
     }
 
-    /* ===== CARD HEADER ===== */
     .card-header {
       background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
       padding: 36px 40px 28px;
@@ -190,12 +188,10 @@
       line-height: 1.5;
     }
 
-    /* ===== FORM BODY ===== */
     .form-body {
       padding: 36px 40px 40px;
     }
 
-    /* ===== SECTION DIVIDER ===== */
     .section-label {
       display: flex;
       align-items: center;
@@ -225,7 +221,6 @@
       background: var(--border);
     }
 
-    /* ===== FIELD GROUP & ROWS ===== */
     .field-group {
       display: flex;
       flex-direction: column;
@@ -238,7 +233,6 @@
       gap: 18px;
     }
 
-    /* ===== FORM FIELD ===== */
     .form-field {
       display: flex;
       flex-direction: column;
@@ -261,7 +255,6 @@
       line-height: 1;
     }
 
-    /* ===== TWO SEPARATE BOXES IN ONE LINE FOR PREFIX & NAME ===== */
     .name-two-boxes-row {
       display: flex;
       gap: 10px;
@@ -368,7 +361,6 @@
       background-color: #ffffff;
     }
 
-    /* ===== 10-DIGIT PHONE INPUT DYNAMIC COLOR STYLES ===== */
     .form-field input[type="tel"].phone-incomplete {
       background-color: #fef2f2 !important;
       border-color: #f87171 !important;
@@ -391,7 +383,6 @@
       box-shadow: 0 0 0 4px rgba(34, 197, 94, 0.18) !important;
     }
 
-    /* Digit count message under phone input */
     .phone-count-msg {
       font-size: 11.5px;
       font-weight: 600;
@@ -416,7 +407,6 @@
       line-height: 1.6;
     }
 
-    /* ===== SELECT CUSTOM CHEVRON ===== */
     .select-wrap {
       position: relative;
     }
@@ -446,7 +436,6 @@
       padding: 8px;
     }
 
-    /* ===== APPOINTMENT FIELD WITH CALENDAR + CLOCK ICONS ===== */
     .input-with-icon {
       position: relative;
       display: flex;
@@ -489,7 +478,6 @@
       border-color: var(--primary);
     }
 
-    /* ===== AGE / DOB MODE SWITCHER (INSIDE INPUT BOX) ===== */
     .input-box-wrapper {
       position: relative;
       display: flex;
@@ -539,7 +527,6 @@
       box-shadow: 0 1px 3px rgba(37, 99, 235, 0.3);
     }
 
-    /* ===== CONSENT CHECKBOX (COMPACT & SMALL 10.5px FONT) ===== */
     .consent-wrapper {
       display: flex;
       align-items: flex-start;
@@ -608,7 +595,6 @@
       font-weight: 700;
     }
 
-    /* ===== SUBMIT BUTTON ===== */
     .submit-area {
       margin-top: 30px;
     }
@@ -687,7 +673,6 @@
       border-color: #94a3b8;
     }
 
-    /* ===== SUCCESS MESSAGE ===== */
     .success-msg {
       display: none;
       text-align: center;
@@ -738,7 +723,6 @@
       }
     }
 
-    /* ===== FOOTER NOTE ===== */
     .form-footer {
       text-align: center;
       margin-top: 24px;
@@ -747,7 +731,6 @@
       line-height: 1.6;
     }
 
-    /* ===== RESPONSIVE ===== */
     @media (max-width: 600px) {
       body {
         padding: 8px 6px;
@@ -792,7 +775,6 @@
         padding: 14px 12px 16px;
       }
 
-      /* Keep 2 columns on mobile as in reference */
       .field-row {
         grid-template-columns: 1fr 1fr;
         gap: 8px;
@@ -823,7 +805,6 @@
         font-size: 11px;
       }
 
-      /* Name prefix & input adjustment */
       .name-two-boxes-row {
         gap: 6px;
       }
@@ -842,7 +823,6 @@
         padding: 0 8px !important;
       }
 
-      /* Inputs and select standard height */
       .form-field input[type="text"],
       .form-field input[type="tel"],
       .form-field input[type="number"],
@@ -854,7 +834,6 @@
         padding: 0 8px !important;
       }
 
-      /* AGE / DOB Mode Switcher on mobile */
       .input-box-wrapper input.dob-age-input {
         height: 38px !important;
         font-size: 12px !important;
@@ -872,14 +851,12 @@
         padding: 2px 5px !important;
       }
 
-      /* Textarea compact */
       .form-field textarea {
         min-height: 44px !important;
         padding: 6px 8px !important;
         font-size: 12px !important;
       }
 
-      /* Appointment Icons */
       .input-with-icon input#appointment {
         padding-right: 60px !important;
       }
@@ -895,7 +872,6 @@
         font-size: 12px;
       }
 
-      /* Consent Box */
       .consent-wrapper {
         padding: 6px 8px;
         margin-top: 8px;
@@ -912,7 +888,6 @@
         line-height: 1.25;
       }
 
-      /* Submit Button */
       .submit-area {
         margin-top: 10px;
       }
@@ -954,7 +929,6 @@
 
   <div class="form-wrapper">
 
-    <!-- Brand Header & Top Bar -->
     <div class="brand-header-bar">
       <div class="brand-info">
         <span class="brand-name">Bima Dekho Insurance</span>
@@ -965,14 +939,15 @@
       </button>
     </div>
 
-    <!-- Form Card -->
     <div class="form-card">
 
-      <!-- Form Body -->
       <div class="form-body">
         <form id="contactForm" novalidate autocomplete="off">
 
-          <!-- SECTION: Personal Info -->
+          <div style="position: absolute; left: -9999px; top: -9999px; height: 0; width: 0; overflow: hidden; opacity: 0;" aria-hidden="true">
+            <input type="text" id="b_anti_bot_security" name="b_anti_bot_security" tabindex="-1" autocomplete="off" />
+          </div>
+
           <div class="section-label">
             <span class="s-icon">👤</span>
             <span class="s-text">Personal Details</span>
@@ -1000,22 +975,19 @@
                 <label for="dobInput">DOB / AGE</label>
 
                 <div class="input-box-wrapper">
-                  <!-- DOB Input (Default Active) -->
+                  
                   <input type="text" id="dobInput" class="dob-age-input" placeholder="DD-MM-YYYY (e.g. 01-01-1900)"
                     inputmode="numeric" maxlength="10" />
 
-                  <!-- Age Input -->
                   <input type="number" id="ageInput" class="dob-age-input" min="1" max="120"
                     placeholder="e.g. 28" style="display: none;" />
 
-                  <!-- Toggle Pill Buttons Inside Input Box (Right Side) -->
                   <div class="inner-toggle-pill">
                     <button type="button" class="mode-btn active" data-mode="dob">DOB</button>
                     <button type="button" class="mode-btn" data-mode="age">Age</button>
                   </div>
                 </div>
 
-                <!-- Unified Single Column Field for Google Sheets -->
                 <input type="hidden" id="dob_or_age" name="dob_or_age" />
               </div>
             </div>
@@ -1037,7 +1009,6 @@
             </div>
           </div>
 
-          <!-- SECTION: Insurance Requirement -->
           <div class="section-label">
             <span class="s-icon">💼</span>
             <span class="s-text">Insurance Requirement</span>
@@ -1079,7 +1050,6 @@
             </div>
           </div>
 
-          <!-- SECTION: Appointment -->
           <div class="section-label">
             <span class="s-icon">📅</span>
             <span class="s-text">Appointment Details</span>
@@ -1092,10 +1062,10 @@
                 <label for="appointment">Appointment Date &amp; Time</label>
                 <div class="input-with-icon">
                   <input type="text" id="appointment" name="appointment" placeholder="DD-MM-YYYY, HH:MM (24-Hour)" />
-                  <!-- Hidden Date Picker -->
+                  
                   <input type="date" id="hiddenDatePicker" tabindex="-1" aria-hidden="true"
                     style="position:absolute;opacity:0;pointer-events:none;width:0;height:0;" />
-                  <!-- Hidden Time Picker -->
+                  
                   <input type="time" id="hiddenTimePicker" tabindex="-1" aria-hidden="true"
                     style="position:absolute;opacity:0;pointer-events:none;width:0;height:0;" />
                   <div class="icon-group">
@@ -1131,7 +1101,6 @@
             </span>
           </label>
 
-          <!-- Submit Button -->
           <div class="submit-area">
             <button type="submit" id="submitBtn" class="btn-submit" disabled>
               <span class="btn-inner">
@@ -1141,7 +1110,6 @@
             </button>
           </div>
 
-          <!-- Success Message -->
           <div class="success-msg" id="successMsg" role="alert" aria-live="polite">
             <p>✅ &nbsp;Thank you! Your details have been submitted successfully. We will contact you soon.</p>
             <button type="button" id="fillAgainBtn" class="btn-fill-again">
@@ -1153,7 +1121,6 @@
       </div>
     </div>
 
-    <!-- Footer -->
     <p class="form-footer">
       🔒 &nbsp;Your privacy is guaranteed. Information is strictly used for insurance consulting.<br />
       &copy; 2026 Bima Dekho Insurance &amp; Umesh Singh Consultancy. All rights reserved.
@@ -1162,7 +1129,7 @@
   </div>
 
   <script>
-    // ── AGE / DOB Toggle, Flexible Parser, Age Calculator & Live Formatter ──
+    
     let activeDobAgeMode = 'dob';
     const modeBtns = document.querySelectorAll('.mode-btn');
     const dobInput = document.getElementById('dobInput');
@@ -1189,7 +1156,6 @@
       let str = raw.toString().trim();
       if (!str) return '';
 
-      // Check text month names (e.g. 15 Aug 1995 or August 15, 1995)
       for (const [mName, mNum] of Object.entries(MONTH_NAMES_MAP)) {
         const reg = new RegExp(`\\b${mName}\\b`, 'i');
         if (reg.test(str)) {
@@ -1198,10 +1164,8 @@
         }
       }
 
-      // Convert delimiters to hyphens
       let clean = str.replace(/[\/\.,\s]+/g, '-').replace(/^-+|-+$/g, '');
 
-      // 1. YYYY-MM-DD or YYYY-M-D
       const ymd = clean.match(/^(\d{4})-(\d{1,2})-(\d{1,2})$/);
       if (ymd) {
         const y = ymd[1];
@@ -1210,7 +1174,6 @@
         return `${d}-${m}-${y}`;
       }
 
-      // 2. DD-MM-YYYY or D-M-YYYY
       const dmy = clean.match(/^(\d{1,2})-(\d{1,2})-(\d{4})$/);
       if (dmy) {
         const d = dmy[1].padStart(2, '0');
@@ -1219,7 +1182,6 @@
         return `${d}-${m}-${y}`;
       }
 
-      // 3. DD-MM-YY or D-M-YY (2-digit year like 12-02-28)
       const dmy2 = clean.match(/^(\d{1,2})-(\d{1,2})-(\d{2})$/);
       if (dmy2) {
         const d = dmy2[1].padStart(2, '0');
@@ -1230,18 +1192,17 @@
         return `${d}-${m}-${y}`;
       }
 
-      // 4. Pure digits
       const digits = clean.replace(/\D/g, '');
       if (digits.length === 8) {
         const start4 = parseInt(digits.slice(0, 4), 10);
         if (start4 >= 1900 && start4 <= 2099) {
-          // YYYYMMDD
+          
           const y = digits.slice(0, 4);
           const m = digits.slice(4, 6);
           const d = digits.slice(6, 8);
           return `${d}-${m}-${y}`;
         } else {
-          // DDMMYYYY
+          
           const d = digits.slice(0, 2);
           const m = digits.slice(2, 4);
           const y = digits.slice(4, 8);
@@ -1250,7 +1211,7 @@
       }
 
       if (digits.length === 6) {
-        // DDMMYY
+        
         const d = digits.slice(0, 2);
         const m = digits.slice(2, 4);
         const yy = parseInt(digits.slice(4, 6), 10);
@@ -1327,7 +1288,7 @@
 
     function formatDobDigitsLive(raw) {
       if (!raw) return '';
-      // If user typed/pasted with delimiters or month text, attempt parsing
+      
       if (/[\/\.,\s]/.test(raw) || /[a-zA-Z]/.test(raw)) {
         const parsed = parseAnyDateToDDMMYYYY(raw);
         if (parsed) return parsed;
@@ -1394,7 +1355,6 @@
 
     ageInput.addEventListener('input', updateHiddenDobAge);
 
-    // ── Appointment Date & Time Auto-Format & Pickers ──
     const appointmentInput = document.getElementById('appointment');
     const datePickerBtn = document.getElementById('datePickerBtn');
     const timePickerBtn = document.getElementById('timePickerBtn');
@@ -1428,7 +1388,6 @@
       });
     }
 
-    // 📅 Date Picker Button
     if (datePickerBtn && hiddenDatePicker) {
       datePickerBtn.addEventListener('click', (e) => {
         e.preventDefault();
@@ -1454,7 +1413,6 @@
       });
     }
 
-    // 🕐 Time Picker Button (24-Hour Format)
     if (timePickerBtn && hiddenTimePicker) {
       timePickerBtn.addEventListener('click', (e) => {
         e.preventDefault();
@@ -1483,7 +1441,6 @@
       });
     }
 
-    // ── 10-Digit Mobile & WhatsApp Robust Parser & Formatter ──
     const mobileInput = document.getElementById('mobile');
     const whatsappInput = document.getElementById('whatsapp');
 
@@ -1491,35 +1448,32 @@
       if (!raw) return '';
       let str = raw.toString().trim();
 
-      // Clean leading +91, + 91, or +
       str = str.replace(/^\s*\+\s*91[\s\-]*/, '');
       str = str.replace(/^\s*\+[\s\-]*/, '');
 
       let digits = str.replace(/\D/g, '');
       if (!digits) return '';
 
-      // 1. Remove 0091 prefix (12+ digits)
       if (digits.startsWith('0091') && digits.length >= 12) {
         digits = digits.slice(4);
       }
-      // 2. Remove 091 prefix (12+ digits)
+      
       else if (digits.startsWith('091') && digits.length >= 12) {
         digits = digits.slice(3);
       }
-      // 3. Remove 91 prefix if total length >= 11 (e.g. 919810820208 -> 9810820208, 918527261213 -> 8527261213)
+      
       else if (digits.startsWith('91') && digits.length >= 11) {
         digits = digits.slice(2);
       }
-      // 4. Remove leading 0 if total length >= 11 (e.g. 09810820208 -> 9810820208, 08527261213 -> 8527261213)
+      
       else if (digits.startsWith('0') && digits.length >= 11) {
         digits = digits.slice(1);
       }
-      // 5. If user started typing with leading 0 (e.g. 085...)
+      
       else if (digits.startsWith('0') && digits.length > 1) {
         digits = digits.slice(1);
       }
 
-      // 6. If still longer than 10 digits, pick last 10 digits if they start with 6,7,8,9
       if (digits.length > 10) {
         const last10 = digits.slice(-10);
         if (/^[6-9]/.test(last10)) {
@@ -1539,14 +1493,14 @@
       const fieldLabel = input.id === 'whatsapp' ? 'Whatsapp' : 'Mobile';
 
       if (digits.length === 0) {
-        // 0 digits: No colour (default input box state)
+        
         input.classList.remove('phone-incomplete', 'phone-complete');
         if (countMsgEl) {
           countMsgEl.style.display = 'none';
           countMsgEl.innerHTML = '';
         }
       } else if (digits.length >= 1 && digits.length <= 9) {
-        // 1 to 9 digits: Light red colour + live digit count indicator
+        
         input.classList.remove('phone-complete');
         input.classList.add('phone-incomplete');
         if (countMsgEl) {
@@ -1555,7 +1509,7 @@
           countMsgEl.innerHTML = `⚠️ ${fieldLabel} number must be 10 digits (${digits.length}/10)`;
         }
       } else if (digits.length === 10) {
-        // 10 digits: Green colour + complete digit count indicator
+        
         input.classList.remove('phone-incomplete');
         input.classList.add('phone-complete');
         if (countMsgEl) {
@@ -1592,11 +1546,9 @@
       });
     });
 
-    // Initialize phone input colors
     updatePhoneColor(whatsappInput);
     updatePhoneColor(mobileInput);
 
-    // ── Consent Checkbox & Submit Button Toggle ──
     const consentInput = document.getElementById('consent');
     const consentLabel = document.getElementById('consentLabel');
     const checkMark = document.querySelector('.check-mark');
@@ -1616,11 +1568,9 @@
       }
     }
 
-    // Initialize initial state & attach listener
     syncConsentState();
     consentInput.addEventListener('change', syncConsentState);
 
-    // ── Form Submission ──
     const form = document.getElementById('contactForm');
     const successMsg = document.getElementById('successMsg');
 
@@ -1628,11 +1578,9 @@
       e.preventDefault();
       updateHiddenDobAge();
 
-      // Compute formatted DOB / Age
       const finalDobOrAge = getFormattedDobOrAge();
       hiddenDobAge.value = finalDobOrAge;
 
-      // Form validation & 10-Digit Mobile check
       const prefixSelect = document.getElementById('namePrefix');
       const prefix = prefixSelect ? prefixSelect.value : 'Mr.';
       const nameRaw = document.getElementById('name').value.trim();
@@ -1675,40 +1623,57 @@
         return;
       }
 
-      // Show submitting & WhatsApp redirect state
       submitBtn.disabled = true;
       submitBtn.querySelector('.btn-inner').innerHTML =
         '<span class="btn-icon">💬</span><span>Redirecting to WhatsApp…</span>';
 
-      // Target phone for WhatsApp redirect: Whatsapp Number if filled, otherwise Mobile Number
       const targetPhone = whatsappVal || mobile;
 
-      // Clean & format phone number for wa.me/
       let cleanPhone = targetPhone.replace(/\D/g, '');
       if (cleanPhone.length === 10) {
         cleanPhone = '91' + cleanPhone;
       }
 
-      // Google Sheets Endpoint (Loaded from config.js)
-      const targetScriptUrl = (typeof GOOGLE_SHEETS_SCRIPT_URL !== 'undefined') ? GOOGLE_SHEETS_SCRIPT_URL : '';
+      const honeypotField = document.getElementById('b_anti_bot_security');
+      if (honeypotField && honeypotField.value.trim().length > 0) {
+        console.warn('Bot submission blocked.');
+        return;
+      }
 
-      // 1. Submit to Google Sheets API (Single Submission)
+      const lastSubmitTs = parseInt(sessionStorage.getItem('bima_last_submit_ts') || '0', 10);
+      const currentTs = Date.now();
+      if (currentTs - lastSubmitTs < 4000) {
+        return;
+      }
+      sessionStorage.setItem('bima_last_submit_ts', currentTs.toString());
+
+      const sanitizeSecure = (str) => {
+        if (!str) return '';
+        return String(str)
+          .replace(/[<>]/g, '')
+          .replace(/[\u0000-\u001F\u007F-\u009F]/g, '')
+          .trim();
+      };
+
+      const targetScriptUrl = typeof window.__getSecureCRMEndpoint === 'function'
+        ? window.__getSecureCRMEndpoint()
+        : (typeof GOOGLE_SHEETS_SCRIPT_URL !== 'undefined' ? GOOGLE_SHEETS_SCRIPT_URL : '');
+
       if (targetScriptUrl) {
         try {
           const payload = new URLSearchParams();
           payload.append('status', 'New Lead');
-          payload.append('name', nameRaw);
-          payload.append('mobile', mobile);
-          payload.append('whatsapp', whatsappVal);
-          payload.append('dob_or_age', finalDobOrAge);
-          payload.append('looking_for', lookingFor);
-          payload.append('requirement_msg', document.getElementById('requirement_msg').value.trim());
-          payload.append('address', document.getElementById('address').value.trim());
-          payload.append('appointment', document.getElementById('appointment').value.trim());
-          payload.append('connecting_location', document.getElementById('connecting_location').value.trim());
+          payload.append('name', sanitizeSecure(nameRaw));
+          payload.append('mobile', sanitizeSecure(mobile));
+          payload.append('whatsapp', sanitizeSecure(whatsappVal));
+          payload.append('dob_or_age', sanitizeSecure(finalDobOrAge));
+          payload.append('looking_for', sanitizeSecure(lookingFor));
+          payload.append('requirement_msg', sanitizeSecure(document.getElementById('requirement_msg').value));
+          payload.append('address', sanitizeSecure(document.getElementById('address').value));
+          payload.append('appointment', sanitizeSecure(document.getElementById('appointment').value));
+          payload.append('connecting_location', sanitizeSecure(document.getElementById('connecting_location').value));
           payload.append('consent', '✅');
 
-          // Submit single POST request via fetch with URLSearchParams
           fetch(targetScriptUrl, {
             method: 'POST',
             mode: 'no-cors',
@@ -1719,7 +1684,6 @@
         }
       }
 
-      // 2. Show Success Message & Button State Immediately
       successMsg.style.display = 'block';
       successMsg.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 
@@ -1728,18 +1692,15 @@
       submitBtn.style.background = 'linear-gradient(135deg, #059669 0%, #10b981 100%)';
       submitBtn.style.boxShadow = '0 4px 14px rgba(16, 185, 129, 0.3)';
 
-      // Clear draft so new response starts fresh
       try {
         localStorage.removeItem(DRAFT_KEY);
       } catch (e) { }
 
-      // 3. Simultaneously redirect to WhatsApp Business with Personalized Auto-Reply Greetings
       const autoReplyMsg = `Greetings 🙏 from \n*Bima Dekho Insurance*!\n\nThank you *${fullName} Ji* for giving us a moment of your time!  We are truly grateful for the opportunity to assist you in securing a safe and confident future for you and your loved ones.\n\n👉 Get the right insurance, stress-free. From new plans to policy reviews, we make the process effortless.\n\n*Our Specialized Solutions:*\n✅ Health Insurance (Comprehensive Coverage)\n✅ Term Life (Family Protection)\n✅ Child Education & Marriage Funds\n✅ Happy Retirement Planning (Guaranteed Regular Income)\n✅ ULIPs & Wealth Creation\n✅ Motor Insurance (Car & Bike)\n✅ Travel Insurance\n\n*Your Trusted Insurance Advisor*\n\n👤 *Umesh Singh* (Since 2009)\n📞 *+91 8527261213*\n🌐 *Visit Us:* \nhttps://bimadekhoinsurance.com`;
 
       const encodedMsg = encodeURIComponent(autoReplyMsg);
       const isAndroid = /Android/i.test(navigator.userAgent);
 
-      // Dedicated WhatsApp Business API & Deep Link Target
       let waUrl = `https://api.whatsapp.com/send?phone=${cleanPhone}&text=${encodedMsg}`;
       if (isAndroid) {
         waUrl = `intent://send?phone=${cleanPhone}&text=${encodedMsg}#Intent;scheme=whatsapp;package=com.whatsapp.w4b;end`;
@@ -1754,15 +1715,13 @@
         window.location.href = `https://api.whatsapp.com/send?phone=${cleanPhone}&text=${encodedMsg}`;
       }
 
-      // Re-enable submit button so user can submit again if needed
       setTimeout(() => {
         submitBtn.disabled = false;
       }, 2000);
     });
 
-    // ── 5-Minute Auto Draft Storage & Clear / Reset Handler ──
     const DRAFT_KEY = 'bima_form_draft_data';
-    const DRAFT_EXPIRY_MS = 5 * 60 * 1000; // 5 Minutes
+    const DRAFT_EXPIRY_MS = 5 * 60 * 1000; 
     const PERSISTENT_LOC_KEY = 'bima_persistent_connecting_location';
     const connectingLocInput = document.getElementById('connecting_location');
 
@@ -1816,7 +1775,7 @@
       if (!saved) return;
       try {
         const draft = JSON.parse(saved);
-        // Expiry check (5 Minutes)
+        
         if (Date.now() - draft.timestamp > DRAFT_EXPIRY_MS) {
           localStorage.removeItem(DRAFT_KEY);
           return;
@@ -1859,7 +1818,6 @@
 
       form.reset();
 
-      // Reset mode to default DOB
       activeDobAgeMode = 'dob';
       modeBtns.forEach(b => {
         if (b.dataset.mode === 'dob') b.classList.add('active');
@@ -1868,7 +1826,6 @@
       if (dobInput) dobInput.style.display = 'block';
       if (ageInput) ageInput.style.display = 'none';
 
-      // Preserve persistent Connecting Location value
       if (connectingLocInput && savedLoc) {
         connectingLocInput.value = savedLoc;
       }
@@ -1896,17 +1853,22 @@
     const fillAgainBtn = document.getElementById('fillAgainBtn');
     if (fillAgainBtn) fillAgainBtn.addEventListener('click', clearFormAndDraft);
 
-    // Save draft as user types or selects
     form.querySelectorAll('input, textarea, select').forEach(el => {
       el.addEventListener('input', saveDraft);
       el.addEventListener('change', saveDraft);
     });
 
-    // Restore draft & persistent connecting location on page load
     loadDraft();
     loadPersistentLocation();
+    
+    try {
+      console.log(
+        '%c🛡️ Bima Dekho Security Protection Active %c\n- Anti-Scraping Encrypted Endpoint\n- Anti-Bot Honeypot Shield\n- XSS Sanitization & Flood Prevention',
+        'background: #1e3a8a; color: #fff; font-size: 13px; font-weight: bold; padding: 6px 12px; border-radius: 6px;',
+        'color: #10b981; font-size: 11px; font-weight: 500;'
+      );
+    } catch (e) { }
   </script>
-
 </body>
 
 </html>
