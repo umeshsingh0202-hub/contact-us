@@ -16,7 +16,6 @@
   <script src="config.js"></script>
 
   <style>
-    
     *,
     *::before,
     *::after {
@@ -233,6 +232,11 @@
       gap: 18px;
     }
 
+    .field-row.field-row-name-dob {
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 18px;
+    }
+
     .form-field {
       display: flex;
       flex-direction: column;
@@ -257,14 +261,15 @@
 
     .name-two-boxes-row {
       display: flex;
-      gap: 10px;
+      gap: 6px;
       align-items: center;
       width: 100%;
     }
 
     .prefix-box {
-      width: 70px !important;
-      min-width: 70px !important;
+      width: 38px !important;
+      min-width: 38px !important;
+      max-width: 38px !important;
       height: 46px !important;
       flex-shrink: 0 !important;
       background-color: var(--bg-field) !important;
@@ -272,16 +277,19 @@
       border-radius: var(--radius-sm) !important;
       color: var(--text-heading) !important;
       font-family: inherit;
-      font-size: 13px;
-      font-weight: 600;
-      padding: 0 6px !important;
+      font-size: 11.5px;
+      font-weight: 700;
+      padding: 0 !important;
+      margin: 0 !important;
       text-align: center !important;
       text-align-last: center !important;
       cursor: pointer;
       outline: none;
       transition: var(--transition);
-      appearance: auto;
-      -webkit-appearance: auto;
+      appearance: none;
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      box-sizing: border-box !important;
     }
 
     .prefix-box:focus {
@@ -322,6 +330,22 @@
       box-sizing: border-box;
     }
 
+    /* Hide number input increase/decrease spinner arrows */
+    input[type="number"]::-webkit-outer-spin-button,
+    input[type="number"]::-webkit-inner-spin-button,
+    #ageInput::-webkit-outer-spin-button,
+    #ageInput::-webkit-inner-spin-button {
+      -webkit-appearance: none !important;
+      margin: 0 !important;
+      display: none !important;
+    }
+
+    input[type="number"],
+    #ageInput {
+      -moz-appearance: textfield !important;
+      appearance: textfield !important;
+    }
+
     .form-field textarea {
       height: auto;
       padding: 11px 14px;
@@ -335,6 +359,11 @@
       color: var(--text-placeholder);
       font-weight: 400;
       font-style: italic;
+    }
+
+    .form-field select:invalid,
+    .form-field select option[value=""] {
+      color: var(--text-placeholder);
     }
 
     .form-field input[type="text"]:hover,
@@ -478,6 +507,37 @@
       border-color: var(--primary);
     }
 
+    .field-label-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+    }
+
+    .label-cal-btn {
+      border: 1px solid #bfdbfe;
+      background: #eff6ff;
+      color: #1d4ed8;
+      font-family: inherit;
+      font-size: 9.5px;
+      font-weight: 700;
+      padding: 1.5px 5px;
+      border-radius: 4px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 2px;
+      transition: var(--transition);
+      line-height: 1.2;
+    }
+
+    .label-cal-btn:hover {
+      background: var(--primary);
+      color: #ffffff;
+      border-color: var(--primary);
+      box-shadow: 0 1px 3px rgba(37, 99, 235, 0.3);
+    }
+
     .input-box-wrapper {
       position: relative;
       display: flex;
@@ -486,22 +546,74 @@
     }
 
     .input-box-wrapper input.dob-age-input {
-      padding-right: 100px !important;
+      padding: 0 46px 0 12px !important;
+      font-size: 13.5px !important;
+      font-weight: 500;
+      letter-spacing: 0px;
     }
 
     .inner-toggle-pill {
       position: absolute;
-      right: 6px;
+      right: 3px;
       top: 50%;
       transform: translateY(-50%);
       display: flex;
-      align-items: center;
+      flex-direction: column;
       background: #f1f5f9;
       border: 1px solid var(--border-input);
-      border-radius: 6px;
-      padding: 2px;
-      gap: 2px;
+      border-radius: 4px;
+      padding: 1px;
+      gap: 1.5px;
       z-index: 2;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+    }
+
+    .mode-btn {
+      border: none;
+      background: transparent;
+      font-family: inherit;
+      font-size: 8px;
+      font-weight: 700;
+      color: var(--text-muted);
+      padding: 0 3.5px;
+      height: 14.5px;
+      line-height: 14.5px;
+      border-radius: 2.5px;
+      cursor: pointer;
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+
+    .mode-btn:hover {
+      color: var(--text-heading);
+      background: rgba(0, 0, 0, 0.05);
+    }
+
+    .mode-btn.active {
+      background: var(--primary);
+      color: #ffffff;
+      box-shadow: 0 1px 2px rgba(37, 99, 235, 0.3);
+    }
+
+    .dob-age-live-badge {
+      margin-top: 4px;
+      font-size: 10px;
+      font-weight: 700;
+      color: #1d4ed8;
+      background: #eff6ff;
+      border: 1px solid #bfdbfe;
+      border-radius: 4px;
+      padding: 1.5px 6px;
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+      white-space: nowrap;
+      line-height: 1.2;
+      width: fit-content;
+      max-width: 100%;
     }
 
     .mode-btn {
@@ -805,16 +917,28 @@
         font-size: 11px;
       }
 
+      .field-row.field-row-name-dob {
+        grid-template-columns: 1.25fr 0.75fr !important;
+        gap: 6px !important;
+      }
+
       .name-two-boxes-row {
-        gap: 6px;
+        gap: 5px;
       }
 
       .prefix-box {
-        width: 54px !important;
-        min-width: 54px !important;
+        width: 36px !important;
+        min-width: 36px !important;
+        max-width: 36px !important;
         height: 38px !important;
-        font-size: 12px !important;
-        padding: 0 2px !important;
+        font-size: 11px !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        text-align: center !important;
+        text-align-last: center !important;
+        appearance: none !important;
+        -webkit-appearance: none !important;
+        -moz-appearance: none !important;
       }
 
       .name-two-boxes-row input#name {
@@ -837,18 +961,22 @@
       .input-box-wrapper input.dob-age-input {
         height: 38px !important;
         font-size: 12px !important;
-        padding: 0 76px 0 8px !important;
+        font-weight: 600 !important;
+        padding: 0 30px 0 6px !important;
+        letter-spacing: -0.2px !important;
       }
 
       .inner-toggle-pill {
-        right: 3px;
-        padding: 1px;
-        gap: 1px;
+        right: 2px !important;
+        padding: 1px !important;
+        gap: 1px !important;
       }
 
       .mode-btn {
-        font-size: 9.5px !important;
-        padding: 2px 5px !important;
+        font-size: 7.5px !important;
+        padding: 0 3px !important;
+        height: 13px !important;
+        line-height: 13px !important;
       }
 
       .form-field textarea {
@@ -909,11 +1037,27 @@
       .field-row {
         gap: 6px;
       }
-      .prefix-box {
-        width: 48px !important;
-        min-width: 48px !important;
-        font-size: 11px !important;
+
+      .field-row.field-row-name-dob {
+        grid-template-columns: 1.25fr 0.75fr !important;
+        gap: 4px !important;
       }
+
+      .prefix-box {
+        width: 34px !important;
+        min-width: 34px !important;
+        max-width: 34px !important;
+        font-size: 10.5px !important;
+        padding: 0 !important;
+        margin: 0 !important;
+      }
+
+      .input-box-wrapper input.dob-age-input {
+        font-size: 11.5px !important;
+        padding: 0 28px 0 5px !important;
+        letter-spacing: -0.3px !important;
+      }
+
       .form-field input[type="text"],
       .form-field input[type="tel"],
       .form-field input[type="number"],
@@ -921,6 +1065,581 @@
         font-size: 11.5px !important;
         padding: 0 6px !important;
       }
+    }
+
+    /* ====================================================
+       INDIAN FESTIVAL CALENDAR & 24-HR TIME PICKER STYLES
+       ==================================================== */
+    .appointment-festival-notice {
+      margin-top: 6px;
+      padding: 7px 10px;
+      background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%);
+      border: 1px solid #fde68a;
+      border-left: 3.5px solid #f59e0b;
+      border-radius: 6px;
+      font-size: 11.5px;
+      color: #92400e;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      animation: fadeInFestNotice 0.25s ease-out;
+      line-height: 1.35;
+    }
+
+    @keyframes fadeInFestNotice {
+      from {
+        opacity: 0;
+        transform: translateY(-4px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .appointment-festival-notice strong {
+      color: #b45309;
+      font-weight: 700;
+    }
+
+    /* ====================================================
+       INDIAN FESTIVAL CALENDAR & 24-HR TIME PICKER STYLES
+       ==================================================== */
+    .appointment-festival-notice {
+      margin-top: 6px;
+      padding: 6px 9px;
+      background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%);
+      border: 1px solid #fde68a;
+      border-left: 3px solid #f59e0b;
+      border-radius: 6px;
+      font-size: 11px;
+      color: #92400e;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      animation: fadeInFestNotice 0.25s ease-out;
+      line-height: 1.3;
+    }
+
+    @keyframes fadeInFestNotice {
+      from {
+        opacity: 0;
+        transform: translateY(-4px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .appointment-festival-notice strong {
+      color: #b45309;
+      font-weight: 700;
+    }
+
+    /* Modal Backdrop */
+    .cal-modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(15, 23, 42, 0.4);
+      backdrop-filter: blur(2px);
+      -webkit-backdrop-filter: blur(2px);
+      z-index: 99999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 10px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.15s ease;
+    }
+
+    .cal-modal-overlay.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    /* Modal Card with Fixed Compact Dimensions (Matching Example Image) */
+    .cal-modal-card {
+      background: #ffffff;
+      border-radius: 10px;
+      box-shadow: 0 14px 32px -6px rgba(15, 23, 42, 0.22), 0 0 0 1px #e2e8f0;
+      width: 285px;
+      max-width: 95vw;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transform: scale(0.96);
+      transition: transform 0.15s cubic-bezier(0.34, 1.56, 0.64, 1);
+      user-select: none;
+      box-sizing: border-box;
+    }
+
+    .cal-modal-overlay.active .cal-modal-card {
+      transform: scale(1);
+    }
+
+    /* Header with Dropdowns & Arrows */
+    .cal-modal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 6px 8px;
+      border-bottom: 1px solid #f1f5f9;
+      background: #ffffff;
+      height: 36px;
+      box-sizing: border-box;
+    }
+
+    .cal-nav-btn {
+      width: 22px;
+      height: 22px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid #cbd5e1;
+      background: #ffffff;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 12px;
+      font-weight: 700;
+      color: #334155;
+      transition: all 0.1s ease;
+      line-height: 1;
+      padding: 0;
+    }
+
+    .cal-nav-btn:hover {
+      background: #f1f5f9;
+      border-color: #94a3b8;
+      color: #0f172a;
+    }
+
+    .cal-header-selects {
+      display: flex;
+      align-items: center;
+      gap: 3px;
+    }
+
+    .cal-dropdown-wrap {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+    }
+
+    .cal-dropdown-select {
+      appearance: none;
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      border: 1px solid #cbd5e1;
+      background: #ffffff;
+      color: #1e293b;
+      font-family: inherit;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 2px 16px 2px 6px;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: all 0.1s ease;
+      line-height: 1.2;
+    }
+
+    .cal-dropdown-select:hover {
+      border-color: #94a3b8;
+    }
+
+    .cal-dropdown-select:focus {
+      outline: none;
+      border-color: #2563eb;
+    }
+
+    .cal-dropdown-arrow {
+      position: absolute;
+      right: 5px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 7.5px;
+      color: #64748b;
+      pointer-events: none;
+    }
+
+    .cal-close-btn {
+      border: none;
+      background: transparent;
+      color: #94a3b8;
+      font-size: 14px;
+      cursor: pointer;
+      padding: 1px 3px;
+      border-radius: 4px;
+      transition: all 0.1s ease;
+      line-height: 1;
+    }
+
+    .cal-close-btn:hover {
+      color: #ef4444;
+      background: #fee2e2;
+    }
+
+    /* Fixed-Height Synchronized Body */
+    .cal-modal-body {
+      display: flex;
+      height: 180px;
+      max-height: 180px;
+      overflow: hidden;
+      background: #ffffff;
+      border-bottom: 1px solid #f1f5f9;
+      box-sizing: border-box;
+    }
+
+    /* Left Date Section (Strict 180px) */
+    .cal-date-section {
+      flex: 1;
+      height: 180px;
+      max-height: 180px;
+      padding: 5px 6px;
+      border-right: 1px solid #f1f5f9;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-width: 0;
+      box-sizing: border-box;
+      overflow: hidden;
+    }
+
+    .cal-weekdays-row {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      text-align: center;
+      font-size: 9.5px;
+      font-weight: 700;
+      color: #64748b;
+      height: 15px;
+      line-height: 15px;
+      margin-bottom: 1px;
+    }
+
+    .cal-weekdays-row .cal-weekend {
+      color: #ef4444 !important;
+    }
+
+    .cal-days-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      grid-template-rows: repeat(6, 19px);
+      gap: 1px;
+      width: 100%;
+      height: 119px;
+      max-height: 119px;
+      box-sizing: border-box;
+    }
+
+    .cal-day-cell {
+      height: 19px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-size: 10px;
+      font-weight: 700;
+      color: #1e293b;
+      border-radius: 4px;
+      cursor: pointer;
+      position: relative;
+      transition: all 0.1s ease;
+      padding: 0;
+      line-height: 1;
+      box-sizing: border-box;
+    }
+
+    .cal-day-cell:hover:not(.cal-selected) {
+      background: #f1f5f9;
+      color: #0f172a;
+    }
+
+    .cal-day-cell.cal-other-month {
+      color: #cbd5e1;
+      font-weight: 500;
+      cursor: pointer;
+    }
+
+    .cal-day-cell.cal-other-month:hover {
+      background: #f8fafc;
+      color: #94a3b8;
+    }
+
+    .cal-day-cell.cal-today:not(.cal-selected) {
+      background: #eff6ff;
+      border: 1px solid #bfdbfe;
+      color: #1d4ed8;
+      font-weight: 800;
+    }
+
+    .cal-day-cell.cal-selected {
+      background: #2563eb !important;
+      color: #ffffff !important;
+      font-weight: 800;
+      border-radius: 4px;
+      box-shadow: 0 1px 4px rgba(37, 99, 235, 0.35);
+    }
+
+    /* Festival Day Highlight */
+    .cal-day-cell.cal-festival-day:not(.cal-selected) {
+      color: #c2410c;
+      font-weight: 800;
+      background: #fff7ed;
+    }
+
+    .cal-festival-dot {
+      position: absolute;
+      bottom: 1px;
+      width: 2.5px;
+      height: 2.5px;
+      border-radius: 50%;
+      background: #f97316;
+    }
+
+    .cal-day-cell.cal-selected .cal-festival-dot {
+      background: #fef08a;
+    }
+
+    /* Festival Info Strip under calendar */
+    .cal-festival-info-strip {
+      padding: 2px 4px;
+      background: #fffbeb;
+      border: 1px solid #fef08a;
+      border-radius: 4px;
+      font-size: 8.5px;
+      color: #854d0e;
+      display: flex;
+      align-items: center;
+      gap: 3px;
+      line-height: 1.15;
+      height: 18px;
+      max-height: 18px;
+      overflow: hidden;
+      box-sizing: border-box;
+    }
+
+    .cal-festival-info-strip.is-festive {
+      background: #fff7ed;
+      border-color: #fed7aa;
+      color: #9a3412;
+      font-weight: 600;
+    }
+
+    .cal-fest-icon {
+      font-size: 10px;
+      flex-shrink: 0;
+    }
+
+    .cal-fest-text {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    /* Right: 24-Hr Time Picker (Strict 180px Height) */
+    .cal-time-section {
+      width: 82px;
+      height: 180px;
+      max-height: 180px;
+      padding: 5px 4px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      background: #fafbfc;
+      flex-shrink: 0;
+      box-sizing: border-box;
+      overflow: hidden;
+    }
+
+    .cal-time-title {
+      font-size: 10px;
+      font-weight: 700;
+      color: #2563eb;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 2px;
+      height: 14px;
+      line-height: 14px;
+      border-bottom: 1px solid #e2e8f0;
+      padding-bottom: 1px;
+    }
+
+    .cal-time-cols-header {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      text-align: center;
+      font-size: 8.5px;
+      font-weight: 700;
+      color: #64748b;
+      height: 12px;
+      line-height: 12px;
+      margin-top: 1px;
+    }
+
+    .cal-arrow-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3px;
+      height: 10px;
+    }
+
+    .cal-time-arrow-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 7px;
+      color: #64748b;
+      cursor: pointer;
+      height: 10px;
+      background: #f1f5f9;
+      border-radius: 2px;
+      transition: all 0.1s ease;
+      user-select: none;
+      line-height: 1;
+    }
+
+    .cal-time-arrow-btn:hover {
+      background: #e2e8f0;
+      color: #1e293b;
+    }
+
+    .cal-time-pickers-wrap {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3px;
+      height: 114px;
+      max-height: 114px;
+      overflow: hidden;
+      box-sizing: border-box;
+    }
+
+    .cal-time-col {
+      height: 114px;
+      max-height: 114px;
+      overflow-y: scroll;
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
+      padding: 0;
+      scrollbar-width: none;
+      /* Firefox */
+      -ms-overflow-style: none;
+      /* IE and Edge */
+    }
+
+    .cal-time-col::-webkit-scrollbar {
+      display: none;
+      /* Chrome, Safari, Opera */
+    }
+
+    .cal-time-item {
+      padding: 0;
+      text-align: center;
+      font-size: 9.5px;
+      font-weight: 700;
+      color: #334155;
+      border: 1px solid #e2e8f0;
+      background: #ffffff;
+      border-radius: 3px;
+      cursor: pointer;
+      transition: all 0.1s ease;
+      line-height: 18px;
+      height: 18px;
+      max-height: 18px;
+      box-sizing: border-box;
+      flex-shrink: 0;
+    }
+
+    .cal-time-item:hover {
+      background: #eff6ff;
+      border-color: #bfdbfe;
+      color: #1e40af;
+    }
+
+    .cal-time-item.active {
+      background: #2563eb !important;
+      color: #ffffff !important;
+      border-color: #2563eb;
+      font-weight: 800;
+      box-shadow: 0 1px 3px rgba(37, 99, 235, 0.35);
+    }
+
+    /* Modal Footer */
+    .cal-modal-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 6px 10px;
+      background: #f8fafc;
+    }
+
+    .cal-footer-right {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .cal-btn-secondary {
+      border: 1px solid #cbd5e1;
+      background: #ffffff;
+      color: #475569;
+      font-size: 10.5px;
+      font-weight: 700;
+      padding: 3px 10px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.1s ease;
+      line-height: 1.2;
+    }
+
+    .cal-btn-secondary:hover {
+      background: #f1f5f9;
+      color: #0f172a;
+      border-color: #94a3b8;
+    }
+
+    .cal-btn-today {
+      border: 1.5px solid #2563eb;
+      background: #ffffff;
+      color: #2563eb;
+      font-size: 10.5px;
+      font-weight: 700;
+      padding: 3px 10px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.1s ease;
+      line-height: 1.2;
+    }
+
+    .cal-btn-today:hover {
+      background: #eff6ff;
+    }
+
+    .cal-btn-primary {
+      border: none;
+      background: #2563eb;
+      color: #ffffff;
+      font-size: 10.5px;
+      font-weight: 700;
+      padding: 3.5px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      box-shadow: 0 1px 4px rgba(37, 99, 235, 0.35);
+      transition: all 0.1s ease;
+      line-height: 1.2;
+    }
+
+    .cal-btn-primary:hover {
+      background: #1d4ed8;
+      box-shadow: 0 2px 6px rgba(37, 99, 235, 0.45);
     }
   </style>
 </head>
@@ -944,7 +1663,9 @@
       <div class="form-body">
         <form id="contactForm" novalidate autocomplete="off">
 
-          <div style="position: absolute; left: -9999px; top: -9999px; height: 0; width: 0; overflow: hidden; opacity: 0;" aria-hidden="true">
+          <div
+            style="position: absolute; left: -9999px; top: -9999px; height: 0; width: 0; overflow: hidden; opacity: 0;"
+            aria-hidden="true">
             <input type="text" id="b_anti_bot_security" name="b_anti_bot_security" tabindex="-1" autocomplete="off" />
           </div>
 
@@ -955,7 +1676,7 @@
           </div>
 
           <div class="field-group">
-            <div class="field-row">
+            <div class="field-row field-row-name-dob">
               <div class="form-field">
                 <label for="name">
                   NAME <span class="required-dot" aria-hidden="true">*</span>
@@ -972,19 +1693,23 @@
               </div>
 
               <div class="form-field">
-                <label for="dobInput">DOB / AGE</label>
+                <div class="field-label-row">
+                  <label for="dobInput" style="margin: 0; font-size: 12px;">DOB / AGE</label>
+                  <button type="button" id="dobCalendarBtn" class="label-cal-btn"
+                    title="Pick Date of Birth from Calendar">📅 Cal</button>
+                </div>
 
                 <div class="input-box-wrapper">
-                  
-                  <input type="text" id="dobInput" class="dob-age-input" placeholder="DD-MM-YYYY (e.g. 01-01-1900)"
-                    inputmode="numeric" maxlength="10" />
+                  <input type="text" id="dobInput" class="dob-age-input" placeholder="DD-MM-YYYY" inputmode="numeric"
+                    maxlength="10" />
 
-                  <input type="number" id="ageInput" class="dob-age-input" min="1" max="120"
-                    placeholder="e.g. 28" style="display: none;" />
+                  <input type="number" id="ageInput" class="dob-age-input" min="1" max="120" placeholder="e.g. 31"
+                    style="display: none;" />
 
                   <div class="inner-toggle-pill">
-                    <button type="button" class="mode-btn active" data-mode="dob">DOB</button>
-                    <button type="button" class="mode-btn" data-mode="age">Age</button>
+                    <button type="button" class="mode-btn active" data-mode="dob"
+                      title="Enter DOB Manually">DOB</button>
+                    <button type="button" class="mode-btn" data-mode="age" title="Enter Age Manually">Age</button>
                   </div>
                 </div>
 
@@ -1022,7 +1747,7 @@
               </label>
               <div class="select-wrap">
                 <select id="looking_for" name="looking_for" required>
-                  <option value="" disabled selected>— e.g. Select Health Insurance —</option>
+                  <option value="" disabled selected>— e.g. What Are You Looking For? —</option>
                   <option value="Port - Health Insurance (Individual / Family)">Port - Health Insurance (Individual /
                     Family)</option>
                   <option value="Fresh - Health Insurance (Individual / Family)">Fresh - Health Insurance (Individual /
@@ -1038,6 +1763,7 @@
                   <option value="Travel Insurance (Individual / Family)">Travel Insurance (Individual / Family)</option>
                   <option value="Motor Insurance (Car / Bike / Commercial Vehicle)">Motor Insurance (Car / Bike /
                     Commercial Vehicle)</option>
+                  <option value="Other">Other</option>
                 </select>
               </div>
             </div>
@@ -1062,17 +1788,13 @@
                 <label for="appointment">Appointment Date &amp; Time</label>
                 <div class="input-with-icon">
                   <input type="text" id="appointment" name="appointment" placeholder="DD-MM-YYYY, HH:MM (24-Hour)" />
-                  
-                  <input type="date" id="hiddenDatePicker" tabindex="-1" aria-hidden="true"
-                    style="position:absolute;opacity:0;pointer-events:none;width:0;height:0;" />
-                  
-                  <input type="time" id="hiddenTimePicker" tabindex="-1" aria-hidden="true"
-                    style="position:absolute;opacity:0;pointer-events:none;width:0;height:0;" />
                   <div class="icon-group">
-                    <button type="button" id="datePickerBtn" class="input-icon-btn" title="Pick Date">📅</button>
-                    <button type="button" id="timePickerBtn" class="input-icon-btn" title="Pick Time">🕐</button>
+                    <button type="button" id="datePickerBtn" class="input-icon-btn"
+                      title="Pick Date (Indian Calendar &amp; Festivals)">📅</button>
+                    <button type="button" id="timePickerBtn" class="input-icon-btn" title="Pick 24-Hr Time">🕐</button>
                   </div>
                 </div>
+                <div id="appointmentFestivalNotice" class="appointment-festival-notice" style="display: none;"></div>
               </div>
 
               <div class="form-field">
@@ -1102,7 +1824,7 @@
           </label>
 
           <div class="submit-area">
-            <button type="submit" id="submitBtn" class="btn-submit" disabled>
+            <button type="submit" id="submitBtn" class="btn-submit">
               <span class="btn-inner">
                 <span class="btn-icon">📩</span>
                 <span>Submit Form</span>
@@ -1128,8 +1850,107 @@
 
   </div>
 
+  <!-- Indian Festival Calendar & 24-Hr Time Picker Modal -->
+  <div id="customCalendarModal" class="cal-modal-overlay" style="display: none;" aria-hidden="true">
+    <div class="cal-modal-card" role="dialog" aria-modal="true" aria-label="Appointment Calendar & Time Picker">
+
+      <div class="cal-modal-header">
+        <button type="button" class="cal-nav-btn" id="calPrevMonthBtn" title="Previous Month">‹</button>
+        <div class="cal-header-selects">
+          <div class="cal-dropdown-wrap">
+            <select id="calMonthSelect" class="cal-dropdown-select" aria-label="Select Month">
+              <option value="0">Jan</option>
+              <option value="1">Feb</option>
+              <option value="2">Mar</option>
+              <option value="3">Apr</option>
+              <option value="4">May</option>
+              <option value="5">Jun</option>
+              <option value="6">Jul</option>
+              <option value="7">Aug</option>
+              <option value="8">Sep</option>
+              <option value="9">Oct</option>
+              <option value="10">Nov</option>
+              <option value="11">Dec</option>
+            </select>
+            <span class="cal-dropdown-arrow">▼</span>
+          </div>
+          <div class="cal-dropdown-wrap">
+            <select id="calYearSelect" class="cal-dropdown-select" aria-label="Select Year">
+              <option value="2024">2024</option>
+              <option value="2025">2025</option>
+              <option value="2026">2026</option>
+              <option value="2027">2027</option>
+              <option value="2028">2028</option>
+              <option value="2029">2029</option>
+              <option value="2030">2030</option>
+              <option value="2031">2031</option>
+              <option value="2032">2032</option>
+              <option value="2033">2033</option>
+              <option value="2034">2034</option>
+              <option value="2035">2035</option>
+            </select>
+            <span class="cal-dropdown-arrow">▼</span>
+          </div>
+        </div>
+        <button type="button" class="cal-nav-btn" id="calNextMonthBtn" title="Next Month">›</button>
+        <button type="button" class="cal-close-btn" id="calCloseBtn" title="Close">✕</button>
+      </div>
+
+      <div class="cal-modal-body">
+        <div class="cal-date-section">
+          <div class="cal-weekdays-row">
+            <span>Mo</span>
+            <span>Tu</span>
+            <span>We</span>
+            <span>Th</span>
+            <span>Fr</span>
+            <span class="cal-weekend">Sa</span>
+            <span class="cal-weekend">Su</span>
+          </div>
+          <div id="calDaysGrid" class="cal-days-grid"></div>
+          <div id="calFestivalInfoStrip" class="cal-festival-info-strip">
+            <span class="cal-fest-icon">🇮🇳</span>
+            <span class="cal-fest-text">Select a date to schedule appointment</span>
+          </div>
+        </div>
+
+        <div class="cal-time-section" id="calTimeSection">
+          <div class="cal-time-title">
+            <span class="cal-time-icon">🕒</span>
+            <span>24-Hr</span>
+          </div>
+          <div class="cal-time-cols-header">
+            <span>Hr</span>
+            <span>Min</span>
+          </div>
+          <div class="cal-arrow-row">
+            <div class="cal-time-arrow-btn" id="calHourUpBtn" title="Scroll Hours Up">▲</div>
+            <div class="cal-time-arrow-btn" id="calMinUpBtn" title="Scroll Minutes Up">▲</div>
+          </div>
+          <div class="cal-time-pickers-wrap">
+            <div class="cal-time-col" id="calHourCol"></div>
+            <div class="cal-time-col" id="calMinCol"></div>
+          </div>
+          <div class="cal-arrow-row">
+            <div class="cal-time-arrow-btn" id="calHourDownBtn" title="Scroll Hours Down">▼</div>
+            <div class="cal-time-arrow-btn" id="calMinDownBtn" title="Scroll Minutes Down">▼</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="cal-modal-footer">
+        <button type="button" class="cal-btn-secondary" id="calClearBtn">Clear</button>
+        <div class="cal-footer-right">
+          <button type="button" class="cal-btn-today" id="calTodayBtn">Today</button>
+          <button type="button" class="cal-btn-primary" id="calDoneBtn">Done</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
   <script>
-    
+
     let activeDobAgeMode = 'dob';
     const modeBtns = document.querySelectorAll('.mode-btn');
     const dobInput = document.getElementById('dobInput');
@@ -1196,13 +2017,13 @@
       if (digits.length === 8) {
         const start4 = parseInt(digits.slice(0, 4), 10);
         if (start4 >= 1900 && start4 <= 2099) {
-          
+
           const y = digits.slice(0, 4);
           const m = digits.slice(4, 6);
           const d = digits.slice(6, 8);
           return `${d}-${m}-${y}`;
         } else {
-          
+
           const d = digits.slice(0, 2);
           const m = digits.slice(2, 4);
           const y = digits.slice(4, 8);
@@ -1211,7 +2032,7 @@
       }
 
       if (digits.length === 6) {
-        
+
         const d = digits.slice(0, 2);
         const m = digits.slice(2, 4);
         const yy = parseInt(digits.slice(4, 6), 10);
@@ -1263,32 +2084,49 @@
       return null;
     }
 
-    function getFormattedDobOrAge() {
-      if (activeDobAgeMode === 'age') {
-        const ageVal = (ageInput ? ageInput.value : '').trim();
-        if (!ageVal) return '';
-        const cleanAge = ageVal.replace(/\D/g, '');
-        return cleanAge ? `${cleanAge}yr` : '';
-      } else {
-        const rawDob = (dobInput ? dobInput.value : '').trim();
-        if (!rawDob) return '';
+    const dobCalendarBtn = document.getElementById('dobCalendarBtn');
+
+    function updateDobAndAgeCalculations(source) {
+      const rawDob = (dobInput ? dobInput.value : '').trim();
+      const rawAge = (ageInput ? ageInput.value : '').trim();
+
+      if (activeDobAgeMode === 'dob' || source === 'dob') {
         const res = calculateAgeFromAnyDOB(rawDob);
         if (res) {
-          return `${res.formattedDob} (${res.age}yr)`;
+          if (ageInput) ageInput.value = res.age;
+          const formattedPayload = `${res.formattedDob} (${res.age}yr)`;
+          if (hiddenDobAge) hiddenDobAge.value = formattedPayload;
+          return formattedPayload;
+        } else if (rawDob) {
+          const parsed = parseAnyDateToDDMMYYYY(rawDob) || rawDob;
+          if (hiddenDobAge) hiddenDobAge.value = parsed;
+          return parsed;
         } else {
-          const parsed = parseAnyDateToDDMMYYYY(rawDob);
-          return parsed ? parsed : rawDob;
+          if (hiddenDobAge) hiddenDobAge.value = '';
+          return '';
         }
+      } else {
+        // Age mode active
+        if (rawAge) {
+          const ageNum = parseInt(rawAge.replace(/\D/g, ''), 10);
+          if (!isNaN(ageNum) && ageNum >= 1 && ageNum <= 120) {
+            const currentYear = new Date().getFullYear();
+            const estYear = currentYear - ageNum;
+            const res = calculateAgeFromAnyDOB(rawDob);
+            const dobPart = res ? res.formattedDob : `01-01-${estYear}`;
+            const formattedPayload = `${dobPart} (${ageNum}yr)`;
+            if (hiddenDobAge) hiddenDobAge.value = formattedPayload;
+            return formattedPayload;
+          }
+        }
+        if (hiddenDobAge) hiddenDobAge.value = rawAge ? `${rawAge}yr` : '';
+        return rawAge ? `${rawAge}yr` : '';
       }
-    }
-
-    function updateHiddenDobAge() {
-      hiddenDobAge.value = getFormattedDobOrAge();
     }
 
     function formatDobDigitsLive(raw) {
       if (!raw) return '';
-      
+
       if (/[\/\.,\s]/.test(raw) || /[a-zA-Z]/.test(raw)) {
         const parsed = parseAnyDateToDDMMYYYY(raw);
         if (parsed) return parsed;
@@ -1310,27 +2148,43 @@
         e.preventDefault();
         const pasted = (e.clipboardData || window.clipboardData).getData('text');
         const parsed = parseAnyDateToDDMMYYYY(pasted);
-        if (parsed) {
-          dobInput.value = parsed;
-        } else {
-          dobInput.value = formatDobDigitsLive(pasted);
-        }
-        updateHiddenDobAge();
+        dobInput.value = parsed ? parsed : formatDobDigitsLive(pasted);
+        updateDobAndAgeCalculations('dob');
         saveDraft();
       });
 
       dobInput.addEventListener('input', () => {
         const val = dobInput.value;
         dobInput.value = formatDobDigitsLive(val);
-        updateHiddenDobAge();
+        updateDobAndAgeCalculations('dob');
+      });
+
+      dobInput.addEventListener('change', () => {
+        const parsed = parseAnyDateToDDMMYYYY(dobInput.value);
+        if (parsed) dobInput.value = parsed;
+        updateDobAndAgeCalculations('dob');
+        saveDraft();
       });
 
       dobInput.addEventListener('blur', () => {
         const parsed = parseAnyDateToDDMMYYYY(dobInput.value);
-        if (parsed) {
-          dobInput.value = parsed;
-          updateHiddenDobAge();
-        }
+        if (parsed) dobInput.value = parsed;
+        updateDobAndAgeCalculations('dob');
+        saveDraft();
+      });
+    }
+
+    if (ageInput) {
+      ageInput.addEventListener('input', () => {
+        updateDobAndAgeCalculations('age');
+      });
+      ageInput.addEventListener('change', () => {
+        updateDobAndAgeCalculations('age');
+        saveDraft();
+      });
+      ageInput.addEventListener('blur', () => {
+        updateDobAndAgeCalculations('age');
+        saveDraft();
       });
     }
 
@@ -1349,17 +2203,423 @@
           ageInput.style.display = 'block';
           ageInput.focus();
         }
-        updateHiddenDobAge();
+        updateDobAndAgeCalculations(activeDobAgeMode);
       });
     });
-
-    ageInput.addEventListener('input', updateHiddenDobAge);
 
     const appointmentInput = document.getElementById('appointment');
     const datePickerBtn = document.getElementById('datePickerBtn');
     const timePickerBtn = document.getElementById('timePickerBtn');
-    const hiddenDatePicker = document.getElementById('hiddenDatePicker');
-    const hiddenTimePicker = document.getElementById('hiddenTimePicker');
+    const appointmentFestivalNotice = document.getElementById('appointmentFestivalNotice');
+
+    const INDIAN_FESTIVALS = {
+      // 2024
+      "2024-01-14": { name: "Makar Sankranti / Pongal", type: "festival", emoji: "🪁" },
+      "2024-01-26": { name: "Republic Day", type: "national", emoji: "🇮🇳" },
+      "2024-03-08": { name: "Maha Shivratri", type: "festival", emoji: "🔱" },
+      "2024-03-24": { name: "Holika Dahan", type: "festival", emoji: "🔥" },
+      "2024-03-25": { name: "Holi", type: "festival", emoji: "🎨" },
+      "2024-04-09": { name: "Gudi Padwa / Chaitra Navratri", type: "festival", emoji: "🚩" },
+      "2024-04-11": { name: "Eid-ul-Fitr", type: "festival", emoji: "🌙" },
+      "2024-04-14": { name: "Dr. B.R. Ambedkar Jayanti", type: "gazetted", emoji: "⚖️" },
+      "2024-04-17": { name: "Ram Navami", type: "festival", emoji: "🏹" },
+      "2024-06-17": { name: "Bakrid / Eid al-Adha", type: "festival", emoji: "🌙" },
+      "2024-07-17": { name: "Muharram", type: "festival", emoji: "🕌" },
+      "2024-08-15": { name: "Independence Day", type: "national", emoji: "🇮🇳" },
+      "2024-08-19": { name: "Raksha Bandhan", type: "festival", emoji: "🪢" },
+      "2024-08-26": { name: "Janmashtami", type: "festival", emoji: "🦚" },
+      "2024-09-07": { name: "Ganesh Chaturthi", type: "festival", emoji: "🐘" },
+      "2024-10-02": { name: "Mahatma Gandhi Jayanti", type: "national", emoji: "🇮🇳" },
+      "2024-10-12": { name: "Dussehra (Vijayadashami)", type: "festival", emoji: "🏹" },
+      "2024-10-31": { name: "Diwali (Deepavali)", type: "festival", emoji: "🪔" },
+      "2024-11-03": { name: "Bhai Dooj", type: "festival", emoji: "🤝" },
+      "2024-11-07": { name: "Chhath Puja", type: "festival", emoji: "🌅" },
+      "2024-11-15": { name: "Guru Nanak Jayanti", type: "festival", emoji: "ੴ" },
+      "2024-12-25": { name: "Christmas Day", type: "festival", emoji: "🎄" },
+
+      // 2025
+      "2025-01-14": { name: "Makar Sankranti / Pongal", type: "festival", emoji: "🪁" },
+      "2025-01-26": { name: "Republic Day", type: "national", emoji: "🇮🇳" },
+      "2025-02-26": { name: "Maha Shivratri", type: "festival", emoji: "🔱" },
+      "2025-03-13": { name: "Holika Dahan", type: "festival", emoji: "🔥" },
+      "2025-03-14": { name: "Holi (Festival of Colors)", type: "festival", emoji: "🎨" },
+      "2025-03-30": { name: "Gudi Padwa / Ugadi", type: "festival", emoji: "🚩" },
+      "2025-03-31": { name: "Eid-ul-Fitr (Ramzan)", type: "festival", emoji: "🌙" },
+      "2025-04-06": { name: "Ram Navami", type: "festival", emoji: "🏹" },
+      "2025-04-10": { name: "Mahavir Jayanti", type: "festival", emoji: "🙏" },
+      "2025-04-14": { name: "Dr. Ambedkar Jayanti / Baisakhi", type: "gazetted", emoji: "⚖️" },
+      "2025-04-18": { name: "Good Friday", type: "festival", emoji: "✝️" },
+      "2025-05-01": { name: "Maharashtra Day / Labour Day", type: "gazetted", emoji: "🛠️" },
+      "2025-05-12": { name: "Buddha Purnima", type: "festival", emoji: "🌸" },
+      "2025-06-07": { name: "Bakrid / Eid al-Adha", type: "festival", emoji: "🌙" },
+      "2025-07-06": { name: "Muharram", type: "festival", emoji: "🕌" },
+      "2025-08-09": { name: "Raksha Bandhan", type: "festival", emoji: "🪢" },
+      "2025-08-15": { name: "Independence Day", type: "national", emoji: "🇮🇳" },
+      "2025-08-16": { name: "Janmashtami", type: "festival", emoji: "🦚" },
+      "2025-08-27": { name: "Ganesh Chaturthi", type: "festival", emoji: "🐘" },
+      "2025-09-05": { name: "Milad un-Nabi (Eid-e-Milad)", type: "festival", emoji: "🕌" },
+      "2025-10-02": { name: "Mahatma Gandhi Jayanti & Dussehra", type: "national", emoji: "🇮🇳" },
+      "2025-10-20": { name: "Diwali (Deepavali)", type: "festival", emoji: "🪔" },
+      "2025-10-22": { name: "Govardhan Puja / Bhai Dooj", type: "festival", emoji: "✨" },
+      "2025-10-27": { name: "Chhath Puja", type: "festival", emoji: "🌅" },
+      "2025-11-05": { name: "Guru Nanak Jayanti", type: "festival", emoji: "ੴ" },
+      "2025-12-25": { name: "Christmas Day", type: "festival", emoji: "🎄" },
+
+      // 2026
+      "2026-01-01": { name: "New Year's Day", type: "festival", emoji: "🎉" },
+      "2026-01-13": { name: "Lohri", type: "festival", emoji: "🔥" },
+      "2026-01-14": { name: "Makar Sankranti / Pongal", type: "festival", emoji: "🪁" },
+      "2026-01-23": { name: "Netaji Subhas Chandra Bose Jayanti", type: "festival", emoji: "🇮🇳" },
+      "2026-01-26": { name: "Republic Day", type: "national", emoji: "🇮🇳" },
+      "2026-02-15": { name: "Maha Shivratri", type: "festival", emoji: "🔱" },
+      "2026-03-03": { name: "Holika Dahan", type: "festival", emoji: "🔥" },
+      "2026-03-04": { name: "Holi (Festival of Colors)", type: "festival", emoji: "🎨" },
+      "2026-03-19": { name: "Gudi Padwa / Ugadi", type: "festival", emoji: "🚩" },
+      "2026-03-20": { name: "Eid-ul-Fitr (Ramzan Eid)", type: "festival", emoji: "🌙" },
+      "2026-03-27": { name: "Ram Navami", type: "festival", emoji: "🏹" },
+      "2026-03-31": { name: "Mahavir Jayanti", type: "festival", emoji: "🙏" },
+      "2026-04-03": { name: "Good Friday", type: "festival", emoji: "✝️" },
+      "2026-04-05": { name: "Easter Sunday", type: "festival", emoji: "🥚" },
+      "2026-04-14": { name: "Dr. B.R. Ambedkar Jayanti / Baisakhi", type: "gazetted", emoji: "⚖️" },
+      "2026-05-01": { name: "Maharashtra Day / Labour Day", type: "gazetted", emoji: "🛠️" },
+      "2026-05-01": { name: "Buddha Purnima", type: "festival", emoji: "🌸" },
+      "2026-05-27": { name: "Eid al-Adha (Bakrid)", type: "festival", emoji: "🌙" },
+      "2026-06-26": { name: "Muharram", type: "festival", emoji: "🕌" },
+      "2026-08-15": { name: "Independence Day", type: "national", emoji: "🇮🇳" },
+      "2026-08-19": { name: "Nag Panchami", type: "festival", emoji: "🐍" },
+      "2026-08-27": { name: "Milad un-Nabi (Eid-e-Milad)", type: "festival", emoji: "🕌" },
+      "2026-08-28": { name: "Raksha Bandhan", type: "festival", emoji: "🪢" },
+      "2026-09-04": { name: "Janmashtami (Krishna Janmashtami)", type: "festival", emoji: "🦚" },
+      "2026-09-14": { name: "Ganesh Chaturthi", type: "festival", emoji: "🐘" },
+      "2026-09-24": { name: "Anant Chaturdashi (Ganesh Visarjan)", type: "festival", emoji: "🌺" },
+      "2026-10-02": { name: "Mahatma Gandhi Jayanti", type: "national", emoji: "🇮🇳" },
+      "2026-10-11": { name: "Navratri Ghatasthapana", type: "festival", emoji: "🪔" },
+      "2026-10-18": { name: "Maha Ashtami / Durga Ashtami", type: "festival", emoji: "🔱" },
+      "2026-10-19": { name: "Maha Navami", type: "festival", emoji: "🪔" },
+      "2026-10-20": { name: "Dussehra (Vijayadashami)", type: "festival", emoji: "🏹" },
+      "2026-10-28": { name: "Karwa Chauth", type: "festival", emoji: "🌕" },
+      "2026-11-06": { name: "Dhanteras", type: "festival", emoji: "🪙" },
+      "2026-11-08": { name: "Diwali (Deepavali / Lakshmi Puja)", type: "festival", emoji: "🪔" },
+      "2026-11-09": { name: "Govardhan Puja", type: "festival", emoji: "✨" },
+      "2026-11-11": { name: "Bhai Dooj", type: "festival", emoji: "🤝" },
+      "2026-11-15": { name: "Chhath Puja (Sandhya Arghya)", type: "festival", emoji: "🌅" },
+      "2026-11-16": { name: "Chhath Puja (Usha Arghya)", type: "festival", emoji: "☀️" },
+      "2026-11-24": { name: "Guru Nanak Jayanti", type: "festival", emoji: "ੴ" },
+      "2026-12-25": { name: "Christmas Day", type: "festival", emoji: "🎄" },
+
+      // 2027
+      "2027-01-14": { name: "Makar Sankranti / Pongal", type: "festival", emoji: "🪁" },
+      "2027-01-26": { name: "Republic Day", type: "national", emoji: "🇮🇳" },
+      "2027-03-06": { name: "Maha Shivratri", type: "festival", emoji: "🔱" },
+      "2027-03-09": { name: "Eid-ul-Fitr", type: "festival", emoji: "🌙" },
+      "2027-03-22": { name: "Holika Dahan", type: "festival", emoji: "🔥" },
+      "2027-03-23": { name: "Holi (Festival of Colors)", type: "festival", emoji: "🎨" },
+      "2027-04-07": { name: "Gudi Padwa / Ugadi", type: "festival", emoji: "🚩" },
+      "2027-04-14": { name: "Dr. B.R. Ambedkar Jayanti / Baisakhi", type: "gazetted", emoji: "⚖️" },
+      "2027-04-15": { name: "Ram Navami", type: "festival", emoji: "🏹" },
+      "2027-04-20": { name: "Mahavir Jayanti", type: "festival", emoji: "🙏" },
+      "2027-05-16": { name: "Eid al-Adha (Bakrid)", type: "festival", emoji: "🌙" },
+      "2027-05-20": { name: "Buddha Purnima", type: "festival", emoji: "🌸" },
+      "2027-06-16": { name: "Muharram", type: "festival", emoji: "🕌" },
+      "2027-08-15": { name: "Independence Day", type: "national", emoji: "🇮🇳" },
+      "2027-08-17": { name: "Raksha Bandhan", type: "festival", emoji: "🪢" },
+      "2027-08-25": { name: "Janmashtami", type: "festival", emoji: "🦚" },
+      "2027-09-04": { name: "Ganesh Chaturthi", type: "festival", emoji: "🐘" },
+      "2027-10-02": { name: "Mahatma Gandhi Jayanti", type: "national", emoji: "🇮🇳" },
+      "2027-10-09": { name: "Dussehra (Vijayadashami)", type: "festival", emoji: "🏹" },
+      "2027-10-29": { name: "Diwali (Deepavali)", type: "festival", emoji: "🪔" },
+      "2027-10-31": { name: "Bhai Dooj", type: "festival", emoji: "🤝" },
+      "2027-11-04": { name: "Chhath Puja", type: "festival", emoji: "🌅" },
+      "2027-11-14": { name: "Guru Nanak Jayanti", type: "festival", emoji: "ੴ" },
+      "2027-12-25": { name: "Christmas Day", type: "festival", emoji: "🎄" },
+
+      // 2028
+      "2028-01-14": { name: "Makar Sankranti / Pongal", type: "festival", emoji: "🪁" },
+      "2028-01-26": { name: "Republic Day", type: "national", emoji: "🇮🇳" },
+      "2028-02-23": { name: "Maha Shivratri", type: "festival", emoji: "🔱" },
+      "2028-02-27": { name: "Eid-ul-Fitr", type: "festival", emoji: "🌙" },
+      "2028-03-11": { name: "Holika Dahan", type: "festival", emoji: "🔥" },
+      "2028-03-12": { name: "Holi (Festival of Colors)", type: "festival", emoji: "🎨" },
+      "2028-03-27": { name: "Gudi Padwa / Ugadi", type: "festival", emoji: "🚩" },
+      "2028-04-04": { name: "Ram Navami", type: "festival", emoji: "🏹" },
+      "2028-04-08": { name: "Mahavir Jayanti", type: "festival", emoji: "🙏" },
+      "2028-04-14": { name: "Dr. B.R. Ambedkar Jayanti / Baisakhi", type: "gazetted", emoji: "⚖️" },
+      "2028-05-05": { name: "Eid al-Adha (Bakrid)", type: "festival", emoji: "🌙" },
+      "2028-05-09": { name: "Buddha Purnima", type: "festival", emoji: "🌸" },
+      "2028-06-04": { name: "Muharram", type: "festival", emoji: "🕌" },
+      "2028-08-05": { name: "Raksha Bandhan", type: "festival", emoji: "🪢" },
+      "2028-08-13": { name: "Janmashtami", type: "festival", emoji: "🦚" },
+      "2028-08-15": { name: "Independence Day", type: "national", emoji: "🇮🇳" },
+      "2028-08-24": { name: "Ganesh Chaturthi", type: "festival", emoji: "🐘" },
+      "2028-09-29": { name: "Dussehra (Vijayadashami)", type: "festival", emoji: "🏹" },
+      "2028-10-02": { name: "Mahatma Gandhi Jayanti", type: "national", emoji: "🇮🇳" },
+      "2028-10-17": { name: "Diwali (Deepavali)", type: "festival", emoji: "🪔" },
+      "2028-10-19": { name: "Bhai Dooj", type: "festival", emoji: "🤝" },
+      "2028-10-23": { name: "Chhath Puja", type: "festival", emoji: "🌅" },
+      "2028-11-02": { name: "Guru Nanak Jayanti", type: "festival", emoji: "ੴ" },
+      "2028-12-25": { name: "Christmas Day", type: "festival", emoji: "🎄" },
+
+      // 2029
+      "2029-01-14": { name: "Makar Sankranti / Pongal", type: "festival", emoji: "🪁" },
+      "2029-01-26": { name: "Republic Day", type: "national", emoji: "🇮🇳" },
+      "2029-02-12": { name: "Maha Shivratri", type: "festival", emoji: "🔱" },
+      "2029-02-15": { name: "Eid-ul-Fitr", type: "festival", emoji: "🌙" },
+      "2029-02-28": { name: "Holika Dahan", type: "festival", emoji: "🔥" },
+      "2029-03-01": { name: "Holi (Festival of Colors)", type: "festival", emoji: "🎨" },
+      "2029-03-16": { name: "Gudi Padwa / Ugadi", type: "festival", emoji: "🚩" },
+      "2029-03-24": { name: "Ram Navami", type: "festival", emoji: "🏹" },
+      "2029-04-14": { name: "Dr. B.R. Ambedkar Jayanti / Baisakhi", type: "gazetted", emoji: "⚖️" },
+      "2029-04-24": { name: "Eid al-Adha (Bakrid)", type: "festival", emoji: "🌙" },
+      "2029-04-28": { name: "Buddha Purnima", type: "festival", emoji: "🌸" },
+      "2029-05-24": { name: "Muharram", type: "festival", emoji: "🕌" },
+      "2029-08-15": { name: "Independence Day", type: "national", emoji: "🇮🇳" },
+      "2029-08-24": { name: "Raksha Bandhan", type: "festival", emoji: "🪢" },
+      "2029-09-01": { name: "Janmashtami", type: "festival", emoji: "🦚" },
+      "2029-09-12": { name: "Ganesh Chaturthi", type: "festival", emoji: "🐘" },
+      "2029-10-02": { name: "Mahatma Gandhi Jayanti", type: "national", emoji: "🇮🇳" },
+      "2029-10-17": { name: "Dussehra (Vijayadashami)", type: "festival", emoji: "🏹" },
+      "2029-11-05": { name: "Diwali (Deepavali)", type: "festival", emoji: "🪔" },
+      "2029-11-07": { name: "Bhai Dooj", type: "festival", emoji: "🤝" },
+      "2029-11-12": { name: "Chhath Puja", type: "festival", emoji: "🌅" },
+      "2029-11-21": { name: "Guru Nanak Jayanti", type: "festival", emoji: "ੴ" },
+      "2029-12-25": { name: "Christmas Day", type: "festival", emoji: "🎄" },
+
+      // 2030
+      "2030-01-14": { name: "Makar Sankranti / Pongal", type: "festival", emoji: "🪁" },
+      "2030-01-26": { name: "Republic Day", type: "national", emoji: "🇮🇳" },
+      "2030-02-04": { name: "Eid-ul-Fitr", type: "festival", emoji: "🌙" },
+      "2030-03-03": { name: "Maha Shivratri", type: "festival", emoji: "🔱" },
+      "2030-03-19": { name: "Holika Dahan", type: "festival", emoji: "🔥" },
+      "2030-03-20": { name: "Holi (Festival of Colors)", type: "festival", emoji: "🎨" },
+      "2030-04-05": { name: "Gudi Padwa / Ugadi", type: "festival", emoji: "🚩" },
+      "2030-04-12": { name: "Ram Navami", type: "festival", emoji: "🏹" },
+      "2030-04-14": { name: "Dr. B.R. Ambedkar Jayanti / Eid al-Adha", type: "gazetted", emoji: "⚖️" },
+      "2030-05-14": { name: "Muharram", type: "festival", emoji: "🕌" },
+      "2030-05-17": { name: "Buddha Purnima", type: "festival", emoji: "🌸" },
+      "2030-08-13": { name: "Raksha Bandhan", type: "festival", emoji: "🪢" },
+      "2030-08-15": { name: "Independence Day", type: "national", emoji: "🇮🇳" },
+      "2030-08-21": { name: "Janmashtami", type: "festival", emoji: "🦚" },
+      "2030-09-01": { name: "Ganesh Chaturthi", type: "festival", emoji: "🐘" },
+      "2030-10-02": { name: "Mahatma Gandhi Jayanti", type: "national", emoji: "🇮🇳" },
+      "2030-10-06": { name: "Dussehra (Vijayadashami)", type: "festival", emoji: "🏹" },
+      "2030-10-26": { name: "Diwali (Deepavali)", type: "festival", emoji: "🪔" },
+      "2030-10-28": { name: "Bhai Dooj", type: "festival", emoji: "🤝" },
+      "2030-11-01": { name: "Chhath Puja", type: "festival", emoji: "🌅" },
+      "2030-11-10": { name: "Guru Nanak Jayanti", type: "festival", emoji: "ੴ" },
+      "2030-12-25": { name: "Christmas Day", type: "festival", emoji: "🎄" },
+
+      // 2031
+      "2031-01-14": { name: "Makar Sankranti / Pongal", type: "festival", emoji: "🪁" },
+      "2031-01-24": { name: "Eid-ul-Fitr", type: "festival", emoji: "🌙" },
+      "2031-01-26": { name: "Republic Day", type: "national", emoji: "🇮🇳" },
+      "2031-02-20": { name: "Maha Shivratri", type: "festival", emoji: "🔱" },
+      "2031-03-08": { name: "Holika Dahan", type: "festival", emoji: "🔥" },
+      "2031-03-09": { name: "Holi (Festival of Colors)", type: "festival", emoji: "🎨" },
+      "2031-03-25": { name: "Gudi Padwa / Ugadi", type: "festival", emoji: "🚩" },
+      "2031-04-02": { name: "Ram Navami / Eid al-Adha", type: "festival", emoji: "🏹" },
+      "2031-04-14": { name: "Dr. B.R. Ambedkar Jayanti / Baisakhi", type: "gazetted", emoji: "⚖️" },
+      "2031-05-03": { name: "Muharram", type: "festival", emoji: "🕌" },
+      "2031-05-06": { name: "Buddha Purnima", type: "festival", emoji: "🌸" },
+      "2031-08-02": { name: "Raksha Bandhan", type: "festival", emoji: "🪢" },
+      "2031-08-10": { name: "Janmashtami", type: "festival", emoji: "🦚" },
+      "2031-08-15": { name: "Independence Day", type: "national", emoji: "🇮🇳" },
+      "2031-08-22": { name: "Ganesh Chaturthi", type: "festival", emoji: "🐘" },
+      "2031-09-26": { name: "Dussehra (Vijayadashami)", type: "festival", emoji: "🏹" },
+      "2031-10-02": { name: "Mahatma Gandhi Jayanti", type: "national", emoji: "🇮🇳" },
+      "2031-10-15": { name: "Diwali (Deepavali)", type: "festival", emoji: "🪔" },
+      "2031-10-17": { name: "Bhai Dooj", type: "festival", emoji: "🤝" },
+      "2031-10-21": { name: "Chhath Puja", type: "festival", emoji: "🌅" },
+      "2031-11-29": { name: "Guru Nanak Jayanti", type: "festival", emoji: "ੴ" },
+      "2031-12-25": { name: "Christmas Day", type: "festival", emoji: "🎄" },
+
+      // 2032
+      "2032-01-13": { name: "Eid-ul-Fitr", type: "festival", emoji: "🌙" },
+      "2032-01-14": { name: "Makar Sankranti / Pongal", type: "festival", emoji: "🪁" },
+      "2032-01-26": { name: "Republic Day", type: "national", emoji: "🇮🇳" },
+      "2032-02-10": { name: "Maha Shivratri", type: "festival", emoji: "🔱" },
+      "2032-03-22": { name: "Eid al-Adha (Bakrid)", type: "festival", emoji: "🌙" },
+      "2032-03-26": { name: "Holika Dahan", type: "festival", emoji: "🔥" },
+      "2032-03-27": { name: "Holi (Festival of Colors)", type: "festival", emoji: "🎨" },
+      "2032-04-11": { name: "Gudi Padwa / Ugadi", type: "festival", emoji: "🚩" },
+      "2032-04-14": { name: "Dr. B.R. Ambedkar Jayanti", type: "gazetted", emoji: "⚖️" },
+      "2032-04-19": { name: "Ram Navami", type: "festival", emoji: "🏹" },
+      "2032-04-21": { name: "Muharram", type: "festival", emoji: "🕌" },
+      "2032-05-24": { name: "Buddha Purnima", type: "festival", emoji: "🌸" },
+      "2032-08-15": { name: "Independence Day", type: "national", emoji: "🇮🇳" },
+      "2032-08-20": { name: "Raksha Bandhan", type: "festival", emoji: "🪢" },
+      "2032-08-28": { name: "Janmashtami", type: "festival", emoji: "🦚" },
+      "2032-09-09": { name: "Ganesh Chaturthi", type: "festival", emoji: "🐘" },
+      "2032-10-02": { name: "Mahatma Gandhi Jayanti", type: "national", emoji: "🇮🇳" },
+      "2032-10-14": { name: "Dussehra (Vijayadashami)", type: "festival", emoji: "🏹" },
+      "2032-11-02": { name: "Diwali (Deepavali)", type: "festival", emoji: "🪔" },
+      "2032-11-04": { name: "Bhai Dooj", type: "festival", emoji: "🤝" },
+      "2032-11-08": { name: "Chhath Puja", type: "festival", emoji: "🌅" },
+      "2032-11-17": { name: "Guru Nanak Jayanti", type: "festival", emoji: "ੴ" },
+      "2032-12-25": { name: "Christmas Day", type: "festival", emoji: "🎄" },
+
+      // 2033
+      "2033-01-02": { name: "Eid-ul-Fitr", type: "festival", emoji: "🌙" },
+      "2033-01-14": { name: "Makar Sankranti / Pongal", type: "festival", emoji: "🪁" },
+      "2033-01-26": { name: "Republic Day", type: "national", emoji: "🇮🇳" },
+      "2033-02-27": { name: "Maha Shivratri", type: "festival", emoji: "🔱" },
+      "2033-03-11": { name: "Eid al-Adha (Bakrid)", type: "festival", emoji: "🌙" },
+      "2033-03-15": { name: "Holika Dahan", type: "festival", emoji: "🔥" },
+      "2033-03-16": { name: "Holi (Festival of Colors)", type: "festival", emoji: "🎨" },
+      "2033-03-31": { name: "Gudi Padwa / Ugadi", type: "festival", emoji: "🚩" },
+      "2033-04-09": { name: "Ram Navami / Muharram", type: "festival", emoji: "🏹" },
+      "2033-04-14": { name: "Dr. B.R. Ambedkar Jayanti", type: "gazetted", emoji: "⚖️" },
+      "2033-05-13": { name: "Buddha Purnima", type: "festival", emoji: "🌸" },
+      "2033-08-10": { name: "Raksha Bandhan", type: "festival", emoji: "🪢" },
+      "2033-08-15": { name: "Independence Day", type: "national", emoji: "🇮🇳" },
+      "2033-08-17": { name: "Janmashtami", type: "festival", emoji: "🦚" },
+      "2033-08-29": { name: "Ganesh Chaturthi", type: "festival", emoji: "🐘" },
+      "2033-10-02": { name: "Mahatma Gandhi Jayanti", type: "national", emoji: "🇮🇳" },
+      "2033-10-03": { name: "Dussehra (Vijayadashami)", type: "festival", emoji: "🏹" },
+      "2033-10-23": { name: "Diwali (Deepavali)", type: "festival", emoji: "🪔" },
+      "2033-10-25": { name: "Bhai Dooj", type: "festival", emoji: "🤝" },
+      "2033-10-29": { name: "Chhath Puja", type: "festival", emoji: "🌅" },
+      "2033-11-06": { name: "Guru Nanak Jayanti", type: "festival", emoji: "ੴ" },
+      "2033-12-22": { name: "Eid-ul-Fitr", type: "festival", emoji: "🌙" },
+      "2033-12-25": { name: "Christmas Day", type: "festival", emoji: "🎄" },
+
+      // 2034
+      "2034-01-14": { name: "Makar Sankranti / Pongal", type: "festival", emoji: "🪁" },
+      "2034-01-26": { name: "Republic Day", type: "national", emoji: "🇮🇳" },
+      "2034-02-16": { name: "Maha Shivratri", type: "festival", emoji: "🔱" },
+      "2034-03-01": { name: "Eid al-Adha (Bakrid)", type: "festival", emoji: "🌙" },
+      "2034-03-04": { name: "Holika Dahan", type: "festival", emoji: "🔥" },
+      "2034-03-05": { name: "Holi (Festival of Colors)", type: "festival", emoji: "🎨" },
+      "2034-03-21": { name: "Gudi Padwa / Ugadi", type: "festival", emoji: "🚩" },
+      "2034-03-29": { name: "Ram Navami / Muharram", type: "festival", emoji: "🏹" },
+      "2034-04-14": { name: "Dr. B.R. Ambedkar Jayanti", type: "gazetted", emoji: "⚖️" },
+      "2034-05-03": { name: "Buddha Purnima", type: "festival", emoji: "🌸" },
+      "2034-08-15": { name: "Independence Day", type: "national", emoji: "🇮🇳" },
+      "2034-08-29": { name: "Raksha Bandhan", type: "festival", emoji: "🪢" },
+      "2034-09-06": { name: "Janmashtami", type: "festival", emoji: "🦚" },
+      "2034-09-17": { name: "Ganesh Chaturthi", type: "festival", emoji: "🐘" },
+      "2034-10-02": { name: "Mahatma Gandhi Jayanti", type: "national", emoji: "🇮🇳" },
+      "2034-10-21": { name: "Dussehra (Vijayadashami)", type: "festival", emoji: "🏹" },
+      "2034-11-10": { name: "Diwali (Deepavali)", type: "festival", emoji: "🪔" },
+      "2034-11-12": { name: "Bhai Dooj", type: "festival", emoji: "🤝" },
+      "2034-11-17": { name: "Chhath Puja", type: "festival", emoji: "🌅" },
+      "2034-11-26": { name: "Guru Nanak Jayanti", type: "festival", emoji: "ੴ" },
+      "2034-12-12": { name: "Eid-ul-Fitr", type: "festival", emoji: "🌙" },
+      "2034-12-25": { name: "Christmas Day", type: "festival", emoji: "🎄" },
+
+      // 2035
+      "2035-01-14": { name: "Makar Sankranti / Pongal", type: "festival", emoji: "🪁" },
+      "2035-01-26": { name: "Republic Day", type: "national", emoji: "🇮🇳" },
+      "2035-02-18": { name: "Eid al-Adha (Bakrid)", type: "festival", emoji: "🌙" },
+      "2035-03-07": { name: "Maha Shivratri", type: "festival", emoji: "🔱" },
+      "2035-03-19": { name: "Muharram", type: "festival", emoji: "🕌" },
+      "2035-03-24": { name: "Holika Dahan", type: "festival", emoji: "🔥" },
+      "2035-03-25": { name: "Holi (Festival of Colors)", type: "festival", emoji: "🎨" },
+      "2035-04-10": { name: "Gudi Padwa / Ugadi", type: "festival", emoji: "🚩" },
+      "2035-04-14": { name: "Dr. B.R. Ambedkar Jayanti", type: "gazetted", emoji: "⚖️" },
+      "2035-04-17": { name: "Ram Navami", type: "festival", emoji: "🏹" },
+      "2035-05-22": { name: "Buddha Purnima", type: "festival", emoji: "🌸" },
+      "2035-08-15": { name: "Independence Day", type: "national", emoji: "🇮🇳" },
+      "2035-08-18": { name: "Raksha Bandhan", type: "festival", emoji: "🪢" },
+      "2035-08-26": { name: "Janmashtami", type: "festival", emoji: "🦚" },
+      "2035-09-06": { name: "Ganesh Chaturthi", type: "festival", emoji: "🐘" },
+      "2035-10-02": { name: "Mahatma Gandhi Jayanti", type: "national", emoji: "🇮🇳" },
+      "2035-10-11": { name: "Dussehra (Vijayadashami)", type: "festival", emoji: "🏹" },
+      "2035-10-30": { name: "Diwali (Deepavali)", type: "festival", emoji: "🪔" },
+      "2035-11-01": { name: "Bhai Dooj", type: "festival", emoji: "🤝" },
+      "2035-11-06": { name: "Chhath Puja", type: "festival", emoji: "🌅" },
+      "2035-11-15": { name: "Guru Nanak Jayanti", type: "festival", emoji: "ੴ" },
+      "2035-12-01": { name: "Eid-ul-Fitr", type: "festival", emoji: "🌙" },
+      "2035-12-25": { name: "Christmas Day", type: "festival", emoji: "🎄" }
+    };
+
+    function extractTimeFromStr(str) {
+      if (!str) return null;
+      const m = str.match(/\b([01]?\d|2[0-3]):([0-5]\d)(?:\s*(AM|PM|am|pm))?\b/i);
+      if (m) {
+        let hh = parseInt(m[1], 10);
+        const mm = m[2];
+        const ampm = m[3] ? m[3].toUpperCase() : null;
+        if (ampm === 'PM' && hh < 12) hh += 12;
+        if (ampm === 'AM' && hh === 12) hh = 0;
+        return `${String(hh).padStart(2, '0')}:${mm}`;
+      }
+      return null;
+    }
+
+    function extractDateFromStr(str) {
+      if (!str) return null;
+      const dmy = str.match(/\b(\d{1,2})-(\d{1,2})-(\d{4})\b/);
+      if (dmy) {
+        return `${dmy[1].padStart(2, '0')}-${dmy[2].padStart(2, '0')}-${dmy[3]}`;
+      }
+      const ymd = str.match(/\b(\d{4})-(\d{1,2})-(\d{1,2})\b/);
+      if (ymd) {
+        return `${ymd[3].padStart(2, '0')}-${ymd[2].padStart(2, '0')}-${ymd[1]}`;
+      }
+      const parsed = parseAnyDateToDDMMYYYY(str.split(',')[0]);
+      if (parsed) return parsed;
+      return null;
+    }
+
+    function getFestivalForDate(dmyOrYmdStr) {
+      if (!dmyOrYmdStr) return null;
+      let y = '', m = '', d = '';
+      const dmyMatch = dmyOrYmdStr.match(/\b(\d{1,2})-(\d{1,2})-(\d{4})\b/);
+      if (dmyMatch) {
+        d = dmyMatch[1].padStart(2, '0');
+        m = dmyMatch[2].padStart(2, '0');
+        y = dmyMatch[3];
+      } else {
+        const ymdMatch = dmyOrYmdStr.match(/\b(\d{4})-(\d{1,2})-(\d{1,2})\b/);
+        if (ymdMatch) {
+          y = ymdMatch[1];
+          m = ymdMatch[2].padStart(2, '0');
+          d = ymdMatch[3].padStart(2, '0');
+        }
+      }
+      if (!y || !m || !d) return null;
+      const isoKey = `${y}-${m}-${d}`;
+      if (INDIAN_FESTIVALS[isoKey]) {
+        return { ...INDIAN_FESTIVALS[isoKey], isoDate: isoKey, dateStr: `${d}-${m}-${y}` };
+      }
+      const mdKey = `${m}-${d}`;
+      if (mdKey === '01-26') return { name: "Republic Day", type: "national", emoji: "🇮🇳", isoDate: isoKey, dateStr: `${d}-${m}-${y}` };
+      if (mdKey === '08-15') return { name: "Independence Day", type: "national", emoji: "🇮🇳", isoDate: isoKey, dateStr: `${d}-${m}-${y}` };
+      if (mdKey === '10-02') return { name: "Mahatma Gandhi Jayanti", type: "national", emoji: "🇮🇳", isoDate: isoKey, dateStr: `${d}-${m}-${y}` };
+      if (mdKey === '12-25') return { name: "Christmas Day", type: "festival", emoji: "🎄", isoDate: isoKey, dateStr: `${d}-${m}-${y}` };
+      if (mdKey === '01-14') return { name: "Makar Sankranti / Pongal", type: "festival", emoji: "🪁", isoDate: isoKey, dateStr: `${d}-${m}-${y}` };
+      if (mdKey === '04-14') return { name: "Dr. B.R. Ambedkar Jayanti", type: "gazetted", emoji: "⚖️", isoDate: isoKey, dateStr: `${d}-${m}-${y}` };
+      if (mdKey === '05-01') return { name: "Labour Day / Maharashtra Day", type: "gazetted", emoji: "🛠️", isoDate: isoKey, dateStr: `${d}-${m}-${y}` };
+
+      return null;
+    }
+
+    function updateAppointmentFestivalNotice(rawVal) {
+      if (!appointmentFestivalNotice) return;
+      const dateStr = extractDateFromStr(rawVal);
+      const fest = getFestivalForDate(dateStr);
+      if (fest) {
+        appointmentFestivalNotice.style.display = 'flex';
+        appointmentFestivalNotice.innerHTML = `🎉 <span><strong>Indian Festival:</strong> ${fest.name} ${fest.emoji} &nbsp;—&nbsp; Scheduled on an auspicious day / holiday!</span>`;
+      } else {
+        appointmentFestivalNotice.style.display = 'none';
+        appointmentFestivalNotice.innerHTML = '';
+      }
+    }
+
+    function ensureAppointmentDefaultTime(raw) {
+      if (!raw) return '';
+      let str = raw.toString().trim();
+      if (!str) return '';
+
+      const time = extractTimeFromStr(str);
+      const date = extractDateFromStr(str);
+
+      if (date) {
+        return time ? `${date}, ${time}` : `${date}, 10:00`;
+      }
+      return str;
+    }
 
     function formatAppointmentDigits(raw) {
       if (!raw) return '';
@@ -1385,58 +2645,521 @@
         const val = appointmentInput.value;
         const formatted = formatAppointmentDigits(val);
         appointmentInput.value = formatted;
+        updateAppointmentFestivalNotice(formatted);
+      });
+
+      appointmentInput.addEventListener('blur', () => {
+        if (appointmentInput.value.trim()) {
+          appointmentInput.value = ensureAppointmentDefaultTime(appointmentInput.value);
+          updateAppointmentFestivalNotice(appointmentInput.value);
+          saveDraft();
+        }
+      });
+
+      appointmentInput.addEventListener('change', () => {
+        if (appointmentInput.value.trim()) {
+          appointmentInput.value = ensureAppointmentDefaultTime(appointmentInput.value);
+          updateAppointmentFestivalNotice(appointmentInput.value);
+          saveDraft();
+        }
+      });
+
+      appointmentInput.addEventListener('paste', (e) => {
+        e.preventDefault();
+        const pasted = (e.clipboardData || window.clipboardData).getData('text');
+        const formatted = ensureAppointmentDefaultTime(pasted) || formatAppointmentDigits(pasted);
+        appointmentInput.value = formatted;
+        updateAppointmentFestivalNotice(formatted);
+        saveDraft();
       });
     }
 
-    if (datePickerBtn && hiddenDatePicker) {
+    // ==========================================================
+    // CUSTOM INDIAN FESTIVAL CALENDAR & 24-HR TIME PICKER LOGIC
+    // ==========================================================
+    const calModal = document.getElementById('customCalendarModal');
+    const calMonthSelect = document.getElementById('calMonthSelect');
+    const calYearSelect = document.getElementById('calYearSelect');
+    const calDaysGrid = document.getElementById('calDaysGrid');
+    const calFestivalInfoStrip = document.getElementById('calFestivalInfoStrip');
+    const calTimeSection = document.getElementById('calTimeSection');
+    const calHourCol = document.getElementById('calHourCol');
+    const calMinCol = document.getElementById('calMinCol');
+    const calPrevBtn = document.getElementById('calPrevMonthBtn');
+    const calNextBtn = document.getElementById('calNextMonthBtn');
+    const calHourUpBtn = document.getElementById('calHourUpBtn');
+    const calHourDownBtn = document.getElementById('calHourDownBtn');
+    const calMinUpBtn = document.getElementById('calMinUpBtn');
+    const calMinDownBtn = document.getElementById('calMinDownBtn');
+    const calCloseBtn = document.getElementById('calCloseBtn');
+    const calClearBtn = document.getElementById('calClearBtn');
+    const calTodayBtn = document.getElementById('calTodayBtn');
+    const calDoneBtn = document.getElementById('calDoneBtn');
+
+    let activeCalendarTarget = 'appointment'; // 'appointment' or 'dob'
+
+    let calViewYear = 2026;
+    let calViewMonth = 7; // 0-indexed, 7 = August
+    let calSelectedYear = 2026;
+    let calSelectedMonth = 7;
+    let calSelectedDay = 19;
+    let calSelectedHour = '10';
+    let calSelectedMin = '00';
+
+    function initCalendarYears() {
+      if (!calYearSelect) return;
+      calYearSelect.innerHTML = '';
+      for (let y = 2035; y >= 1925; y--) {
+        const opt = document.createElement('option');
+        opt.value = y;
+        opt.textContent = y;
+        calYearSelect.appendChild(opt);
+      }
+    }
+
+    function initCalendarTimePicker() {
+      // Build Hours 00 to 23
+      calHourCol.innerHTML = '';
+      for (let h = 0; h < 24; h++) {
+        const hh = String(h).padStart(2, '0');
+        const btn = document.createElement('div');
+        btn.className = 'cal-time-item';
+        btn.dataset.hour = hh;
+        btn.textContent = hh;
+        btn.addEventListener('click', () => {
+          calSelectedHour = hh;
+          updateActiveTimeItems();
+        });
+        calHourCol.appendChild(btn);
+      }
+
+      // Build Minutes in 5-minute intervals 00 to 55
+      calMinCol.innerHTML = '';
+      for (let m = 0; m < 60; m += 5) {
+        const mm = String(m).padStart(2, '0');
+        const btn = document.createElement('div');
+        btn.className = 'cal-time-item';
+        btn.dataset.min = mm;
+        btn.textContent = mm;
+        btn.addEventListener('click', () => {
+          calSelectedMin = mm;
+          updateActiveTimeItems();
+        });
+        calMinCol.appendChild(btn);
+      }
+    }
+
+    function updateActiveTimeItems() {
+      if (!calHourCol || !calMinCol) return;
+      calHourCol.querySelectorAll('.cal-time-item').forEach(el => {
+        if (el.dataset.hour === calSelectedHour) {
+          el.classList.add('active');
+          el.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+        } else {
+          el.classList.remove('active');
+        }
+      });
+
+      calMinCol.querySelectorAll('.cal-time-item').forEach(el => {
+        if (el.dataset.min === calSelectedMin) {
+          el.classList.add('active');
+          el.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+        } else {
+          el.classList.remove('active');
+        }
+      });
+    }
+
+    function updateFestivalInfoStrip(year, month, day) {
+      if (!calFestivalInfoStrip) return;
+      const dStr = `${String(day).padStart(2, '0')}-${String(month + 1).padStart(2, '0')}-${year}`;
+      const fest = getFestivalForDate(dStr);
+      if (fest) {
+        calFestivalInfoStrip.className = 'cal-festival-info-strip is-festive';
+        calFestivalInfoStrip.innerHTML = `<span class="cal-fest-icon">${fest.emoji}</span><span class="cal-fest-text"><strong>${fest.name}</strong> (${fest.type === 'national' ? 'National Holiday' : 'Indian Festival'})</span>`;
+      } else {
+        calFestivalInfoStrip.className = 'cal-festival-info-strip';
+        calFestivalInfoStrip.innerHTML = `<span class="cal-fest-icon">📅</span><span class="cal-fest-text">${dStr} — Working Day</span>`;
+      }
+    }
+
+    function renderCalendarGrid() {
+      if (calMonthSelect) calMonthSelect.value = calViewMonth;
+      if (calYearSelect) calYearSelect.value = calViewYear;
+      calDaysGrid.innerHTML = '';
+
+      const firstDayOfMonth = new Date(calViewYear, calViewMonth, 1);
+      const lastDayOfMonth = new Date(calViewYear, calViewMonth + 1, 0);
+      const totalDaysInMonth = lastDayOfMonth.getDate();
+
+      // Monday is day 0 (ISO)
+      let firstDayIndex = firstDayOfMonth.getDay() - 1;
+      if (firstDayIndex < 0) firstDayIndex = 6;
+
+      const prevMonthLastDay = new Date(calViewYear, calViewMonth, 0).getDate();
+
+      const todayObj = new Date();
+      const todayYear = todayObj.getFullYear();
+      const todayMonth = todayObj.getMonth();
+      const todayDate = todayObj.getDate();
+
+      // Previous month trailing days
+      for (let i = firstDayIndex - 1; i >= 0; i--) {
+        const dNum = prevMonthLastDay - i;
+        const cell = document.createElement('div');
+        cell.className = 'cal-day-cell cal-other-month';
+        cell.textContent = dNum;
+        cell.addEventListener('click', () => {
+          calViewMonth--;
+          if (calViewMonth < 0) {
+            calViewMonth = 11;
+            calViewYear--;
+          }
+          calSelectedYear = calViewYear;
+          calSelectedMonth = calViewMonth;
+          calSelectedDay = dNum;
+          renderCalendarGrid();
+        });
+        calDaysGrid.appendChild(cell);
+      }
+
+      // Current month days
+      for (let d = 1; d <= totalDaysInMonth; d++) {
+        const cell = document.createElement('div');
+        cell.className = 'cal-day-cell';
+        cell.textContent = d;
+
+        const isToday = (calViewYear === todayYear && calViewMonth === todayMonth && d === todayDate);
+        if (isToday) cell.classList.add('cal-today');
+
+        const isSelected = (calViewYear === calSelectedYear && calViewMonth === calSelectedMonth && d === calSelectedDay);
+        if (isSelected) cell.classList.add('cal-selected');
+
+        const dStr = `${String(d).padStart(2, '0')}-${String(calViewMonth + 1).padStart(2, '0')}-${calViewYear}`;
+        const fest = getFestivalForDate(dStr);
+
+        if (fest) {
+          cell.classList.add('cal-festival-day');
+          cell.title = `${fest.name} ${fest.emoji} (${fest.type === 'national' ? 'National Holiday' : 'Festival'})`;
+          const dot = document.createElement('span');
+          dot.className = 'cal-festival-dot';
+          cell.appendChild(dot);
+        }
+
+        cell.addEventListener('click', () => {
+          calSelectedYear = calViewYear;
+          calSelectedMonth = calViewMonth;
+          calSelectedDay = d;
+          renderCalendarGrid();
+          updateFestivalInfoStrip(calSelectedYear, calSelectedMonth, calSelectedDay);
+        });
+
+        cell.addEventListener('mouseenter', () => {
+          updateFestivalInfoStrip(calViewYear, calViewMonth, d);
+        });
+
+        cell.addEventListener('mouseleave', () => {
+          updateFestivalInfoStrip(calSelectedYear, calSelectedMonth, calSelectedDay);
+        });
+
+        calDaysGrid.appendChild(cell);
+      }
+
+      // Next month leading days to complete grid (up to 42 cells)
+      const currentCells = firstDayIndex + totalDaysInMonth;
+      const remainingCells = (currentCells <= 35 ? 35 : 42) - currentCells;
+      for (let j = 1; j <= remainingCells; j++) {
+        const cell = document.createElement('div');
+        cell.className = 'cal-day-cell cal-other-month';
+        cell.textContent = j;
+        cell.addEventListener('click', () => {
+          calViewMonth++;
+          if (calViewMonth > 11) {
+            calViewMonth = 0;
+            calViewYear++;
+          }
+          calSelectedYear = calViewYear;
+          calSelectedMonth = calViewMonth;
+          calSelectedDay = j;
+          renderCalendarGrid();
+        });
+        calDaysGrid.appendChild(cell);
+      }
+
+      updateFestivalInfoStrip(calSelectedYear, calSelectedMonth, calSelectedDay);
+    }
+
+    function openAppointmentCalendarModal() {
+      activeCalendarTarget = 'appointment';
+      if (calTimeSection) calTimeSection.style.display = 'flex';
+
+      const currentVal = appointmentInput ? appointmentInput.value.trim() : '';
+      const dateStr = extractDateFromStr(currentVal);
+      const timeStr = extractTimeFromStr(currentVal);
+
+      if (dateStr) {
+        const [d, m, y] = dateStr.split('-').map(n => parseInt(n, 10));
+        calSelectedYear = y;
+        calSelectedMonth = m - 1;
+        calSelectedDay = d;
+        calViewYear = y;
+        calViewMonth = m - 1;
+      } else {
+        const now = new Date();
+        calSelectedYear = now.getFullYear();
+        calSelectedMonth = now.getMonth();
+        calSelectedDay = now.getDate();
+        calViewYear = now.getFullYear();
+        calViewMonth = now.getMonth();
+      }
+
+      if (timeStr) {
+        const [hh, mm] = timeStr.split(':');
+        calSelectedHour = hh.padStart(2, '0');
+        const minNum = parseInt(mm, 10);
+        const roundedMin = Math.floor(minNum / 5) * 5;
+        calSelectedMin = String(roundedMin).padStart(2, '0');
+      } else {
+        calSelectedHour = '10';
+        calSelectedMin = '00';
+      }
+
+      renderCalendarGrid();
+      updateActiveTimeItems();
+
+      calModal.style.display = 'flex';
+      setTimeout(() => {
+        calModal.classList.add('active');
+        calModal.setAttribute('aria-hidden', 'false');
+      }, 10);
+    }
+
+    function openDobCalendarModal() {
+      activeCalendarTarget = 'dob';
+      if (calTimeSection) calTimeSection.style.display = 'none';
+
+      const currentVal = dobInput ? dobInput.value.trim() : '';
+      const dateStr = extractDateFromStr(currentVal);
+
+      if (dateStr) {
+        const [d, m, y] = dateStr.split('-').map(n => parseInt(n, 10));
+        calSelectedYear = y;
+        calSelectedMonth = m - 1;
+        calSelectedDay = d;
+        calViewYear = y;
+        calViewMonth = m - 1;
+      } else {
+        const now = new Date();
+        const currentYear = now.getFullYear();
+        const ageVal = ageInput ? parseInt(ageInput.value, 10) : 0;
+        const defaultYear = (ageVal > 0 && ageVal <= 120) ? (currentYear - ageVal) : 1998;
+        calSelectedYear = defaultYear;
+        calSelectedMonth = 0; // Jan
+        calSelectedDay = 1;
+        calViewYear = defaultYear;
+        calViewMonth = 0;
+      }
+
+      renderCalendarGrid();
+
+      calModal.style.display = 'flex';
+      setTimeout(() => {
+        calModal.classList.add('active');
+        calModal.setAttribute('aria-hidden', 'false');
+      }, 10);
+    }
+
+    function closeCalendarModal() {
+      calModal.classList.remove('active');
+      calModal.setAttribute('aria-hidden', 'true');
+      setTimeout(() => {
+        calModal.style.display = 'none';
+      }, 200);
+    }
+
+    function confirmSelectionAndClose() {
+      const formattedDate = `${String(calSelectedDay).padStart(2, '0')}-${String(calSelectedMonth + 1).padStart(2, '0')}-${calSelectedYear}`;
+
+      if (activeCalendarTarget === 'dob') {
+        if (dobInput) dobInput.value = formattedDate;
+        updateDobAndAgeCalculations('dob');
+        saveDraft();
+        closeCalendarModal();
+      } else {
+        const formattedTime = `${calSelectedHour}:${calSelectedMin}`;
+        const finalAppointment = `${formattedDate}, ${formattedTime}`;
+
+        if (appointmentInput) appointmentInput.value = finalAppointment;
+        updateAppointmentFestivalNotice(finalAppointment);
+        saveDraft();
+        closeCalendarModal();
+      }
+    }
+
+    initCalendarYears();
+    initCalendarTimePicker();
+
+    if (calMonthSelect) {
+      calMonthSelect.addEventListener('change', () => {
+        calViewMonth = parseInt(calMonthSelect.value, 10);
+        renderCalendarGrid();
+      });
+    }
+
+    if (calYearSelect) {
+      calYearSelect.addEventListener('change', () => {
+        calViewYear = parseInt(calYearSelect.value, 10);
+        renderCalendarGrid();
+      });
+    }
+
+    if (calPrevBtn) {
+      calPrevBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        calViewMonth--;
+        if (calViewMonth < 0) {
+          calViewMonth = 11;
+          calViewYear--;
+        }
+        renderCalendarGrid();
+      });
+    }
+
+    if (calNextBtn) {
+      calNextBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        calViewMonth++;
+        if (calViewMonth > 11) {
+          calViewMonth = 0;
+          calViewYear++;
+        }
+        renderCalendarGrid();
+      });
+    }
+
+    if (calHourUpBtn) {
+      calHourUpBtn.addEventListener('click', () => {
+        let h = parseInt(calSelectedHour, 10) - 1;
+        if (h < 0) h = 23;
+        calSelectedHour = String(h).padStart(2, '0');
+        updateActiveTimeItems();
+      });
+    }
+
+    if (calHourDownBtn) {
+      calHourDownBtn.addEventListener('click', () => {
+        let h = parseInt(calSelectedHour, 10) + 1;
+        if (h > 23) h = 0;
+        calSelectedHour = String(h).padStart(2, '0');
+        updateActiveTimeItems();
+      });
+    }
+
+    if (calMinUpBtn) {
+      calMinUpBtn.addEventListener('click', () => {
+        let m = parseInt(calSelectedMin, 10) - 5;
+        if (m < 0) m = 55;
+        calSelectedMin = String(m).padStart(2, '0');
+        updateActiveTimeItems();
+      });
+    }
+
+    if (calMinDownBtn) {
+      calMinDownBtn.addEventListener('click', () => {
+        let m = parseInt(calSelectedMin, 10) + 5;
+        if (m > 55) m = 0;
+        calSelectedMin = String(m).padStart(2, '0');
+        updateActiveTimeItems();
+      });
+    }
+
+    if (calCloseBtn) {
+      calCloseBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        closeCalendarModal();
+      });
+    }
+
+    if (calClearBtn) {
+      calClearBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        if (activeCalendarTarget === 'dob') {
+          if (dobInput) dobInput.value = '';
+          updateDobAndAgeCalculations('dob');
+        } else {
+          if (appointmentInput) appointmentInput.value = '';
+          updateAppointmentFestivalNotice('');
+        }
+        saveDraft();
+        closeCalendarModal();
+      });
+    }
+
+    if (calTodayBtn) {
+      calTodayBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        const now = new Date();
+        calSelectedYear = now.getFullYear();
+        calSelectedMonth = now.getMonth();
+        calSelectedDay = now.getDate();
+        calViewYear = now.getFullYear();
+        calViewMonth = now.getMonth();
+        if (activeCalendarTarget === 'appointment') {
+          calSelectedHour = String(now.getHours()).padStart(2, '0');
+          const roundedMin = Math.floor(now.getMinutes() / 5) * 5;
+          calSelectedMin = String(roundedMin).padStart(2, '0');
+          updateActiveTimeItems();
+        }
+        renderCalendarGrid();
+      });
+    }
+
+    if (calDoneBtn) {
+      calDoneBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        confirmSelectionAndClose();
+      });
+    }
+
+    if (calModal) {
+      calModal.addEventListener('click', (e) => {
+        if (e.target === calModal) {
+          closeCalendarModal();
+        }
+      });
+    }
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && calModal && calModal.classList.contains('active')) {
+        closeCalendarModal();
+      }
+    });
+
+    if (dobCalendarBtn) {
+      dobCalendarBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        openDobCalendarModal();
+      });
+    }
+
+    if (datePickerBtn) {
       datePickerBtn.addEventListener('click', (e) => {
         e.preventDefault();
-        if (typeof hiddenDatePicker.showPicker === 'function') {
-          hiddenDatePicker.showPicker();
-        } else {
-          hiddenDatePicker.focus();
-          hiddenDatePicker.click();
-        }
-      });
-
-      hiddenDatePicker.addEventListener('change', () => {
-        if (!hiddenDatePicker.value) return;
-        const [y, m, d] = hiddenDatePicker.value.split('-');
-        const formattedDate = `${d}-${m}-${y}`;
-        const currentVal = appointmentInput ? appointmentInput.value.trim() : '';
-        const timeMatch = currentVal.match(/\d{1,2}:\d{2}/);
-        if (timeMatch) {
-          appointmentInput.value = `${formattedDate}, ${timeMatch[0]}`;
-        } else {
-          appointmentInput.value = formattedDate;
-        }
+        openAppointmentCalendarModal();
       });
     }
 
-    if (timePickerBtn && hiddenTimePicker) {
+    if (timePickerBtn) {
       timePickerBtn.addEventListener('click', (e) => {
         e.preventDefault();
-        if (typeof hiddenTimePicker.showPicker === 'function') {
-          hiddenTimePicker.showPicker();
-        } else {
-          hiddenTimePicker.focus();
-          hiddenTimePicker.click();
-        }
+        openAppointmentCalendarModal();
       });
+    }
 
-      hiddenTimePicker.addEventListener('change', () => {
-        if (!hiddenTimePicker.value) return;
-        const [hhStr, mmStr] = hiddenTimePicker.value.split(':');
-        const formattedTime = `${hhStr}:${mmStr}`;
-
-        const currentVal = appointmentInput ? appointmentInput.value.trim() : '';
-        const dateMatch = currentVal.match(/\d{2}-\d{2}-\d{4}/);
-        if (dateMatch) {
-          appointmentInput.value = `${dateMatch[0]}, ${formattedTime}`;
-        } else if (currentVal && !currentVal.includes(formattedTime)) {
-          appointmentInput.value = `${currentVal}, ${formattedTime}`;
-        } else {
-          appointmentInput.value = formattedTime;
+    if (appointmentInput) {
+      appointmentInput.addEventListener('click', () => {
+        if (!appointmentInput.value.trim()) {
+          openAppointmentCalendarModal();
         }
       });
     }
@@ -1447,34 +3170,41 @@
     function extract10DigitPhone(raw) {
       if (!raw) return '';
       let str = raw.toString().trim();
+      if (!str) return '';
 
-      // 1. Remove explicit +91 or + prefix (handles "+91", "+ 91", "+91-", "+")
-      str = str.replace(/^\s*\+\s*91[\s\-]*/i, '');
-      str = str.replace(/^\s*\+[\s\-]*/, '');
+      // 1. Remove text prefixes like "tel:", "mob:", "whatsapp:", "phone:", etc.
+      str = str.replace(/^(?:tel|mob|mobile|whatsapp|phone|call)\s*:\s*/i, '');
 
-      // 2. Extract digits only
+      // 2. Remove explicit +91 or + or (+91) or (0) prefixes
+      // Handles: "+91", "+ 91", "+91-", "+", "(+91)", "+(91)"
+      str = str.replace(/^\s*\+\s*\(?\s*91\s*\)?[\s\-\.]*/i, '');
+      str = str.replace(/^\s*\(\s*\+\s*91\s*\)[\s\-\.]*/i, '');
+      str = str.replace(/^\s*\+\s*/, '');
+      str = str.replace(/^\s*\(\s*0\s*\)\s*[\s\-\.]*/, '');
+
+      // 3. Extract all digits
       let digits = str.replace(/\D/g, '');
       if (!digits) return '';
 
-      // 3. Remove international / trunk prefixes if length indicates extra prefix (0091..., 091...)
-      if (digits.startsWith('0091') && digits.length >= 12) {
+      // 4. Handle 0091 (>= 14 digits) or 091 (>= 13 digits)
+      if (digits.startsWith('0091') && digits.length >= 14) {
         digits = digits.slice(4);
-      } else if (digits.startsWith('091') && digits.length >= 12) {
+      } else if (digits.startsWith('091') && digits.length >= 13) {
         digits = digits.slice(3);
       }
 
-      // 4. Remove leading zeros (e.g. 09810820208 -> 9810820208, or user typing 0)
+      // 5. Remove leading zeros (e.g. "07678414298", "007678414298", "0 76784 14298", "09176784142")
       digits = digits.replace(/^0+/, '');
 
-      // 5. Remove 91 country code prefix if 11 or 12 digits (e.g. 919810820208 -> 9810820208)
-      if (digits.startsWith('91') && digits.length >= 11) {
+      // 6. If digits start with 91 AND total length > 10 (e.g. 11 or 12 digits: "917678414298", "919176784142")
+      // Remove the 91 country code
+      if (digits.startsWith('91') && digits.length > 10) {
         digits = digits.slice(2);
+        // Remove any zero that followed 91 (e.g. +91 09810820208)
+        digits = digits.replace(/^0+/, '');
       }
 
-      // 6. Again remove any leading zeros if they appeared after 91 (e.g. +91 09810820208)
-      digits = digits.replace(/^0+/, '');
-
-      // 7. If still longer than 10 digits, pick valid 10-digit portion (starting with 6-9)
+      // 7. If still longer than 10 digits, pick the valid 10-digit mobile portion (starting with 6-9)
       if (digits.length > 10) {
         const last10 = digits.slice(-10);
         if (/^[6-9]/.test(last10)) {
@@ -1484,7 +3214,7 @@
         }
       }
 
-      // 8. Enforce strictly 10 digits max
+      // 8. Strict max 10 digits
       return digits.slice(0, 10);
     }
 
@@ -1578,10 +3308,9 @@
 
     form.addEventListener('submit', function (e) {
       e.preventDefault();
-      updateHiddenDobAge();
 
-      const finalDobOrAge = getFormattedDobOrAge();
-      hiddenDobAge.value = finalDobOrAge;
+      const finalDobOrAge = updateDobAndAgeCalculations(activeDobAgeMode);
+      if (hiddenDobAge) hiddenDobAge.value = finalDobOrAge;
 
       const prefixSelect = document.getElementById('namePrefix');
       const prefix = prefixSelect ? prefixSelect.value : 'Mr.';
@@ -1643,12 +3372,6 @@
       }
 
       const lastSubmitTs = parseInt(sessionStorage.getItem('bima_last_submit_ts') || '0', 10);
-      const currentTs = Date.now();
-      if (currentTs - lastSubmitTs < 4000) {
-        return;
-      }
-      sessionStorage.setItem('bima_last_submit_ts', currentTs.toString());
-
       const sanitizeSecure = (str) => {
         if (!str) return '';
         return String(str)
@@ -1661,6 +3384,10 @@
         ? window.__getSecureCRMEndpoint()
         : (typeof GOOGLE_SHEETS_SCRIPT_URL !== 'undefined' ? GOOGLE_SHEETS_SCRIPT_URL : '');
 
+      if (appointmentInput && appointmentInput.value.trim()) {
+        appointmentInput.value = ensureAppointmentDefaultTime(appointmentInput.value);
+      }
+
       if (targetScriptUrl) {
         try {
           const payload = new URLSearchParams();
@@ -1672,7 +3399,7 @@
           payload.append('looking_for', sanitizeSecure(lookingFor));
           payload.append('requirement_msg', sanitizeSecure(document.getElementById('requirement_msg').value));
           payload.append('address', sanitizeSecure(document.getElementById('address').value));
-          payload.append('appointment', sanitizeSecure(document.getElementById('appointment').value));
+          payload.append('appointment', sanitizeSecure(ensureAppointmentDefaultTime(document.getElementById('appointment').value)));
           payload.append('connecting_location', sanitizeSecure(document.getElementById('connecting_location').value));
           payload.append('consent', '✅');
 
@@ -1690,7 +3417,7 @@
       successMsg.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 
       submitBtn.querySelector('.btn-inner').innerHTML =
-        '<span class="btn-icon">✅</span><span>Submitted to WhatsApp & Sheets!</span>';
+        '<span class="btn-icon">✅</span><span>Opening WhatsApp…</span>';
       submitBtn.style.background = 'linear-gradient(135deg, #059669 0%, #10b981 100%)';
       submitBtn.style.boxShadow = '0 4px 14px rgba(16, 185, 129, 0.3)';
 
@@ -1698,32 +3425,31 @@
         localStorage.removeItem(DRAFT_KEY);
       } catch (e) { }
 
-      const autoReplyMsg = `Greetings 🙏 from \n*Bima Dekho Insurance*!\n\nThank you *${fullName} Ji* for giving us a moment of your time!  We are truly grateful for the opportunity to assist you in securing a safe and confident future for you and your loved ones.\n\n👉 Get the right insurance, stress-free. From new plans to policy reviews, we make the process effortless.\n\n*Our Specialized Solutions:*\n✅ Health Insurance (Comprehensive Coverage)\n✅ Term Life (Family Protection)\n✅ Child Education & Marriage Funds\n✅ Happy Retirement Planning (Guaranteed Regular Income)\n✅ ULIPs & Wealth Creation\n✅ Motor Insurance (Car & Bike)\n✅ Travel Insurance\n\n*Your Trusted Insurance Advisor*\n\n👤 *Umesh Singh* (Since 2009)\n📞 *+91 8527261213*\n🌐 *Visit Us:* \nhttps://bimadekhoinsurance.com`;
+      const autoReplyMsg = `Greetings 🙏 from \n*Bima Dekho Insurance*!\n\nThank you *${fullName} Ji* for giving us a moment of your time! We are truly grateful for the opportunity to assist you in securing a safe and confident future for you and your loved ones.\n\n👉 Get the right insurance, stress-free. From new plans to policy reviews, we make the process effortless.\n\n*Our Specialized Solutions:*\n✅ Health Insurance (Comprehensive Coverage)\n✅ Term Life (Family Protection)\n✅ Child Education & Marriage Funds\n✅ Happy Retirement Planning (Guaranteed Regular Income)\n✅ ULIPs & Wealth Creation\n✅ Motor Insurance (Car & Bike)\n✅ Travel Insurance\n\n*Your Trusted Insurance Advisor*\n\n👤 *Umesh Singh* (Since 2009)\n📞 *+91 8527261213*\n🌐 *Visit Us:* \nhttps://bimadekhoinsurance.com`;
 
       const encodedMsg = encodeURIComponent(autoReplyMsg);
       const isAndroid = /Android/i.test(navigator.userAgent);
 
-      let waUrl = `https://api.whatsapp.com/send?phone=${cleanPhone}&text=${encodedMsg}`;
-      if (isAndroid) {
-        waUrl = `intent://send?phone=${cleanPhone}&text=${encodedMsg}#Intent;scheme=whatsapp;package=com.whatsapp.w4b;end`;
-      }
+      const waUrl = isAndroid
+        ? `https://wa.me/${cleanPhone}?text=${encodedMsg}`
+        : `https://api.whatsapp.com/send?phone=${cleanPhone}&text=${encodedMsg}`;
 
-      try {
-        const popup = window.open(waUrl, '_blank');
-        if (!popup) {
-          window.location.href = `https://api.whatsapp.com/send?phone=${cleanPhone}&text=${encodedMsg}`;
-        }
-      } catch (e) {
-        window.location.href = `https://api.whatsapp.com/send?phone=${cleanPhone}&text=${encodedMsg}`;
-      }
+      // Open WhatsApp directly without popup blocker blockage
+      setTimeout(() => {
+        window.location.href = waUrl;
+      }, 400);
 
       setTimeout(() => {
         submitBtn.disabled = false;
-      }, 2000);
+        submitBtn.querySelector('.btn-inner').innerHTML =
+          '<span class="btn-icon">📩</span><span>Submit Form</span>';
+        submitBtn.style.background = '';
+        submitBtn.style.boxShadow = '';
+      }, 4000);
     });
 
     const DRAFT_KEY = 'bima_form_draft_data';
-    const DRAFT_EXPIRY_MS = 5 * 60 * 1000; 
+    const DRAFT_EXPIRY_MS = 5 * 60 * 1000;
     const PERSISTENT_LOC_KEY = 'bima_persistent_connecting_location';
     const connectingLocInput = document.getElementById('connecting_location');
 
@@ -1777,7 +3503,7 @@
       if (!saved) return;
       try {
         const draft = JSON.parse(saved);
-        
+
         if (Date.now() - draft.timestamp > DRAFT_EXPIRY_MS) {
           localStorage.removeItem(DRAFT_KEY);
           return;
@@ -1806,9 +3532,12 @@
           consentInput.checked = true;
           syncConsentState();
         }
-        updateHiddenDobAge();
+        updateDobAndAgeCalculations(activeDobAgeMode);
         updatePhoneColor(whatsappInput);
         updatePhoneColor(mobileInput);
+        if (draft.appointment) {
+          updateAppointmentFestivalNotice(draft.appointment);
+        }
       } catch (e) { }
     }
 
@@ -1837,9 +3566,10 @@
       } catch (e) { }
       consentInput.checked = true;
       syncConsentState();
-      updateHiddenDobAge();
+      updateDobAndAgeCalculations('dob');
       updatePhoneColor(whatsappInput);
       updatePhoneColor(mobileInput);
+      updateAppointmentFestivalNotice('');
       successMsg.style.display = 'none';
       submitBtn.disabled = false;
       submitBtn.querySelector('.btn-inner').innerHTML =
@@ -1862,7 +3592,7 @@
 
     loadDraft();
     loadPersistentLocation();
-    
+
     try {
       console.log(
         '%c🛡️ Bima Dekho Security Protection Active %c\n- Anti-Scraping Encrypted Endpoint\n- Anti-Bot Honeypot Shield\n- XSS Sanitization & Flood Prevention',
