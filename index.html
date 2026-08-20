@@ -3356,7 +3356,7 @@
 
       submitBtn.disabled = true;
       submitBtn.querySelector('.btn-inner').innerHTML =
-        '<span class="btn-icon">💬</span><span>Redirecting to WhatsApp…</span>';
+        '<span class="btn-icon">💬</span><span>Redirecting to WhatsApp Business…</span>';
 
       const targetPhone = whatsappVal || mobile;
 
@@ -3417,7 +3417,7 @@
       successMsg.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 
       submitBtn.querySelector('.btn-inner').innerHTML =
-        '<span class="btn-icon">✅</span><span>Opening WhatsApp…</span>';
+        '<span class="btn-icon">✅</span><span>Opening WhatsApp Business…</span>';
       submitBtn.style.background = 'linear-gradient(135deg, #059669 0%, #10b981 100%)';
       submitBtn.style.boxShadow = '0 4px 14px rgba(16, 185, 129, 0.3)';
 
@@ -3430,13 +3430,15 @@
       const encodedMsg = encodeURIComponent(autoReplyMsg);
       const isAndroid = /Android/i.test(navigator.userAgent);
 
-      const waUrl = isAndroid
-        ? `https://wa.me/${cleanPhone}?text=${encodedMsg}`
-        : `https://api.whatsapp.com/send?phone=${cleanPhone}&text=${encodedMsg}`;
+      // Explicitly target WhatsApp Business (com.whatsapp.w4b) on Android
+      const standardApiFallback = `https://api.whatsapp.com/send?phone=${cleanPhone}&text=${encodedMsg}`;
+      const waBusinessUrl = isAndroid
+        ? `intent://send?phone=${cleanPhone}&text=${encodedMsg}#Intent;scheme=whatsapp;package=com.whatsapp.w4b;S.browser_fallback_url=${encodeURIComponent(standardApiFallback)};end;`
+        : standardApiFallback;
 
-      // Open WhatsApp directly without popup blocker blockage
+      // Open WhatsApp Business directly without popup blocker blockage
       setTimeout(() => {
-        window.location.href = waUrl;
+        window.location.href = waBusinessUrl;
       }, 400);
 
       setTimeout(() => {
