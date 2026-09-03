@@ -302,6 +302,19 @@
       min-width: 0 !important;
       width: 100% !important;
       height: 46px !important;
+      text-transform: capitalize;
+    }
+
+    #address,
+    #requirement_msg,
+    #source_detail {
+      text-transform: uppercase;
+    }
+
+    #address::placeholder,
+    #requirement_msg::placeholder,
+    #source_detail::placeholder {
+      text-transform: none;
     }
 
     .form-field input[type="text"],
@@ -330,7 +343,7 @@
       box-sizing: border-box;
     }
 
-    /* Hide number input increase/decrease spinner arrows */
+    
     input[type="number"]::-webkit-outer-spin-button,
     input[type="number"]::-webkit-inner-spin-button,
     #ageInput::-webkit-outer-spin-button,
@@ -349,6 +362,21 @@
     .form-field textarea {
       height: auto;
       padding: 11px 14px;
+    }
+
+    .dynamic-source-detail-field {
+      animation: fadeInField 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    @keyframes fadeInField {
+      from {
+        opacity: 0;
+        transform: translateY(-4px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
 
     .form-field input[type="text"]::placeholder,
@@ -1067,9 +1095,7 @@
       }
     }
 
-    /* ====================================================
-       INDIAN FESTIVAL CALENDAR & 24-HR TIME PICKER STYLES
-       ==================================================== */
+    
     .appointment-festival-notice {
       margin-top: 6px;
       padding: 7px 10px;
@@ -1103,9 +1129,7 @@
       font-weight: 700;
     }
 
-    /* ====================================================
-       INDIAN FESTIVAL CALENDAR & 24-HR TIME PICKER STYLES
-       ==================================================== */
+    
     .appointment-festival-notice {
       margin-top: 6px;
       padding: 6px 9px;
@@ -1139,7 +1163,7 @@
       font-weight: 700;
     }
 
-    /* Modal Backdrop */
+    
     .cal-modal-overlay {
       position: fixed;
       top: 0;
@@ -1164,7 +1188,7 @@
       pointer-events: auto;
     }
 
-    /* Modal Card with Fixed Compact Dimensions (Matching Example Image) */
+    
     .cal-modal-card {
       background: #ffffff;
       border-radius: 10px;
@@ -1184,7 +1208,7 @@
       transform: scale(1);
     }
 
-    /* Header with Dropdowns & Arrows */
+    
     .cal-modal-header {
       display: flex;
       align-items: center;
@@ -1285,7 +1309,7 @@
       background: #fee2e2;
     }
 
-    /* Fixed-Height Synchronized Body */
+    
     .cal-modal-body {
       display: flex;
       height: 180px;
@@ -1296,7 +1320,7 @@
       box-sizing: border-box;
     }
 
-    /* Left Date Section (Strict 180px) */
+    
     .cal-date-section {
       flex: 1;
       height: 180px;
@@ -1387,7 +1411,7 @@
       box-shadow: 0 1px 4px rgba(37, 99, 235, 0.35);
     }
 
-    /* Festival Day Highlight */
+    
     .cal-day-cell.cal-festival-day:not(.cal-selected) {
       color: #c2410c;
       font-weight: 800;
@@ -1407,7 +1431,7 @@
       background: #fef08a;
     }
 
-    /* Festival Info Strip under calendar */
+    
     .cal-festival-info-strip {
       padding: 2px 4px;
       background: #fffbeb;
@@ -1443,7 +1467,7 @@
       white-space: nowrap;
     }
 
-    /* Right: 24-Hr Time Picker (Strict 180px Height) */
+    
     .cal-time-section {
       width: 82px;
       height: 180px;
@@ -1530,14 +1554,14 @@
       gap: 1px;
       padding: 0;
       scrollbar-width: none;
-      /* Firefox */
+      
       -ms-overflow-style: none;
-      /* IE and Edge */
+      
     }
 
     .cal-time-col::-webkit-scrollbar {
       display: none;
-      /* Chrome, Safari, Opera */
+      
     }
 
     .cal-time-item {
@@ -1572,7 +1596,7 @@
       box-shadow: 0 1px 3px rgba(37, 99, 235, 0.35);
     }
 
-    /* Modal Footer */
+    
     .cal-modal-footer {
       display: flex;
       align-items: center;
@@ -1799,9 +1823,29 @@
 
               <div class="form-field">
                 <label for="connecting_location">Connecting Location</label>
-                <input type="text" id="connecting_location" name="connecting_location"
-                  placeholder="e.g. Connaught Place, New Delhi" />
+                <div class="select-wrap">
+                  <select id="connecting_location" name="connecting_location">
+                    <option value="" disabled selected>— Select Connecting Location —</option>
+                    <option value="Direct Marketing">Direct Marketing</option>
+                    <option value="Direct Client">Direct Client</option>
+                    <option value="Existing Client">Existing Client</option>
+                    <option value="Reference by Existing Client">Reference by Existing Client</option>
+                    <option value="HDFC ergo Google Leads">HDFC ergo Google Leads</option>
+                    <option value="31B">31B</option>
+                    <option value="Google Ads">Google Ads</option>
+                    <option value="Facebook Ads">Facebook Ads</option>
+                    <option value="WhatsApp Inbound">WhatsApp Inbound</option>
+                    <option value="Website Form">Website Form</option>
+                    <option value="Other">Other</option>
+                  </select>
+                </div>
               </div>
+            </div>
+
+            
+            <div class="form-field dynamic-source-detail-field" id="sourceDetailField" style="display: none;">
+              <label for="source_detail" id="sourceDetailLabel">Location Address <span class="required-dot" aria-hidden="true">*</span></label>
+              <input type="text" id="source_detail" name="source_detail" placeholder="e.g. Connaught Place, New Delhi" />
             </div>
 
             <div class="form-field">
@@ -1850,7 +1894,7 @@
 
   </div>
 
-  <!-- Indian Festival Calendar & 24-Hr Time Picker Modal -->
+  
   <div id="customCalendarModal" class="cal-modal-overlay" style="display: none;" aria-hidden="true">
     <div class="cal-modal-card" role="dialog" aria-modal="true" aria-label="Appointment Calendar & Time Picker">
 
@@ -2106,7 +2150,6 @@
           return '';
         }
       } else {
-        // Age mode active
         if (rawAge) {
           const ageNum = parseInt(rawAge.replace(/\D/g, ''), 10);
           if (!isNaN(ageNum) && ageNum >= 1 && ageNum <= 120) {
@@ -2213,7 +2256,6 @@
     const appointmentFestivalNotice = document.getElementById('appointmentFestivalNotice');
 
     const INDIAN_FESTIVALS = {
-      // 2024
       "2024-01-14": { name: "Makar Sankranti / Pongal", type: "festival", emoji: "🪁" },
       "2024-01-26": { name: "Republic Day", type: "national", emoji: "🇮🇳" },
       "2024-03-08": { name: "Maha Shivratri", type: "festival", emoji: "🔱" },
@@ -2237,7 +2279,6 @@
       "2024-11-15": { name: "Guru Nanak Jayanti", type: "festival", emoji: "ੴ" },
       "2024-12-25": { name: "Christmas Day", type: "festival", emoji: "🎄" },
 
-      // 2025
       "2025-01-14": { name: "Makar Sankranti / Pongal", type: "festival", emoji: "🪁" },
       "2025-01-26": { name: "Republic Day", type: "national", emoji: "🇮🇳" },
       "2025-02-26": { name: "Maha Shivratri", type: "festival", emoji: "🔱" },
@@ -2265,7 +2306,6 @@
       "2025-11-05": { name: "Guru Nanak Jayanti", type: "festival", emoji: "ੴ" },
       "2025-12-25": { name: "Christmas Day", type: "festival", emoji: "🎄" },
 
-      // 2026
       "2026-01-01": { name: "New Year's Day", type: "festival", emoji: "🎉" },
       "2026-01-13": { name: "Lohri", type: "festival", emoji: "🔥" },
       "2026-01-14": { name: "Makar Sankranti / Pongal", type: "festival", emoji: "🪁" },
@@ -2307,7 +2347,6 @@
       "2026-11-24": { name: "Guru Nanak Jayanti", type: "festival", emoji: "ੴ" },
       "2026-12-25": { name: "Christmas Day", type: "festival", emoji: "🎄" },
 
-      // 2027
       "2027-01-14": { name: "Makar Sankranti / Pongal", type: "festival", emoji: "🪁" },
       "2027-01-26": { name: "Republic Day", type: "national", emoji: "🇮🇳" },
       "2027-03-06": { name: "Maha Shivratri", type: "festival", emoji: "🔱" },
@@ -2333,7 +2372,6 @@
       "2027-11-14": { name: "Guru Nanak Jayanti", type: "festival", emoji: "ੴ" },
       "2027-12-25": { name: "Christmas Day", type: "festival", emoji: "🎄" },
 
-      // 2028
       "2028-01-14": { name: "Makar Sankranti / Pongal", type: "festival", emoji: "🪁" },
       "2028-01-26": { name: "Republic Day", type: "national", emoji: "🇮🇳" },
       "2028-02-23": { name: "Maha Shivratri", type: "festival", emoji: "🔱" },
@@ -2359,7 +2397,6 @@
       "2028-11-02": { name: "Guru Nanak Jayanti", type: "festival", emoji: "ੴ" },
       "2028-12-25": { name: "Christmas Day", type: "festival", emoji: "🎄" },
 
-      // 2029
       "2029-01-14": { name: "Makar Sankranti / Pongal", type: "festival", emoji: "🪁" },
       "2029-01-26": { name: "Republic Day", type: "national", emoji: "🇮🇳" },
       "2029-02-12": { name: "Maha Shivratri", type: "festival", emoji: "🔱" },
@@ -2384,7 +2421,6 @@
       "2029-11-21": { name: "Guru Nanak Jayanti", type: "festival", emoji: "ੴ" },
       "2029-12-25": { name: "Christmas Day", type: "festival", emoji: "🎄" },
 
-      // 2030
       "2030-01-14": { name: "Makar Sankranti / Pongal", type: "festival", emoji: "🪁" },
       "2030-01-26": { name: "Republic Day", type: "national", emoji: "🇮🇳" },
       "2030-02-04": { name: "Eid-ul-Fitr", type: "festival", emoji: "🌙" },
@@ -2408,7 +2444,6 @@
       "2030-11-10": { name: "Guru Nanak Jayanti", type: "festival", emoji: "ੴ" },
       "2030-12-25": { name: "Christmas Day", type: "festival", emoji: "🎄" },
 
-      // 2031
       "2031-01-14": { name: "Makar Sankranti / Pongal", type: "festival", emoji: "🪁" },
       "2031-01-24": { name: "Eid-ul-Fitr", type: "festival", emoji: "🌙" },
       "2031-01-26": { name: "Republic Day", type: "national", emoji: "🇮🇳" },
@@ -2432,7 +2467,6 @@
       "2031-11-29": { name: "Guru Nanak Jayanti", type: "festival", emoji: "ੴ" },
       "2031-12-25": { name: "Christmas Day", type: "festival", emoji: "🎄" },
 
-      // 2032
       "2032-01-13": { name: "Eid-ul-Fitr", type: "festival", emoji: "🌙" },
       "2032-01-14": { name: "Makar Sankranti / Pongal", type: "festival", emoji: "🪁" },
       "2032-01-26": { name: "Republic Day", type: "national", emoji: "🇮🇳" },
@@ -2457,7 +2491,6 @@
       "2032-11-17": { name: "Guru Nanak Jayanti", type: "festival", emoji: "ੴ" },
       "2032-12-25": { name: "Christmas Day", type: "festival", emoji: "🎄" },
 
-      // 2033
       "2033-01-02": { name: "Eid-ul-Fitr", type: "festival", emoji: "🌙" },
       "2033-01-14": { name: "Makar Sankranti / Pongal", type: "festival", emoji: "🪁" },
       "2033-01-26": { name: "Republic Day", type: "national", emoji: "🇮🇳" },
@@ -2482,7 +2515,6 @@
       "2033-12-22": { name: "Eid-ul-Fitr", type: "festival", emoji: "🌙" },
       "2033-12-25": { name: "Christmas Day", type: "festival", emoji: "🎄" },
 
-      // 2034
       "2034-01-14": { name: "Makar Sankranti / Pongal", type: "festival", emoji: "🪁" },
       "2034-01-26": { name: "Republic Day", type: "national", emoji: "🇮🇳" },
       "2034-02-16": { name: "Maha Shivratri", type: "festival", emoji: "🔱" },
@@ -2506,7 +2538,6 @@
       "2034-12-12": { name: "Eid-ul-Fitr", type: "festival", emoji: "🌙" },
       "2034-12-25": { name: "Christmas Day", type: "festival", emoji: "🎄" },
 
-      // 2035
       "2035-01-14": { name: "Makar Sankranti / Pongal", type: "festival", emoji: "🪁" },
       "2035-01-26": { name: "Republic Day", type: "national", emoji: "🇮🇳" },
       "2035-02-18": { name: "Eid al-Adha (Bakrid)", type: "festival", emoji: "🌙" },
@@ -2674,9 +2705,6 @@
       });
     }
 
-    // ==========================================================
-    // CUSTOM INDIAN FESTIVAL CALENDAR & 24-HR TIME PICKER LOGIC
-    // ==========================================================
     const calModal = document.getElementById('customCalendarModal');
     const calMonthSelect = document.getElementById('calMonthSelect');
     const calYearSelect = document.getElementById('calYearSelect');
@@ -2696,10 +2724,10 @@
     const calTodayBtn = document.getElementById('calTodayBtn');
     const calDoneBtn = document.getElementById('calDoneBtn');
 
-    let activeCalendarTarget = 'appointment'; // 'appointment' or 'dob'
+    let activeCalendarTarget = 'appointment';
 
     let calViewYear = 2026;
-    let calViewMonth = 7; // 0-indexed, 7 = August
+    let calViewMonth = 7;
     let calSelectedYear = 2026;
     let calSelectedMonth = 7;
     let calSelectedDay = 19;
@@ -2718,7 +2746,6 @@
     }
 
     function initCalendarTimePicker() {
-      // Build Hours 00 to 23
       calHourCol.innerHTML = '';
       for (let h = 0; h < 24; h++) {
         const hh = String(h).padStart(2, '0');
@@ -2733,7 +2760,6 @@
         calHourCol.appendChild(btn);
       }
 
-      // Build Minutes in 5-minute intervals 00 to 55
       calMinCol.innerHTML = '';
       for (let m = 0; m < 60; m += 5) {
         const mm = String(m).padStart(2, '0');
@@ -2792,7 +2818,6 @@
       const lastDayOfMonth = new Date(calViewYear, calViewMonth + 1, 0);
       const totalDaysInMonth = lastDayOfMonth.getDate();
 
-      // Monday is day 0 (ISO)
       let firstDayIndex = firstDayOfMonth.getDay() - 1;
       if (firstDayIndex < 0) firstDayIndex = 6;
 
@@ -2803,7 +2828,6 @@
       const todayMonth = todayObj.getMonth();
       const todayDate = todayObj.getDate();
 
-      // Previous month trailing days
       for (let i = firstDayIndex - 1; i >= 0; i--) {
         const dNum = prevMonthLastDay - i;
         const cell = document.createElement('div');
@@ -2823,7 +2847,6 @@
         calDaysGrid.appendChild(cell);
       }
 
-      // Current month days
       for (let d = 1; d <= totalDaysInMonth; d++) {
         const cell = document.createElement('div');
         cell.className = 'cal-day-cell';
@@ -2865,7 +2888,6 @@
         calDaysGrid.appendChild(cell);
       }
 
-      // Next month leading days to complete grid (up to 42 cells)
       const currentCells = firstDayIndex + totalDaysInMonth;
       const remainingCells = (currentCells <= 35 ? 35 : 42) - currentCells;
       for (let j = 1; j <= remainingCells; j++) {
@@ -2954,7 +2976,7 @@
         const ageVal = ageInput ? parseInt(ageInput.value, 10) : 0;
         const defaultYear = (ageVal > 0 && ageVal <= 120) ? (currentYear - ageVal) : 1998;
         calSelectedYear = defaultYear;
-        calSelectedMonth = 0; // Jan
+        calSelectedMonth = 0;
         calSelectedDay = 1;
         calViewYear = defaultYear;
         calViewMonth = 0;
@@ -3172,39 +3194,29 @@
       let str = raw.toString().trim();
       if (!str) return '';
 
-      // 1. Remove text prefixes like "tel:", "mob:", "whatsapp:", "phone:", etc.
       str = str.replace(/^(?:tel|mob|mobile|whatsapp|phone|call)\s*:\s*/i, '');
 
-      // 2. Remove explicit +91 or + or (+91) or (0) prefixes
-      // Handles: "+91", "+ 91", "+91-", "+", "(+91)", "+(91)"
       str = str.replace(/^\s*\+\s*\(?\s*91\s*\)?[\s\-\.]*/i, '');
       str = str.replace(/^\s*\(\s*\+\s*91\s*\)[\s\-\.]*/i, '');
       str = str.replace(/^\s*\+\s*/, '');
       str = str.replace(/^\s*\(\s*0\s*\)\s*[\s\-\.]*/, '');
 
-      // 3. Extract all digits
       let digits = str.replace(/\D/g, '');
       if (!digits) return '';
 
-      // 4. Handle 0091 (>= 14 digits) or 091 (>= 13 digits)
       if (digits.startsWith('0091') && digits.length >= 14) {
         digits = digits.slice(4);
       } else if (digits.startsWith('091') && digits.length >= 13) {
         digits = digits.slice(3);
       }
 
-      // 5. Remove leading zeros (e.g. "07678414298", "007678414298", "0 76784 14298", "09176784142")
       digits = digits.replace(/^0+/, '');
 
-      // 6. If digits start with 91 AND total length > 10 (e.g. 11 or 12 digits: "917678414298", "919176784142")
-      // Remove the 91 country code
       if (digits.startsWith('91') && digits.length > 10) {
         digits = digits.slice(2);
-        // Remove any zero that followed 91 (e.g. +91 09810820208)
         digits = digits.replace(/^0+/, '');
       }
 
-      // 7. If still longer than 10 digits, pick the valid 10-digit mobile portion (starting with 6-9)
       if (digits.length > 10) {
         const last10 = digits.slice(-10);
         if (/^[6-9]/.test(last10)) {
@@ -3214,7 +3226,6 @@
         }
       }
 
-      // 8. Strict max 10 digits
       return digits.slice(0, 10);
     }
 
@@ -3281,6 +3292,101 @@
     updatePhoneColor(whatsappInput);
     updatePhoneColor(mobileInput);
 
+    function toTitleCase(str) {
+      if (!str) return '';
+      return String(str)
+        .toLowerCase()
+        .replace(/(^|[\s\.\-_/])([a-z\u00C0-\u017F])/g, (match, prefix, char) => {
+          return prefix + char.toUpperCase();
+        });
+    }
+
+    function handleNameInputLive(el) {
+      if (!el) return;
+      const start = el.selectionStart;
+      const end = el.selectionEnd;
+      const oldVal = el.value;
+
+      const newVal = oldVal.replace(/(^|[\s\.\-_/])([a-z\u00C0-\u017F])/g, (match, prefix, char) => {
+        return prefix + char.toUpperCase();
+      });
+
+      if (newVal !== oldVal) {
+        el.value = newVal;
+        if (start !== null && end !== null) {
+          el.setSelectionRange(start, end);
+        }
+      }
+    }
+
+    function handleNameBlur(el) {
+      if (!el || !el.value) return;
+      const oldVal = el.value;
+      const formatted = toTitleCase(oldVal.trim());
+      if (formatted !== oldVal) {
+        el.value = formatted;
+        saveDraft();
+      }
+    }
+
+    function handleUppercaseLive(el) {
+      if (!el) return;
+      const start = el.selectionStart;
+      const end = el.selectionEnd;
+      const oldVal = el.value;
+      const newVal = oldVal.toUpperCase();
+
+      if (newVal !== oldVal) {
+        el.value = newVal;
+        if (start !== null && end !== null) {
+          el.setSelectionRange(start, end);
+        }
+      }
+    }
+
+    const nameInputField = document.getElementById('name');
+    if (nameInputField) {
+      nameInputField.addEventListener('input', () => {
+        handleNameInputLive(nameInputField);
+        saveDraft();
+      });
+      nameInputField.addEventListener('blur', () => {
+        handleNameBlur(nameInputField);
+      });
+      nameInputField.addEventListener('paste', () => {
+        setTimeout(() => {
+          nameInputField.value = toTitleCase(nameInputField.value);
+          saveDraft();
+        }, 0);
+      });
+    }
+
+    const uppercaseFieldEls = [
+      document.getElementById('address'),
+      document.getElementById('requirement_msg'),
+      document.getElementById('source_detail')
+    ];
+
+    uppercaseFieldEls.forEach(el => {
+      if (!el) return;
+      el.addEventListener('input', () => {
+        handleUppercaseLive(el);
+        saveDraft();
+      });
+      el.addEventListener('blur', () => {
+        if (el.value) {
+          el.value = el.value.toUpperCase().trim();
+          saveDraft();
+        }
+      });
+      el.addEventListener('paste', () => {
+        setTimeout(() => {
+          el.value = el.value.toUpperCase();
+          saveDraft();
+        }, 0);
+      });
+    });
+
     const consentInput = document.getElementById('consent');
     const consentLabel = document.getElementById('consentLabel');
     const checkMark = document.querySelector('.check-mark');
@@ -3314,7 +3420,9 @@
 
       const prefixSelect = document.getElementById('namePrefix');
       const prefix = prefixSelect ? prefixSelect.value : 'Mr.';
-      const nameRaw = document.getElementById('name').value.trim();
+      const nameEl = document.getElementById('name');
+      const nameRaw = toTitleCase(nameEl ? nameEl.value.trim() : '');
+      if (nameEl) nameEl.value = nameRaw;
       const fullName = prefix ? (prefix + ' ' + nameRaw) : nameRaw;
       const name = fullName;
       const mobile = extract10DigitPhone(mobileInput.value);
@@ -3325,15 +3433,21 @@
       const isWhatsappValid = isValid10DigitMobile(whatsappVal);
       const isMobileValid = !mobile || isValid10DigitMobile(mobile);
 
-      if (!name || !isWhatsappValid || !lookingFor || !isConsent || !isMobileValid) {
+      const selectedSource = connectingLocInput ? connectingLocInput.value.trim() : '';
+      const sourceConf = (typeof SOURCE_CONFIG !== 'undefined' && SOURCE_CONFIG[selectedSource]) ? SOURCE_CONFIG[selectedSource] : null;
+      const sourceDetailVal = sourceDetailInput ? sourceDetailInput.value.trim() : '';
+      const isSourceDetailValid = !sourceConf || !sourceConf.needsDetail || !!sourceDetailVal;
+
+      if (!name || !isWhatsappValid || !lookingFor || !isConsent || !isMobileValid || !isSourceDetailValid) {
         [
           { id: 'name', val: name },
           { id: 'whatsapp', val: isWhatsappValid },
           { id: 'mobile', val: isMobileValid },
-          { id: 'looking_for', val: lookingFor }
+          { id: 'looking_for', val: lookingFor },
+          { id: 'source_detail', val: isSourceDetailValid }
         ].forEach(({ id, val }) => {
           const el = document.getElementById(id);
-          if (!val) {
+          if (el && !val) {
             el.style.borderColor = '#ef4444';
             el.style.boxShadow = '0 0 0 3px rgba(239, 68, 68, 0.15)';
             const clearError = () => {
@@ -3349,6 +3463,9 @@
           consentLabel.style.borderColor = '#ef4444';
           consentLabel.style.boxShadow = '0 0 0 3px rgba(239, 68, 68, 0.2)';
           consentLabel.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        } else if (!isSourceDetailValid && sourceDetailInput) {
+          sourceDetailInput.focus();
+          sourceDetailInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
         }
 
         return;
@@ -3374,10 +3491,14 @@
       const lastSubmitTs = parseInt(sessionStorage.getItem('bima_last_submit_ts') || '0', 10);
       const sanitizeSecure = (str) => {
         if (!str) return '';
-        return String(str)
+        let clean = String(str)
           .replace(/[<>]/g, '')
           .replace(/[\u0000-\u001F\u007F-\u009F]/g, '')
           .trim();
+        if (/^[=+\-@\t\r]/.test(clean)) {
+          clean = "'" + clean;
+        }
+        return clean;
       };
 
       const targetScriptUrl = typeof window.__getSecureCRMEndpoint === 'function'
@@ -3390,6 +3511,10 @@
 
       if (targetScriptUrl) {
         try {
+          const finalConnectingValue = (sourceConf && sourceConf.needsDetail && sourceDetailVal)
+            ? `${selectedSource} - ${sourceDetailVal}`
+            : (selectedSource || 'Website Form');
+
           const payload = new URLSearchParams();
           payload.append('status', 'New Lead');
           payload.append('name', sanitizeSecure(nameRaw));
@@ -3397,11 +3522,16 @@
           payload.append('whatsapp', sanitizeSecure(whatsappVal));
           payload.append('dob_or_age', sanitizeSecure(finalDobOrAge));
           payload.append('looking_for', sanitizeSecure(lookingFor));
-          payload.append('requirement_msg', sanitizeSecure(document.getElementById('requirement_msg').value));
-          payload.append('address', sanitizeSecure(document.getElementById('address').value));
+          payload.append('requirement_msg', sanitizeSecure((document.getElementById('requirement_msg').value || '').toUpperCase()));
+          payload.append('address', sanitizeSecure((document.getElementById('address').value || '').toUpperCase()));
           payload.append('appointment', sanitizeSecure(ensureAppointmentDefaultTime(document.getElementById('appointment').value)));
-          payload.append('connecting_location', sanitizeSecure(document.getElementById('connecting_location').value));
+          payload.append('connecting_location', sanitizeSecure(finalConnectingValue));
+          payload.append('lead_source', sanitizeSecure(selectedSource));
+          if (sourceDetailVal) {
+            payload.append('source_detail', sanitizeSecure(sourceDetailVal.toUpperCase()));
+          }
           payload.append('consent', '✅');
+          payload.append('b_anti_bot_security', honeypotField ? honeypotField.value.trim() : '');
 
           fetch(targetScriptUrl, {
             method: 'POST',
@@ -3430,13 +3560,11 @@
       const encodedMsg = encodeURIComponent(autoReplyMsg);
       const isAndroid = /Android/i.test(navigator.userAgent);
 
-      // Explicitly target WhatsApp Business (com.whatsapp.w4b) on Android
       const standardApiFallback = `https://api.whatsapp.com/send?phone=${cleanPhone}&text=${encodedMsg}`;
       const waBusinessUrl = isAndroid
         ? `intent://send?phone=${cleanPhone}&text=${encodedMsg}#Intent;scheme=whatsapp;package=com.whatsapp.w4b;S.browser_fallback_url=${encodeURIComponent(standardApiFallback)};end;`
         : standardApiFallback;
 
-      // Open WhatsApp Business directly without popup blocker blockage
       setTimeout(() => {
         window.location.href = waBusinessUrl;
       }, 400);
@@ -3450,15 +3578,64 @@
       }, 4000);
     });
 
+    const SOURCE_CONFIG = {
+      'Direct Marketing': {
+        needsDetail: true,
+        label: 'Location Address',
+        placeholder: 'e.g. Connaught Place, Sector 18 Noida'
+      },
+      'Direct Client': {
+        needsDetail: true,
+        label: 'Where Meet Us',
+        placeholder: 'e.g. Office, Branch, Cafe, Client Place'
+      },
+      'Reference by Existing Client': {
+        needsDetail: true,
+        label: 'Client Name Required',
+        placeholder: 'e.g. Enter Referrer Client Name'
+      },
+      'Other': {
+        needsDetail: true,
+        label: 'Location Address',
+        placeholder: 'e.g. Enter Location Address'
+      }
+    };
+
     const DRAFT_KEY = 'bima_form_draft_data';
     const DRAFT_EXPIRY_MS = 5 * 60 * 1000;
     const PERSISTENT_LOC_KEY = 'bima_persistent_connecting_location';
+    const PERSISTENT_DETAIL_KEY = 'bima_persistent_source_detail';
     const connectingLocInput = document.getElementById('connecting_location');
+    const sourceDetailField = document.getElementById('sourceDetailField');
+    const sourceDetailLabel = document.getElementById('sourceDetailLabel');
+    const sourceDetailInput = document.getElementById('source_detail');
+
+    function updateSourceDetailField() {
+      if (!connectingLocInput || !sourceDetailField || !sourceDetailLabel || !sourceDetailInput) return;
+      const selectedSource = connectingLocInput.value;
+      const conf = SOURCE_CONFIG[selectedSource];
+
+      if (conf && conf.needsDetail) {
+        sourceDetailField.style.display = 'flex';
+        sourceDetailLabel.innerHTML = `${conf.label} <span class="required-dot" aria-hidden="true">*</span>`;
+        sourceDetailInput.placeholder = conf.placeholder;
+        sourceDetailInput.setAttribute('required', 'required');
+      } else {
+        sourceDetailField.style.display = 'none';
+        sourceDetailInput.removeAttribute('required');
+        sourceDetailInput.value = '';
+        sourceDetailInput.style.borderColor = '';
+        sourceDetailInput.style.boxShadow = '';
+      }
+    }
 
     function savePersistentLocation() {
       if (!connectingLocInput) return;
       try {
         localStorage.setItem(PERSISTENT_LOC_KEY, connectingLocInput.value);
+        if (sourceDetailInput) {
+          localStorage.setItem(PERSISTENT_DETAIL_KEY, sourceDetailInput.value.toUpperCase());
+        }
       } catch (e) { }
     }
 
@@ -3468,13 +3645,29 @@
         const saved = localStorage.getItem(PERSISTENT_LOC_KEY);
         if (saved !== null && saved !== undefined && saved !== '') {
           connectingLocInput.value = saved;
+          updateSourceDetailField();
+          const savedDetail = localStorage.getItem(PERSISTENT_DETAIL_KEY);
+          if (savedDetail && sourceDetailInput) {
+            sourceDetailInput.value = savedDetail.toUpperCase();
+          }
         }
       } catch (e) { }
     }
 
     if (connectingLocInput) {
-      connectingLocInput.addEventListener('input', savePersistentLocation);
-      connectingLocInput.addEventListener('change', savePersistentLocation);
+      connectingLocInput.addEventListener('input', () => {
+        updateSourceDetailField();
+        savePersistentLocation();
+      });
+      connectingLocInput.addEventListener('change', () => {
+        updateSourceDetailField();
+        savePersistentLocation();
+      });
+    }
+
+    if (sourceDetailInput) {
+      sourceDetailInput.addEventListener('input', savePersistentLocation);
+      sourceDetailInput.addEventListener('change', savePersistentLocation);
     }
 
     function saveDraft() {
@@ -3482,17 +3675,18 @@
       const draft = {
         timestamp: Date.now(),
         namePrefix: prefixSelect ? prefixSelect.value : 'Mr.',
-        name: document.getElementById('name').value,
+        name: toTitleCase(document.getElementById('name').value),
         age: ageInput.value,
         dob: dobInput.value,
         mode: activeDobAgeMode,
         mobile: mobileInput.value,
         whatsapp: whatsappInput.value,
-        address: document.getElementById('address').value,
+        address: (document.getElementById('address').value || '').toUpperCase(),
         looking_for: document.getElementById('looking_for').value,
-        requirement_msg: document.getElementById('requirement_msg').value,
+        requirement_msg: (document.getElementById('requirement_msg').value || '').toUpperCase(),
         appointment: document.getElementById('appointment').value,
         connecting_location: document.getElementById('connecting_location').value,
+        source_detail: sourceDetailInput ? sourceDetailInput.value.toUpperCase() : '',
         consent: consentInput.checked
       };
       try {
@@ -3514,16 +3708,22 @@
           const prefixSelect = document.getElementById('namePrefix');
           if (prefixSelect) prefixSelect.value = draft.namePrefix;
         }
-        if (draft.name) document.getElementById('name').value = draft.name;
+        if (draft.name) document.getElementById('name').value = toTitleCase(draft.name);
         if (draft.age) ageInput.value = draft.age;
         if (draft.dob) dobInput.value = draft.dob;
         if (draft.mobile) mobileInput.value = extract10DigitPhone(draft.mobile);
         if (draft.whatsapp) whatsappInput.value = extract10DigitPhone(draft.whatsapp);
-        if (draft.address) document.getElementById('address').value = draft.address;
+        if (draft.address) document.getElementById('address').value = draft.address.toUpperCase();
         if (draft.looking_for) document.getElementById('looking_for').value = draft.looking_for;
-        if (draft.requirement_msg) document.getElementById('requirement_msg').value = draft.requirement_msg;
+        if (draft.requirement_msg) document.getElementById('requirement_msg').value = draft.requirement_msg.toUpperCase();
         if (draft.appointment) document.getElementById('appointment').value = draft.appointment;
-        if (draft.connecting_location) document.getElementById('connecting_location').value = draft.connecting_location;
+        if (draft.connecting_location && connectingLocInput) {
+          connectingLocInput.value = draft.connecting_location;
+          updateSourceDetailField();
+          if (draft.source_detail && sourceDetailInput) {
+            sourceDetailInput.value = draft.source_detail.toUpperCase();
+          }
+        }
 
         if (draft.mode && draft.mode !== activeDobAgeMode) {
           const targetBtn = document.querySelector(`.mode-btn[data-mode="${draft.mode}"]`);
@@ -3545,8 +3745,10 @@
 
     function clearFormAndDraft() {
       let savedLoc = '';
+      let savedDetail = '';
       try {
         savedLoc = localStorage.getItem(PERSISTENT_LOC_KEY) || '';
+        savedDetail = localStorage.getItem(PERSISTENT_DETAIL_KEY) || '';
       } catch (e) { }
 
       form.reset();
@@ -3561,6 +3763,13 @@
 
       if (connectingLocInput && savedLoc) {
         connectingLocInput.value = savedLoc;
+        updateSourceDetailField();
+        if (sourceDetailInput && savedDetail) {
+          sourceDetailInput.value = savedDetail;
+        }
+      } else {
+        if (connectingLocInput) connectingLocInput.selectedIndex = 0;
+        updateSourceDetailField();
       }
 
       try {
@@ -3595,13 +3804,7 @@
     loadDraft();
     loadPersistentLocation();
 
-    try {
-      console.log(
-        '%c🛡️ Bima Dekho Security Protection Active %c\n- Anti-Scraping Encrypted Endpoint\n- Anti-Bot Honeypot Shield\n- XSS Sanitization & Flood Prevention',
-        'background: #1e3a8a; color: #fff; font-size: 13px; font-weight: bold; padding: 6px 12px; border-radius: 6px;',
-        'color: #10b981; font-size: 11px; font-weight: 500;'
-      );
-    } catch (e) { }
+    
   </script>
 </body>
 

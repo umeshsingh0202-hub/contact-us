@@ -1,8 +1,21 @@
 const http = require('http');
 const fs = require('fs');
 const path = require('path');
+const os = require('os');
 
 const PORT = process.env.PORT || 3000;
+
+function getLocalIpAddress() {
+  const interfaces = os.networkInterfaces();
+  for (const name of Object.keys(interfaces)) {
+    for (const iface of interfaces[name]) {
+      if (iface.family === 'IPv4' && !iface.internal) {
+        return iface.address;
+      }
+    }
+  }
+  return 'localhost';
+}
 
 const MIME_TYPES = {
   '.html': 'text/html; charset=utf-8',
@@ -21,8 +34,9 @@ const MIME_TYPES = {
   '.eot': 'application/vnd.ms-fontobject'
 };
 
+const BLOCKED_FILES = ['server.js', 'package.json', 'package-lock.json'];
+
 const server = http.createServer((req, res) => {
-  // CORS headers
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
@@ -33,13 +47,25 @@ const server = http.createServer((req, res) => {
     return;
   }
 
-  // Parse URL safely
   const cleanUrl = req.url.split('?')[0].split('#')[0];
+  const urlParts = cleanUrl.split('/').filter(Boolean);
+  if (urlParts.some(part => part.startsWith('.'))) {
+    res.writeHead(403, { 'Content-Type': 'text/plain' });
+    res.end('403 Forbidden');
+    return;
+  }
+
   let relativePath = cleanUrl === '/' ? 'index.html' : cleanUrl.replace(/^\/+/, '');
   let filePath = path.resolve(__dirname, relativePath);
 
-  // Security check: prevent directory traversal
   if (!filePath.startsWith(__dirname)) {
+    res.writeHead(403, { 'Content-Type': 'text/plain' });
+    res.end('403 Forbidden');
+    return;
+  }
+
+  const baseFileName = path.basename(filePath).toLowerCase();
+  if (BLOCKED_FILES.includes(baseFileName)) {
     res.writeHead(403, { 'Content-Type': 'text/plain' });
     res.end('403 Forbidden');
     return;
@@ -47,10 +73,16 @@ const server = http.createServer((req, res) => {
 
   fs.stat(filePath, (err, stats) => {
     if (err) {
-      // Fallback to index.html if route not found
       filePath = path.join(__dirname, 'index.html');
     } else if (stats.isDirectory()) {
       filePath = path.join(filePath, 'index.html');
+    }
+
+    const ext = path.extname(filePath).toLowerCase();
+    if (!MIME_TYPES[ext]) {
+      res.writeHead(403, { 'Content-Type': 'text/plain' });
+      res.end('403 Forbidden');
+      return;
     }
 
     fs.readFile(filePath, (readErr, content) => {
@@ -60,18 +92,18 @@ const server = http.createServer((req, res) => {
         return;
       }
 
-      const ext = path.extname(filePath).toLowerCase();
       const contentType = MIME_TYPES[ext] || 'application/octet-stream';
-
       res.writeHead(200, { 'Content-Type': contentType });
       res.end(content);
     });
   });
 });
 
-server.listen(PORT, () => {
+server.listen(PORT, '0.0.0.0', () => {
+  const localIp = getLocalIpAddress();
   console.log(`\n========================================`);
   console.log(`🚀 Local Server running successfully!`);
-  console.log(`🌐 Local Host Link: http://localhost:${PORT}`);
+  console.log(`💻 Laptop / Desktop: http://localhost:${PORT}`);
+  console.log(`📱 Mobile (Same Wi-Fi): http://${localIp}:${PORT}`);
   console.log(`========================================\n`);
 });
