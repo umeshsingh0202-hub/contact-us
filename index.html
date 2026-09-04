@@ -308,7 +308,7 @@
     #address,
     #requirement_msg,
     #source_detail {
-      text-transform: uppercase;
+      text-transform: capitalize;
     }
 
     #address::placeholder,
@@ -3294,20 +3294,29 @@
 
     function toTitleCase(str) {
       if (!str) return '';
-      return String(str)
+      const acronyms = new Set(['LIC', 'HDFC', 'ICICI', 'SBI', 'MAX', 'NIVA', 'TATA', 'AIG', 'IFFCO', 'DLF', 'JJ', 'PIN', 'GST', 'OTP', 'NCR', 'NRI', 'KYC', 'PAN', 'DOB', 'FIR', 'ID', 'VIP', 'BMW', 'SUV', 'EV']);
+
+      let formatted = String(str)
         .toLowerCase()
-        .replace(/(^|[\s\.\-_/])([a-z\u00C0-\u017F])/g, (match, prefix, char) => {
+        .replace(/(^|[\s\.\-_/,#()&])([a-z\u00C0-\u017F])/g, (match, prefix, char) => {
           return prefix + char.toUpperCase();
         });
+
+      formatted = formatted.replace(/\b([A-Za-z]{2,5})\b/g, (match) => {
+        const upper = match.toUpperCase();
+        return acronyms.has(upper) ? upper : match;
+      });
+
+      return formatted;
     }
 
-    function handleNameInputLive(el) {
+    function handleTitleCaseLive(el) {
       if (!el) return;
       const start = el.selectionStart;
       const end = el.selectionEnd;
       const oldVal = el.value;
 
-      const newVal = oldVal.replace(/(^|[\s\.\-_/])([a-z\u00C0-\u017F])/g, (match, prefix, char) => {
+      const newVal = oldVal.replace(/(^|[\s\.\-_/,#()&])([a-z\u00C0-\u017F])/g, (match, prefix, char) => {
         return prefix + char.toUpperCase();
       });
 
@@ -3319,7 +3328,7 @@
       }
     }
 
-    function handleNameBlur(el) {
+    function handleTitleCaseBlur(el) {
       if (!el || !el.value) return;
       const oldVal = el.value;
       const formatted = toTitleCase(oldVal.trim());
@@ -3329,29 +3338,14 @@
       }
     }
 
-    function handleUppercaseLive(el) {
-      if (!el) return;
-      const start = el.selectionStart;
-      const end = el.selectionEnd;
-      const oldVal = el.value;
-      const newVal = oldVal.toUpperCase();
-
-      if (newVal !== oldVal) {
-        el.value = newVal;
-        if (start !== null && end !== null) {
-          el.setSelectionRange(start, end);
-        }
-      }
-    }
-
     const nameInputField = document.getElementById('name');
     if (nameInputField) {
       nameInputField.addEventListener('input', () => {
-        handleNameInputLive(nameInputField);
+        handleTitleCaseLive(nameInputField);
         saveDraft();
       });
       nameInputField.addEventListener('blur', () => {
-        handleNameBlur(nameInputField);
+        handleTitleCaseBlur(nameInputField);
       });
       nameInputField.addEventListener('paste', () => {
         setTimeout(() => {
@@ -3361,27 +3355,24 @@
       });
     }
 
-    const uppercaseFieldEls = [
+    const titleCaseFieldEls = [
       document.getElementById('address'),
       document.getElementById('requirement_msg'),
       document.getElementById('source_detail')
     ];
 
-    uppercaseFieldEls.forEach(el => {
+    titleCaseFieldEls.forEach(el => {
       if (!el) return;
       el.addEventListener('input', () => {
-        handleUppercaseLive(el);
+        handleTitleCaseLive(el);
         saveDraft();
       });
       el.addEventListener('blur', () => {
-        if (el.value) {
-          el.value = el.value.toUpperCase().trim();
-          saveDraft();
-        }
+        handleTitleCaseBlur(el);
       });
       el.addEventListener('paste', () => {
         setTimeout(() => {
-          el.value = el.value.toUpperCase();
+          el.value = toTitleCase(el.value);
           saveDraft();
         }, 0);
       });
@@ -3512,7 +3503,7 @@
       if (targetScriptUrl) {
         try {
           const finalConnectingValue = (sourceConf && sourceConf.needsDetail && sourceDetailVal)
-            ? `${selectedSource} - ${sourceDetailVal}`
+            ? `${selectedSource} - ${toTitleCase(sourceDetailVal)}`
             : (selectedSource || 'Website Form');
 
           const payload = new URLSearchParams();
@@ -3522,13 +3513,13 @@
           payload.append('whatsapp', sanitizeSecure(whatsappVal));
           payload.append('dob_or_age', sanitizeSecure(finalDobOrAge));
           payload.append('looking_for', sanitizeSecure(lookingFor));
-          payload.append('requirement_msg', sanitizeSecure((document.getElementById('requirement_msg').value || '').toUpperCase()));
-          payload.append('address', sanitizeSecure((document.getElementById('address').value || '').toUpperCase()));
+          payload.append('requirement_msg', sanitizeSecure(toTitleCase(document.getElementById('requirement_msg').value || '')));
+          payload.append('address', sanitizeSecure(toTitleCase(document.getElementById('address').value || '')));
           payload.append('appointment', sanitizeSecure(ensureAppointmentDefaultTime(document.getElementById('appointment').value)));
           payload.append('connecting_location', sanitizeSecure(finalConnectingValue));
           payload.append('lead_source', sanitizeSecure(selectedSource));
           if (sourceDetailVal) {
-            payload.append('source_detail', sanitizeSecure(sourceDetailVal.toUpperCase()));
+            payload.append('source_detail', sanitizeSecure(toTitleCase(sourceDetailVal)));
           }
           payload.append('consent', '✅');
           payload.append('b_anti_bot_security', honeypotField ? honeypotField.value.trim() : '');
@@ -3634,7 +3625,7 @@
       try {
         localStorage.setItem(PERSISTENT_LOC_KEY, connectingLocInput.value);
         if (sourceDetailInput) {
-          localStorage.setItem(PERSISTENT_DETAIL_KEY, sourceDetailInput.value.toUpperCase());
+          localStorage.setItem(PERSISTENT_DETAIL_KEY, toTitleCase(sourceDetailInput.value));
         }
       } catch (e) { }
     }
@@ -3648,7 +3639,7 @@
           updateSourceDetailField();
           const savedDetail = localStorage.getItem(PERSISTENT_DETAIL_KEY);
           if (savedDetail && sourceDetailInput) {
-            sourceDetailInput.value = savedDetail.toUpperCase();
+            sourceDetailInput.value = toTitleCase(savedDetail);
           }
         }
       } catch (e) { }
@@ -3681,12 +3672,12 @@
         mode: activeDobAgeMode,
         mobile: mobileInput.value,
         whatsapp: whatsappInput.value,
-        address: (document.getElementById('address').value || '').toUpperCase(),
+        address: toTitleCase(document.getElementById('address').value || ''),
         looking_for: document.getElementById('looking_for').value,
-        requirement_msg: (document.getElementById('requirement_msg').value || '').toUpperCase(),
+        requirement_msg: toTitleCase(document.getElementById('requirement_msg').value || ''),
         appointment: document.getElementById('appointment').value,
         connecting_location: document.getElementById('connecting_location').value,
-        source_detail: sourceDetailInput ? sourceDetailInput.value.toUpperCase() : '',
+        source_detail: sourceDetailInput ? toTitleCase(sourceDetailInput.value) : '',
         consent: consentInput.checked
       };
       try {
@@ -3713,15 +3704,15 @@
         if (draft.dob) dobInput.value = draft.dob;
         if (draft.mobile) mobileInput.value = extract10DigitPhone(draft.mobile);
         if (draft.whatsapp) whatsappInput.value = extract10DigitPhone(draft.whatsapp);
-        if (draft.address) document.getElementById('address').value = draft.address.toUpperCase();
+        if (draft.address) document.getElementById('address').value = toTitleCase(draft.address);
         if (draft.looking_for) document.getElementById('looking_for').value = draft.looking_for;
-        if (draft.requirement_msg) document.getElementById('requirement_msg').value = draft.requirement_msg.toUpperCase();
+        if (draft.requirement_msg) document.getElementById('requirement_msg').value = toTitleCase(draft.requirement_msg);
         if (draft.appointment) document.getElementById('appointment').value = draft.appointment;
         if (draft.connecting_location && connectingLocInput) {
           connectingLocInput.value = draft.connecting_location;
           updateSourceDetailField();
           if (draft.source_detail && sourceDetailInput) {
-            sourceDetailInput.value = draft.source_detail.toUpperCase();
+            sourceDetailInput.value = toTitleCase(draft.source_detail);
           }
         }
 
