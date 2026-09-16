@@ -364,7 +364,8 @@
       padding: 11px 14px;
     }
 
-    .dynamic-source-detail-field {
+    .dynamic-source-detail-field,
+    .dynamic-looking-field {
       animation: fadeInField 0.25s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
@@ -1719,7 +1720,7 @@
               <div class="form-field">
                 <div class="field-label-row">
                   <label for="dobInput" style="margin: 0; font-size: 12px;">DOB / AGE</label>
-                  <button type="button" id="dobCalendarBtn" class="label-cal-btn"
+                  <button type="button" id="dobCalendarBtn" class="label-cal-btn" tabindex="-1"
                     title="Pick Date of Birth from Calendar">📅 Cal</button>
                 </div>
 
@@ -1731,9 +1732,9 @@
                     style="display: none;" />
 
                   <div class="inner-toggle-pill">
-                    <button type="button" class="mode-btn active" data-mode="dob"
+                    <button type="button" class="mode-btn active" data-mode="dob" tabindex="-1"
                       title="Enter DOB Manually">DOB</button>
-                    <button type="button" class="mode-btn" data-mode="age" title="Enter Age Manually">Age</button>
+                    <button type="button" class="mode-btn" data-mode="age" tabindex="-1" title="Enter Age Manually">Age</button>
                   </div>
                 </div>
 
@@ -1772,22 +1773,35 @@
               <div class="select-wrap">
                 <select id="looking_for" name="looking_for" required>
                   <option value="" disabled selected>— e.g. What Are You Looking For? —</option>
-                  <option value="Port - Health Insurance (Individual / Family)">Port - Health Insurance (Individual /
-                    Family)</option>
-                  <option value="Fresh - Health Insurance (Individual / Family)">Fresh - Health Insurance (Individual /
-                    Family)</option>
-                  <option value="Health Insurance with Worldwide Cover">Health Insurance with Worldwide Cover</option>
-                  <option value="Life Insurance &amp; Term Insurance">Life Insurance &amp; Term Insurance</option>
-                  <option value="Life Insurance with Family Protection">Life Insurance with Family Protection</option>
-                  <option value="Life Insurance with Whole Life Option">Life Insurance with Whole Life Option</option>
-                  <option value="Life Insurance with Daughter Education Plan">Life Insurance with Daughter Education
-                    Plan</option>
-                  <option value="Retirement Planning with LIC">Retirement Planning with LIC</option>
-                  <option value="Travel Insurance (Student Travel)">Travel Insurance (Student Travel)</option>
-                  <option value="Travel Insurance (Individual / Family)">Travel Insurance (Individual / Family)</option>
-                  <option value="Motor Insurance (Car / Bike / Commercial Vehicle)">Motor Insurance (Car / Bike /
-                    Commercial Vehicle)</option>
+                  <option value="Health Insurance">Health Insurance</option>
+                  <option value="Life Insurance">Life Insurance</option>
+                  <option value="Motor Insurance">Motor Insurance</option>
+                  <option value="General Insurance">General Insurance</option>
                   <option value="Other">Other</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Dynamic Level 2: Sub-category / Policy Option -->
+            <div class="form-field dynamic-looking-field" id="lookingSubField" style="display: none;">
+              <label for="looking_sub_category" id="lookingSubLabel">
+                Policy Option <span class="required-dot" aria-hidden="true">*</span>
+              </label>
+              <div class="select-wrap">
+                <select id="looking_sub_category" name="looking_sub_category">
+                  <option value="" disabled selected>— Select Option —</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Dynamic Level 3: Plan Sub-Option (shown for Life Insurance) -->
+            <div class="form-field dynamic-looking-field" id="lookingPlanField" style="display: none;">
+              <label for="looking_plan_option" id="lookingPlanLabel">
+                Plan Sub-Option <span class="required-dot" aria-hidden="true">*</span>
+              </label>
+              <div class="select-wrap">
+                <select id="looking_plan_option" name="looking_plan_option">
+                  <option value="" disabled selected>— Select Sub-Option —</option>
                 </select>
               </div>
             </div>
@@ -1813,9 +1827,9 @@
                 <div class="input-with-icon">
                   <input type="text" id="appointment" name="appointment" placeholder="DD-MM-YYYY, HH:MM (24-Hour)" />
                   <div class="icon-group">
-                    <button type="button" id="datePickerBtn" class="input-icon-btn"
+                    <button type="button" id="datePickerBtn" class="input-icon-btn" tabindex="-1"
                       title="Pick Date (Indian Calendar &amp; Festivals)">📅</button>
-                    <button type="button" id="timePickerBtn" class="input-icon-btn" title="Pick 24-Hr Time">🕐</button>
+                    <button type="button" id="timePickerBtn" class="input-icon-btn" tabindex="-1" title="Pick 24-Hr Time">🕐</button>
                   </div>
                 </div>
                 <div id="appointmentFestivalNotice" class="appointment-festival-notice" style="display: none;"></div>
@@ -3400,6 +3414,228 @@
     syncConsentState();
     consentInput.addEventListener('change', syncConsentState);
 
+    const lookingForInput = document.getElementById('looking_for');
+    const lookingSubField = document.getElementById('lookingSubField');
+    const lookingSubLabel = document.getElementById('lookingSubLabel');
+    const lookingSubInput = document.getElementById('looking_sub_category');
+    const lookingPlanField = document.getElementById('lookingPlanField');
+    const lookingPlanLabel = document.getElementById('lookingPlanLabel');
+    const lookingPlanInput = document.getElementById('looking_plan_option');
+
+    const INSURANCE_OPTIONS_CONFIG = {
+      'Health Insurance': {
+        label: 'Health Insurance Option',
+        placeholder: '— Select Health Insurance Option —',
+        options: [
+          'Individual Policy (New)',
+          'Floater Policy (New)',
+          'Individual Policy (Port)',
+          'Floater Policy (Port)',
+          'PA Insurance Individual',
+          'PA Insurance Floater',
+          'GPA',
+          'SME',
+          'GMC',
+          'Travel Insurance'
+        ]
+      },
+      'Life Insurance': {
+        label: 'Life Insurance Option',
+        placeholder: '— Select Life Insurance Option —',
+        hasSubPlans: true,
+        categories: {
+          'Endowment Life Insurance': {
+            label: 'Endowment Life Insurance Plan',
+            placeholder: '— Select Endowment Plan —',
+            plans: [
+              'Family Protection Plan',
+              'Child Education Plan',
+              'Daughter Marriage Plan',
+              'Higher Education Plan'
+            ]
+          },
+          'Money Back Life Insurance': {
+            label: 'Money Back Life Insurance Plan',
+            placeholder: '— Select Money Back Plan —',
+            plans: [
+              'Whole Life Tax Free Regular Income',
+              'Whole Life With Flexi Income',
+              "Women's Money Back Plan",
+              'Every 5yr Money Back Plan 20yr',
+              'Every 5yr Money Back Plan 25yr'
+            ]
+          },
+          'Child Education Plan': {
+            label: 'Child Education Plan Option',
+            placeholder: '— Select Child Education Option —',
+            plans: [
+              'Child Education With Protection',
+              'Guaranteed Income'
+            ]
+          },
+          'Unit Link Plan': {
+            label: 'Unit Link Plan (ULIP)',
+            placeholder: '— Select Unit Link Plan —',
+            plans: [
+              'Index Plan',
+              'SIP Plan',
+              'One Time Investment Plan',
+              'Limited Time Investment Plan'
+            ]
+          },
+          'Retirement Planning': {
+            label: 'Retirement Planning Option',
+            placeholder: '— Select Retirement Option —',
+            plans: [
+              'Tax Free Retirement Income',
+              'Regular Income With Return Purchase Price',
+              'High Return Guaranteed Pension'
+            ]
+          }
+        }
+      },
+      'Motor Insurance': {
+        label: 'Motor Insurance Option',
+        placeholder: '— Select Motor Insurance Option —',
+        options: [
+          'EV Car Insurance',
+          'EV Scooty Insurance',
+          'Car Insurance',
+          'Bike Insurance',
+          'Scooty Insurance',
+          'Taxi Insurance',
+          'E - Rickshaw Insurance',
+          'Loading Vehicle Insurance'
+        ]
+      },
+      'General Insurance': {
+        label: 'General Insurance Option',
+        placeholder: '— Select General Insurance Option —',
+        options: [
+          'Shop Insurance',
+          'Marine Insurance',
+          'Home Insurance',
+          'Factory Insurance'
+        ]
+      }
+    };
+
+    function updateLookingDependentFields(preserveValues = false) {
+      if (!lookingForInput || !lookingSubField || !lookingSubLabel || !lookingSubInput) return;
+      const selected = lookingForInput.value;
+      const conf = INSURANCE_OPTIONS_CONFIG[selected];
+
+      if (!preserveValues) {
+        lookingSubInput.value = '';
+        if (lookingPlanInput) lookingPlanInput.value = '';
+      }
+
+      lookingSubInput.style.borderColor = '';
+      lookingSubInput.style.boxShadow = '';
+      if (lookingPlanInput) {
+        lookingPlanInput.style.borderColor = '';
+        lookingPlanInput.style.boxShadow = '';
+      }
+
+      if (conf) {
+        lookingSubField.style.display = 'flex';
+        lookingSubLabel.innerHTML = `${conf.label} <span class="required-dot" aria-hidden="true">*</span>`;
+
+        let opts = `<option value="" disabled selected>${conf.placeholder}</option>`;
+        if (conf.hasSubPlans) {
+          Object.keys(conf.categories).forEach(catKey => {
+            opts += `<option value="${catKey}">${catKey}</option>`;
+          });
+        } else if (conf.options) {
+          conf.options.forEach(opt => {
+            opts += `<option value="${opt}">${opt}</option>`;
+          });
+        }
+        lookingSubInput.innerHTML = opts;
+        lookingSubInput.setAttribute('required', 'required');
+
+        if (conf.hasSubPlans) {
+          updateLookingPlanField(preserveValues);
+        } else {
+          if (lookingPlanField) lookingPlanField.style.display = 'none';
+          if (lookingPlanInput) lookingPlanInput.removeAttribute('required');
+        }
+      } else {
+        lookingSubField.style.display = 'none';
+        lookingSubInput.removeAttribute('required');
+        lookingSubInput.innerHTML = '<option value="" disabled selected>— Select Option —</option>';
+        if (lookingPlanField) lookingPlanField.style.display = 'none';
+        if (lookingPlanInput) {
+          lookingPlanInput.removeAttribute('required');
+          lookingPlanInput.innerHTML = '<option value="" disabled selected>— Select Sub-Option —</option>';
+        }
+      }
+    }
+
+    function updateLookingPlanField(preserveValue = false) {
+      if (!lookingForInput || !lookingPlanField || !lookingPlanLabel || !lookingPlanInput) return;
+      const selectedMain = lookingForInput.value;
+      const selectedCat = lookingSubInput ? lookingSubInput.value : '';
+      const mainConf = INSURANCE_OPTIONS_CONFIG[selectedMain];
+
+      if (!preserveValue) {
+        lookingPlanInput.value = '';
+      }
+      lookingPlanInput.style.borderColor = '';
+      lookingPlanInput.style.boxShadow = '';
+
+      if (mainConf && mainConf.hasSubPlans && selectedCat && mainConf.categories && mainConf.categories[selectedCat]) {
+        const catConf = mainConf.categories[selectedCat];
+        lookingPlanField.style.display = 'flex';
+        lookingPlanLabel.innerHTML = `${catConf.label} <span class="required-dot" aria-hidden="true">*</span>`;
+        let opts = `<option value="" disabled selected>${catConf.placeholder}</option>`;
+        catConf.plans.forEach(plan => {
+          opts += `<option value="${plan}">${plan}</option>`;
+        });
+        lookingPlanInput.innerHTML = opts;
+        lookingPlanInput.setAttribute('required', 'required');
+      } else {
+        lookingPlanField.style.display = 'none';
+        lookingPlanInput.removeAttribute('required');
+        lookingPlanInput.innerHTML = '<option value="" disabled selected>— Select Sub-Option —</option>';
+      }
+    }
+
+    if (lookingForInput) {
+      lookingForInput.addEventListener('input', () => {
+        updateLookingDependentFields(false);
+        saveDraft();
+      });
+      lookingForInput.addEventListener('change', () => {
+        updateLookingDependentFields(false);
+        saveDraft();
+      });
+    }
+
+    if (lookingSubInput) {
+      lookingSubInput.addEventListener('input', () => {
+        const selectedMain = lookingForInput ? lookingForInput.value : '';
+        const mainConf = INSURANCE_OPTIONS_CONFIG[selectedMain];
+        if (mainConf && mainConf.hasSubPlans) {
+          updateLookingPlanField(false);
+        }
+        saveDraft();
+      });
+      lookingSubInput.addEventListener('change', () => {
+        const selectedMain = lookingForInput ? lookingForInput.value : '';
+        const mainConf = INSURANCE_OPTIONS_CONFIG[selectedMain];
+        if (mainConf && mainConf.hasSubPlans) {
+          updateLookingPlanField(false);
+        }
+        saveDraft();
+      });
+    }
+
+    if (lookingPlanInput) {
+      lookingPlanInput.addEventListener('input', saveDraft);
+      lookingPlanInput.addEventListener('change', saveDraft);
+    }
+
     const form = document.getElementById('contactForm');
     const successMsg = document.getElementById('successMsg');
 
@@ -3418,23 +3654,40 @@
       const name = fullName;
       const mobile = extract10DigitPhone(mobileInput.value);
       const whatsappVal = extract10DigitPhone(whatsappInput.value);
-      const lookingFor = document.getElementById('looking_for').value;
+      const lookingFor = lookingForInput ? lookingForInput.value : '';
+      const lookingSubVal = lookingSubInput ? lookingSubInput.value : '';
+      const lookingPlanVal = lookingPlanInput ? lookingPlanInput.value : '';
       const isConsent = consentInput.checked;
 
       const isWhatsappValid = isValid10DigitMobile(whatsappVal);
       const isMobileValid = !mobile || isValid10DigitMobile(mobile);
+
+      const lookingConf = (typeof INSURANCE_OPTIONS_CONFIG !== 'undefined') ? INSURANCE_OPTIONS_CONFIG[lookingFor] : null;
+      const isLookingSubRequired = Boolean(lookingConf);
+      const isLookingSubValid = !isLookingSubRequired || !!lookingSubVal;
+
+      const isLookingPlanRequired = Boolean(
+        lookingConf &&
+        lookingConf.hasSubPlans &&
+        lookingSubVal &&
+        lookingConf.categories &&
+        lookingConf.categories[lookingSubVal]
+      );
+      const isLookingPlanValid = !isLookingPlanRequired || !!lookingPlanVal;
 
       const selectedSource = connectingLocInput ? connectingLocInput.value.trim() : '';
       const sourceConf = (typeof SOURCE_CONFIG !== 'undefined' && SOURCE_CONFIG[selectedSource]) ? SOURCE_CONFIG[selectedSource] : null;
       const sourceDetailVal = sourceDetailInput ? sourceDetailInput.value.trim() : '';
       const isSourceDetailValid = !sourceConf || !sourceConf.needsDetail || !!sourceDetailVal;
 
-      if (!name || !isWhatsappValid || !lookingFor || !isConsent || !isMobileValid || !isSourceDetailValid) {
+      if (!name || !isWhatsappValid || !lookingFor || !isLookingSubValid || !isLookingPlanValid || !isConsent || !isMobileValid || !isSourceDetailValid) {
         [
           { id: 'name', val: name },
           { id: 'whatsapp', val: isWhatsappValid },
           { id: 'mobile', val: isMobileValid },
           { id: 'looking_for', val: lookingFor },
+          { id: 'looking_sub_category', val: isLookingSubValid },
+          { id: 'looking_plan_option', val: isLookingPlanValid },
           { id: 'source_detail', val: isSourceDetailValid }
         ].forEach(({ id, val }) => {
           const el = document.getElementById(id);
@@ -3454,6 +3707,15 @@
           consentLabel.style.borderColor = '#ef4444';
           consentLabel.style.boxShadow = '0 0 0 3px rgba(239, 68, 68, 0.2)';
           consentLabel.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        } else if (!lookingFor && lookingForInput) {
+          lookingForInput.focus();
+          lookingForInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        } else if (!isLookingSubValid && lookingSubInput) {
+          lookingSubInput.focus();
+          lookingSubInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        } else if (!isLookingPlanValid && lookingPlanInput) {
+          lookingPlanInput.focus();
+          lookingPlanInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
         } else if (!isSourceDetailValid && sourceDetailInput) {
           sourceDetailInput.focus();
           sourceDetailInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -3506,13 +3768,29 @@
             ? `${selectedSource} - ${toTitleCase(sourceDetailVal)}`
             : (selectedSource || 'Website Form');
 
+          let fullLookingFor = lookingFor;
+          if (lookingSubVal) {
+            if (lookingPlanVal) {
+              fullLookingFor = `${lookingFor} _ ${lookingSubVal} _ ${lookingPlanVal}`;
+            } else {
+              fullLookingFor = `${lookingFor} _ ${lookingSubVal}`;
+            }
+          }
+
           const payload = new URLSearchParams();
           payload.append('status', 'New Lead');
           payload.append('name', sanitizeSecure(nameRaw));
           payload.append('mobile', sanitizeSecure(mobile));
           payload.append('whatsapp', sanitizeSecure(whatsappVal));
           payload.append('dob_or_age', sanitizeSecure(finalDobOrAge));
-          payload.append('looking_for', sanitizeSecure(lookingFor));
+          payload.append('looking_for', sanitizeSecure(fullLookingFor));
+          payload.append('insurance_main_category', sanitizeSecure(lookingFor));
+          if (lookingSubVal) {
+            payload.append('insurance_sub_category', sanitizeSecure(lookingSubVal));
+          }
+          if (lookingPlanVal) {
+            payload.append('insurance_plan_option', sanitizeSecure(lookingPlanVal));
+          }
           payload.append('requirement_msg', sanitizeSecure(toTitleCase(document.getElementById('requirement_msg').value || '')));
           payload.append('address', sanitizeSecure(toTitleCase(document.getElementById('address').value || '')));
           payload.append('appointment', sanitizeSecure(ensureAppointmentDefaultTime(document.getElementById('appointment').value)));
@@ -3546,7 +3824,7 @@
         localStorage.removeItem(DRAFT_KEY);
       } catch (e) { }
 
-      const autoReplyMsg = `Greetings 🙏 from \n*Bima Dekho Insurance*!\n\nThank you *${fullName} Ji* for giving us a moment of your time! We are truly grateful for the opportunity to assist you in securing a safe and confident future for you and your loved ones.\n\n👉 Get the right insurance, stress-free. From new plans to policy reviews, we make the process effortless.\n\n*Our Specialized Solutions:*\n✅ Health Insurance (Comprehensive Coverage)\n✅ Term Life (Family Protection)\n✅ Child Education & Marriage Funds\n✅ Happy Retirement Planning (Guaranteed Regular Income)\n✅ ULIPs & Wealth Creation\n✅ Motor Insurance (Car & Bike)\n✅ Travel Insurance\n\n*Your Trusted Insurance Advisor*\n\n👤 *Umesh Singh* (Since 2009)\n📞 *+91 8527261213*\n🌐 *Visit Us:* \nhttps://bimadekhoinsurance.com`;
+      const autoReplyMsg = `Greetings 🙏 from *Bima Dekho Insurance*!\n\nThank you *${fullName} Ji* for giving us a moment of your time! We are truly grateful for the opportunity to assist you in securing a safe and confident future for you and your loved ones.\n\n*Your Trusted Insurance Advisor*\n\n👤 *Umesh Singh* (Since 2009)\n📞 *+91 8527261213*\n🌐 *Visit Us:*\nhttps://bimadekhoinsurance.com`;
 
       const encodedMsg = encodeURIComponent(autoReplyMsg);
       const isAndroid = /Android/i.test(navigator.userAgent);
@@ -3673,7 +3951,9 @@
         mobile: mobileInput.value,
         whatsapp: whatsappInput.value,
         address: toTitleCase(document.getElementById('address').value || ''),
-        looking_for: document.getElementById('looking_for').value,
+        looking_for: lookingForInput ? lookingForInput.value : '',
+        looking_sub_category: lookingSubInput ? lookingSubInput.value : '',
+        looking_plan_option: lookingPlanInput ? lookingPlanInput.value : '',
         requirement_msg: toTitleCase(document.getElementById('requirement_msg').value || ''),
         appointment: document.getElementById('appointment').value,
         connecting_location: document.getElementById('connecting_location').value,
@@ -3705,7 +3985,19 @@
         if (draft.mobile) mobileInput.value = extract10DigitPhone(draft.mobile);
         if (draft.whatsapp) whatsappInput.value = extract10DigitPhone(draft.whatsapp);
         if (draft.address) document.getElementById('address').value = toTitleCase(draft.address);
-        if (draft.looking_for) document.getElementById('looking_for').value = draft.looking_for;
+        if (draft.looking_for) {
+          if (lookingForInput) {
+            lookingForInput.value = draft.looking_for;
+            updateLookingDependentFields(true);
+            if (draft.looking_sub_category && lookingSubInput) {
+              lookingSubInput.value = draft.looking_sub_category;
+              updateLookingPlanField(true);
+              if (draft.looking_plan_option && lookingPlanInput) {
+                lookingPlanInput.value = draft.looking_plan_option;
+              }
+            }
+          }
+        }
         if (draft.requirement_msg) document.getElementById('requirement_msg').value = toTitleCase(draft.requirement_msg);
         if (draft.appointment) document.getElementById('appointment').value = draft.appointment;
         if (draft.connecting_location && connectingLocInput) {
@@ -3763,6 +4055,10 @@
         updateSourceDetailField();
       }
 
+      if (typeof updateLookingDependentFields === 'function') {
+        updateLookingDependentFields();
+      }
+
       try {
         localStorage.removeItem(DRAFT_KEY);
       } catch (e) { }
@@ -3786,6 +4082,66 @@
 
     const fillAgainBtn = document.getElementById('fillAgainBtn');
     if (fillAgainBtn) fillAgainBtn.addEventListener('click', clearFormAndDraft);
+
+    const NAV_SELECTORS = [
+      '#namePrefix',
+      '#name',
+      '#dobInput',
+      '#ageInput',
+      '#whatsapp',
+      '#mobile',
+      '#looking_for',
+      '#looking_sub_category',
+      '#looking_plan_option',
+      '#requirement_msg',
+      '#appointment',
+      '#connecting_location',
+      '#source_detail',
+      '#address',
+      '#consent',
+      '#submitBtn'
+    ];
+
+    function getVisibleNavInputs() {
+      return NAV_SELECTORS
+        .map(sel => document.querySelector(sel))
+        .filter(el => {
+          if (!el) return false;
+          if (el.disabled) return false;
+          if (el.style.display === 'none') return false;
+          const parentField = el.closest('.form-field, .dynamic-source-detail-field, .dynamic-looking-field');
+          if (parentField && parentField.style.display === 'none') return false;
+          return el.offsetWidth > 0 || el.offsetHeight > 0 || (el.getClientRects && el.getClientRects().length > 0);
+        });
+    }
+
+    form.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter' || e.key === 'Tab') {
+        const target = e.target;
+        if (!target) return;
+
+        // If on submit button and Enter is pressed, allow form submission
+        if (e.key === 'Enter' && (target.id === 'submitBtn' || target.type === 'submit')) {
+          return;
+        }
+
+        // In textarea, Shift + Enter allows a new line
+        if (target.tagName && target.tagName.toLowerCase() === 'textarea' && e.key === 'Enter' && e.shiftKey) {
+          return;
+        }
+
+        const navList = getVisibleNavInputs();
+        const currentIndex = navList.indexOf(target);
+
+        if (currentIndex !== -1) {
+          e.preventDefault();
+          const nextIndex = e.shiftKey ? currentIndex - 1 : currentIndex + 1;
+          if (nextIndex >= 0 && nextIndex < navList.length) {
+            navList[nextIndex].focus();
+          }
+        }
+      }
+    });
 
     form.querySelectorAll('input, textarea, select').forEach(el => {
       el.addEventListener('input', saveDraft);
