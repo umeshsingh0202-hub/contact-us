@@ -380,30 +380,6 @@
       }
     }
 
-    .form-field select.box-red {
-      border: 2px solid #ef4444 !important;
-    }
-    .form-field select.box-red:focus {
-      border-color: #dc2626 !important;
-      box-shadow: 0 0 0 4px rgba(239, 68, 68, 0.18) !important;
-    }
-
-    .form-field select.box-blue {
-      border: 2px solid #2563eb !important;
-    }
-    .form-field select.box-blue:focus {
-      border-color: #1d4ed8 !important;
-      box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.18) !important;
-    }
-
-    .form-field select.box-purple {
-      border: 2px solid #9333ea !important;
-    }
-    .form-field select.box-purple:focus {
-      border-color: #7e22ce !important;
-      box-shadow: 0 0 0 4px rgba(147, 51, 234, 0.18) !important;
-    }
-
     .field-row.field-row-insurance {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -1802,7 +1778,7 @@
                   What Are You Looking For? <span class="required-dot" aria-hidden="true">*</span>
                 </label>
                 <div class="select-wrap">
-                  <select id="looking_for" name="looking_for" class="box-red" required>
+                  <select id="looking_for" name="looking_for" required>
                     <option value="" disabled selected>— e.g. What Are You Looking For? —</option>
                     <option value="Health Insurance">Health Insurance</option>
                     <option value="Life Insurance">Life Insurance</option>
@@ -1813,26 +1789,26 @@
                 </div>
               </div>
 
-              <!-- Dynamic Level 2 (Blue box): Sub-category / Policy Option -->
+              <!-- Dynamic Level 2: Sub-category / Policy Option -->
               <div class="form-field dynamic-looking-field" id="lookingSubField" style="display: none;">
                 <label for="looking_sub_category" id="lookingSubLabel">
                   Policy Option <span class="required-dot" aria-hidden="true">*</span>
                 </label>
                 <div class="select-wrap">
-                  <select id="looking_sub_category" name="looking_sub_category" class="box-blue">
+                  <select id="looking_sub_category" name="looking_sub_category">
                     <option value="" disabled selected>— Select Option —</option>
                   </select>
                 </div>
               </div>
             </div>
 
-            <!-- Dynamic Level 3 (Purple box): Plan Sub-Option (shown for Life Insurance) -->
+            <!-- Dynamic Level 3: Plan Sub-Option (shown for Life Insurance) -->
             <div class="form-field dynamic-looking-field" id="lookingPlanField" style="display: none;">
               <label for="looking_plan_option" id="lookingPlanLabel">
                 Plan Sub-Option <span class="required-dot" aria-hidden="true">*</span>
               </label>
               <div class="select-wrap">
-                <select id="looking_plan_option" name="looking_plan_option" class="box-purple">
+                <select id="looking_plan_option" name="looking_plan_option">
                   <option value="" disabled selected>— Select Sub-Option —</option>
                 </select>
               </div>
